@@ -1,0 +1,49 @@
+.table-container {
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+.table-dashboard {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-dashboard th, .table-dashboard td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-dashboard th {
+    background: #f8f9fa;
+    text-align: left;
+    font-weight: bold;
+}
+
+.table-dashboard tr:hover {
+    background-color: #f1f1f1;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 16px;
+}
+
+.action-btn.edit {
+    color: #28a745;
+}
+.action-btn.edit:hover {
+    color: #218838;
+}
+
+.action-btn.delete {
+    color: #dc3545;
+}
+.action-btn.delete:hover {
+    color: #b52b37;
+}

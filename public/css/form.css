@@ -1,0 +1,130 @@
+/* ===== Form Dashboard (Tambah / Edit Data) ===== */
+.form-dashboard {
+    background: #fff;
+    padding: 18px 22px; /* lebih kecil */
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    max-width: 400px; /* diperkecil */
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border: 1px solid #eee;
+}
+
+/* Judul Form */
+.form-dashboard h2 {
+    text-align: center;
+    font-size: 16px; /* lebih kecil */
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1c1330;
+}
+
+/* Label */
+.form-dashboard label {
+    font-weight: 600;
+    font-size: 12px; /* kecil */
+    margin-bottom: 4px;
+    color: #333;
+}
+
+/* Input Style */
+.form-dashboard input {
+    width: 100%;
+    padding: 6px 4px; /* kecil */
+    border: none;
+    border-bottom: 2px solid #ddd;
+    outline: none;
+    font-size: 13px;
+    transition: border-color 0.2s ease;
+    background: transparent;
+}
+
+.form-dashboard input:focus {
+    border-bottom: 2px solid var(--accent);
+}
+
+/* Tombol Submit */
+.btn-submit {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin: 12px auto 0; /* tengah otomatis */
+    color: #fff;
+    font-size: 13px; /* kecil */
+    padding: 8px 18px; /* kecil */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    display: block; /* biar auto center */
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(124, 58, 237, 0.3);
+}
+
+/* ===== Table Dashboard (untuk Daftar Guru / Barang) ===== */
+.table-container {
+    margin-top: 18px;
+    overflow-x: auto;
+}
+
+.table-dashboard {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.table-dashboard th, 
+.table-dashboard td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 12px;
+}
+
+.table-dashboard th {
+    background: #f8f9fa;
+    text-align: left;
+    font-weight: 600;
+    color: #444;
+    font-size: 12px;
+}
+
+.table-dashboard tr:hover td {
+    background: #f9f6ff;
+    transition: background 0.2s ease;
+}
+
+/* ===== Action Button ===== */
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0 4px;
+    transition: transform 0.15s ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.15);
+}
+
+/* Edit Button */
+.action-btn.edit {
+    color: #28a745;
+}
+.action-btn.edit:hover {
+    color: #1e7e34;
+}
+
+/* Delete Button */
+.action-btn.delete {
+    color: #dc3545;
+}
+.action-btn.delete:hover {
+    color: #b52b37;
+}

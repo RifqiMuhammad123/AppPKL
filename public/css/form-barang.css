@@ -1,0 +1,101 @@
+:root {
+    --accent: #7c3aed;
+    --accent2: #a855f7;
+    --muted: #7b7193;
+    --card: #ffffff;
+    --radius: 12px;
+    --font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+
+body {
+    font-family: var(--font);
+    background: #f6f4f9;
+    margin: 0;
+}
+
+.form-container {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    max-width: 400px; /* lebih kecil */
+    margin: 0 auto;
+    box-shadow: 0 4px 16px rgba(9, 9, 40, 0.04);
+    border: 1px solid #eee;
+}
+
+.form-container h2 {
+    margin: 0 0 16px;
+    font-size: 18px; /* lebih kecil */
+    font-weight: 700;
+    color: #000000;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px; /* lebih kecil */
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.form-group input {
+    border: none;
+    border-bottom: 2px solid #ddd;
+    padding: 6px 4px; /* lebih kecil */
+    font-size: 13px;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--accent);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.btn-secondary {
+    background: #ddd;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #ccc;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 500px) {
+    .form-container {
+        padding: 14px;
+        max-width: 90%;
+    }
+}
