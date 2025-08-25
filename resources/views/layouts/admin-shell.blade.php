@@ -72,7 +72,7 @@
         <!-- Topbar -->
         <div class="topbar">
             <div class="profile">
-                <img src="{{ session('auth_photo') }}" alt="Foto Profil">
+                 <img src="{{ asset('img/poto.jpg') }}" alt="Foto Profil" class="profile-img">
                 <div class="info">
                     <strong>{{ session('auth_name') }}</strong>
                     <span>{{ ucfirst(session('auth_role')) }}</span>
