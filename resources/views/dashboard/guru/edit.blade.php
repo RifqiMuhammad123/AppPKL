@@ -1,7 +1,6 @@
 @extends('layouts.admin-shell') {{-- sesuaikan dengan layout utama kamu --}}
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/editform.css') }}">
 <div class="container">
     <h2>Edit Data Guru</h2>
     <style>

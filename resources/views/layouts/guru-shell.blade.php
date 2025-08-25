@@ -36,7 +36,7 @@
   <main class="content">
     <div class="topbar">
       <div class="profile">
-        <img src="{{ asset('images/Pain.jfif') }}" alt="Foto Profil">
+        <img src="{{ asset('img/Pain.jfif') }}" alt="Foto Profil">
         <div class="info">
           <strong>{{ session('auth_name') }}</strong>
           <span>Guru</span>
