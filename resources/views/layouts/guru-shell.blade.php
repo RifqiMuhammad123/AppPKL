@@ -12,7 +12,7 @@
   <aside class="sidebar">
     <div class="logo">
       <i class="fa-solid fa-chalkboard-user"></i>
-      <span>GuruPanel</span>
+      <span>Guru Page</span>
     </div>
 
     <nav>
@@ -36,7 +36,7 @@
   <main class="content">
     <div class="topbar">
       <div class="profile">
-        <img src="https://i.pravatar.cc/150?img=15" alt="Foto">
+        <img src="{{ asset('images/Pain.jfif') }}" alt="Foto Profil">
         <div class="info">
           <strong>{{ session('auth_name') }}</strong>
           <span>Guru</span>

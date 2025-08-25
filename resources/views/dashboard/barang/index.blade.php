@@ -22,11 +22,10 @@ Swal.fire({
     <input type="text" id="searchInput" placeholder="Cari barang..." />
 </div>
 
-<div class="toolbar">
-    <a href="{{ route('admin.barang.downloadPdf') }}" class="btn-download">
-        <i class="fas fa-file-pdf"></i> Download PDF
-    </a>
-</div>
+<!-- 🧾 Tombol Unduh -->
+<a href="{{ route('admin.barang.downloadPdf') }}" class="btn-download" style="margin-bottom: 12px; display: inline-block;">
+  <i class="fas fa-file-pdf"></i> Unduh Laporan PDF
+</a>
 
 
 <div class="table-container">

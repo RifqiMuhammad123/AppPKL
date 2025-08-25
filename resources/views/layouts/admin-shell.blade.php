@@ -12,7 +12,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo">
-            <i class="fa-solid fa-cubes"></i> <span>Admin Panel</span>
+            <i class="fa-solid fa-cubes"></i> <span>Admin Page</span>
         </div>
         <nav>
             <!-- Dashboard -->
