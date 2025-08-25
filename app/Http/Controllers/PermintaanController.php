@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Permintaan;
 use App\Models\Guru;
+use App\Models\Barang;
+
 
 class PermintaanController extends Controller
 {
@@ -61,16 +63,35 @@ class PermintaanController extends Controller
     /** 🔹 Admin konfirmasi permintaan */
     public function konfirmasi($id)
     {
-        $permintaan = Permintaan::where('id_permintaan', $id)->firstOrFail();
+    $permintaan = Permintaan::where('id_permintaan', $id)->firstOrFail();
 
-        if ($permintaan->status === 'pending') {
-            $permintaan->status = 'dikonfirmasi'; // ✅ sesuai enum DB
-            $permintaan->save();
+    if ($permintaan->status === 'pending') {
+        // Ambil barang sesuai nama + merk
+        $barang = Barang::where('nama_barang', $permintaan->nama_barang)
+                        ->where('merk_barang', $permintaan->merk_barang)
+                        ->first();
+
+        if ($barang) {
+            // Kurangi stok sesuai jumlah permintaan
+            $barang->stok -= $permintaan->jumlah;
+
+            // Biar gak minus
+            if ($barang->stok < 0) {
+                $barang->stok = 0;
+            }
+
+            $barang->save();
         }
 
-        return redirect()->route('admin.permintaan.index')
-            ->with('success', 'Permintaan berhasil dikonfirmasi.');
+        // Update status permintaan
+        $permintaan->status = 'dikonfirmasi'; 
+        $permintaan->save();
     }
+
+    return redirect()->route('admin.permintaan.index')
+        ->with('success', 'Permintaan berhasil dikonfirmasi & stok diperbarui.');
+    }
+
 
     /** 🔹 Admin tolak permintaan */
     public function tolak($id)

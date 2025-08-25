@@ -22,6 +22,13 @@ Swal.fire({
     <input type="text" id="searchInput" placeholder="Cari barang..." />
 </div>
 
+<div class="toolbar">
+    <a href="{{ route('admin.barang.downloadPdf') }}" class="btn-download">
+        <i class="fas fa-file-pdf"></i> Download PDF
+    </a>
+</div>
+
+
 <div class="table-container">
 <table class="table-dashboard" id="barangTable">
     <thead>
@@ -201,5 +208,28 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 .btn-ajukan:hover {
     background: #4338ca;
 }
+
+.toolbar {
+    display: flex;
+    justify-content: flex-end; /* tombol geser ke kanan */
+    margin-bottom: 12px;
+}
+
+.btn-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dc2626; /* merah PDF */
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+.btn-download:hover {
+    background: #b91c1c;
+}
+
 </style>
 @endsection

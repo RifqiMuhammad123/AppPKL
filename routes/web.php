@@ -94,3 +94,9 @@ Route::get('/api/permintaan/notif', [PermintaanController::class, 'cekNotif'])
     // 🔹 API untuk guru cek status permintaan
 Route::get('/api/guru/permintaan/status', [PermintaanController::class, 'cekStatusGuru'])
     ->name('guru.permintaan.status');
+
+    // Route untuk Admin download PDF
+Route::get('/admin/barang/download-pdf', [BarangController::class, 'downloadPdf'])
+     ->name('admin.barang.downloadPdf');
+
+     

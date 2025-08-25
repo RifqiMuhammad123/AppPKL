@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class BarangController extends Controller
 {
+    public function downloadPdf()
+    {
+        $barang = \App\Models\Barang::all(); // ambil semua barang
+        $pdf = Pdf::loadView('dashboard.barang.pdf', compact('barang'));
+
+
+        return $pdf->download('daftar-barang.pdf');
+    }
+
     public function index()
     {
         $barang = DB::table('barang')
