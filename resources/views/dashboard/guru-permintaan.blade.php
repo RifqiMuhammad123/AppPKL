@@ -3,7 +3,6 @@
 @section('title','Ajukan Permintaan')
 
 @section('content')
-<div class="content-wrapper">
 <div class="form-container">
     <h2>Ajukan Permintaan Barang</h2>
 

@@ -47,36 +47,55 @@
   font-weight: 600;
 }
 
-/* Form Group */
+.form-container {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 18px;
+    max-width: 400px; /* lebih kecil */
+    margin: 0 auto;
+    box-shadow: 0 4px 16px rgba(9, 9, 40, 0.04);
+    border: 1px solid #eee;
+}
+
+.form-container h2 {
+    margin: 0 0 16px;
+    font-size: 18px; /* lebih kecil */
+    font-weight: 700;
+    color: #000000;
+    text-align: center;
+}
+
 .form-group {
-  margin-bottom: 18px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
+    font-size: 14px; /* lebih kecil */
+    color: var(--muted);
+    margin-bottom: 4px;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: 0.2s;
+.form-group input {
+    border: none;
+    border-bottom: 2px solid #ddd;
+    padding: 6px 4px; /* lebih kecil */
+    font-size: 13px;
+    background: transparent;
+    outline: none;
+    transition: border-color 0.2s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--accent);
-  outline: none;
-  box-shadow: 0 0 6px rgba(42,82,152,0.3);
+.form-group input:focus {
+    border-color: var(--accent);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
 }
 
 /* Tombol */

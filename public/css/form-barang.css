@@ -38,7 +38,7 @@ body {
 }
 
 .form-group label {
-    font-size: 13px; /* lebih kecil */
+    font-size: 14px; /* lebih kecil */
     color: var(--muted);
     margin-bottom: 4px;
 }
