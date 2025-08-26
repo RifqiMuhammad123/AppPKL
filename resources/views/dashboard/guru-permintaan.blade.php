@@ -3,6 +3,7 @@
 @section('title','Ajukan Permintaan')
 
 @section('content')
+<div class="content-wrapper">
 <div class="form-container">
     <h2>Ajukan Permintaan Barang</h2>
 
@@ -33,7 +34,8 @@
             <input type="number" name="jumlah" min="1" required>
         </div>
 
-        <button type="submit" class="btn-primary">Ajukan</button>
+        <button type="submit" class="btn-submit">Ajukan</button>
     </form>
+    </div>
 </div>
 @endsection
