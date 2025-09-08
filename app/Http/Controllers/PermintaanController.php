@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Permintaan;
 use App\Models\Guru;
 use App\Models\Barang;
-
+use Carbon\Carbon;
 
 class PermintaanController extends Controller
 {
@@ -41,18 +41,25 @@ class PermintaanController extends Controller
 
     /** 🔹 Halaman riwayat permintaan Guru */
     public function proses()
-{
-    $permintaan = Permintaan::where('id_guru', session('auth_id'))
-        ->orderBy('id_permintaan', 'desc') // ✅ urut dari terbaru
-        ->get();
+    {
+        // hapus permintaan yang lebih dari 7 hari
+        $batas = now()->subDays(7);
+        Permintaan::where('created_at', '<', $batas)->delete();
 
-    return view('dashboard.guru-proses', compact('permintaan'));
-}
+        $permintaan = Permintaan::where('id_guru', session('auth_id'))
+            ->orderBy('id_permintaan', 'desc')
+            ->get();
 
+        return view('dashboard.guru-proses', compact('permintaan'));
+    }
 
     /** 🔹 Halaman Admin: lihat semua permintaan */
     public function adminIndex()
     {
+        // hapus permintaan lama juga untuk admin
+        $batas = now()->subDays(7);
+        Permintaan::where('created_at', '<', $batas)->delete();
+
         $permintaan = Permintaan::with('guru')
             ->latest()
             ->get();
@@ -63,35 +70,34 @@ class PermintaanController extends Controller
     /** 🔹 Admin konfirmasi permintaan */
     public function konfirmasi($id)
     {
-    $permintaan = Permintaan::where('id_permintaan', $id)->firstOrFail();
+        $permintaan = Permintaan::where('id_permintaan', $id)->firstOrFail();
 
-    if ($permintaan->status === 'pending') {
-        // Ambil barang sesuai nama + merk
-        $barang = Barang::where('nama_barang', $permintaan->nama_barang)
-                        ->where('merk_barang', $permintaan->merk_barang)
-                        ->first();
+        if ($permintaan->status === 'pending') {
+            // Ambil barang sesuai nama + merk
+            $barang = Barang::where('nama_barang', $permintaan->nama_barang)
+                            ->where('merk_barang', $permintaan->merk_barang)
+                            ->first();
 
-        if ($barang) {
-            // Kurangi stok sesuai jumlah permintaan
-            $barang->stok -= $permintaan->jumlah;
+            if ($barang) {
+                // Kurangi stok sesuai jumlah permintaan
+                $barang->stok -= $permintaan->jumlah;
 
-            // Biar gak minus
-            if ($barang->stok < 0) {
-                $barang->stok = 0;
+                // Biar gak minus
+                if ($barang->stok < 0) {
+                    $barang->stok = 0;
+                }
+
+                $barang->save();
             }
 
-            $barang->save();
+            // Update status permintaan
+            $permintaan->status = 'dikonfirmasi'; 
+            $permintaan->save();
         }
 
-        // Update status permintaan
-        $permintaan->status = 'dikonfirmasi'; 
-        $permintaan->save();
+        return redirect()->route('admin.permintaan.index')
+            ->with('success', 'Permintaan berhasil dikonfirmasi & stok diperbarui.');
     }
-
-    return redirect()->route('admin.permintaan.index')
-        ->with('success', 'Permintaan berhasil dikonfirmasi & stok diperbarui.');
-    }
-
 
     /** 🔹 Admin tolak permintaan */
     public function tolak($id)
@@ -106,52 +112,55 @@ class PermintaanController extends Controller
         return redirect()->route('admin.permintaan.index')
             ->with('success', 'Permintaan berhasil ditolak.');
     }
+
+    /** 🔹 Cek jumlah notif permintaan pending (Admin) */
     public function cekNotif()
-{
-    $count = Permintaan::where('status', 'pending')->count();
-    return response()->json(['pending' => $count]);
-}
+    {
+        $count = Permintaan::where('status', 'pending')->count();
+        return response()->json(['pending' => $count]);
+    }
 
-public function cekStatusGuru()
-{
-    $permintaan = Permintaan::where('id_guru', session('auth_id'))
-        ->orderBy('id_permintaan','desc') // ✅ terbaru di atas
-        ->get();
+    /** 🔹 API untuk Guru: ambil status permintaan realtime */
+    public function cekStatusGuru()
+    {
+        // hapus permintaan yang lebih dari 7 hari
+        $batas = now()->subDays(7);
+        Permintaan::where('created_at', '<', $batas)->delete();
 
-    return response()->json($permintaan);
-}
+        $permintaan = Permintaan::where('id_guru', session('auth_id'))
+            ->orderBy('id_permintaan','desc')
+            ->get();
 
+        return response()->json($permintaan);
+    }
 
-// app/Http/Controllers/PermintaanController.php
+    /** 🔹 Guru ajukan permintaan langsung dari Barang */
+    public function fromBarang($id)
+    {
+        $barang = \App\Models\Barang::findOrFail($id);
+        return view('dashboard.guru-ajukan-dari-barang', compact('barang'));
+    }
 
-public function fromBarang($id)
-{
-    $barang = \App\Models\Barang::findOrFail($id);
-    return view('dashboard.guru-ajukan-dari-barang', compact('barang'));
-}
+    /** 🔹 Simpan permintaan dari Barang */
+    public function storeFromBarang(Request $request, $id)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'jumlah'  => 'required|integer|min:1',
+        ]);
 
-public function storeFromBarang(Request $request, $id)
-{
-    $request->validate([
-        'tanggal' => 'required|date',
-        'jumlah'  => 'required|integer|min:1',
-    ]);
+        $barang = \App\Models\Barang::findOrFail($id);
 
-    $barang = \App\Models\Barang::findOrFail($id);
+        Permintaan::create([
+            'id_guru'     => session('auth_id'),
+            'nama_barang' => $barang->nama_barang,
+            'merk_barang' => $barang->merk_barang,
+            'tanggal'     => $request->tanggal,
+            'jumlah'      => $request->jumlah,
+            'status'      => 'pending',
+        ]);
 
-    Permintaan::create([
-        'id_guru'     => session('auth_id'),
-        'nama_barang' => $barang->nama_barang,
-        'merk_barang' => $barang->merk_barang,
-        'tanggal'     => $request->tanggal,
-        'jumlah'      => $request->jumlah,
-        'status'      => 'pending',
-    ]);
-
-    return redirect()->route('guru.permintaan.proses')
-        ->with('success', 'Permintaan barang berhasil diajukan!');
-}
-
-
-
+        return redirect()->route('guru.permintaan.proses')
+            ->with('success', 'Permintaan barang berhasil diajukan!');
+    }
 }

@@ -9,12 +9,14 @@
   <div class="auth-container">
     <div class="welcome-side">
       <div class="brand">
-        <i class="fa-solid fa-notes-medical"></i>
-        <span>GoDoc+</span>
+        <!-- <i class="fa-solid fa-notes-medical"></i> -->
+        <!-- <span>GoDoc+</span> -->
       </div>
+  
       <h1>Welcome!</h1>
+      <img src="{{ asset('img/logo7.png') }}" class="welcome-logo img">
       <p>Masuk untuk mengelola inventaris dan pelayanan.</p>
-      <a class="btn-learn" href="{{ route('register') }}">Buat Akun</a>
+
     </div>
 
     <div class="form-side glass">
@@ -51,11 +53,11 @@
           <span>Submit</span>
           <i class="fa-solid fa-arrow-right-to-bracket"></i>
         </button>
-        <div class="socials">
+        <!-- <div class="socials">
           <i class="fa-brands fa-facebook"></i>
           <i class="fa-brands fa-instagram"></i>
           <i class="fa-brands fa-pinterest"></i>
-        </div>
+        </div> -->
       </form>
     </div>
   </div>
