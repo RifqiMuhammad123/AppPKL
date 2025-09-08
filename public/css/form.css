@@ -61,7 +61,7 @@
 
 .btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(124, 58, 237, 0.3);
+    box-shadow:0 6px 16px rgba(30,136,229,.35);
 }
 
 /* ===== Table Dashboard (untuk Daftar Guru / Barang) ===== */

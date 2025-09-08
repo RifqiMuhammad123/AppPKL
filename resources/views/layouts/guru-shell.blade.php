@@ -36,7 +36,7 @@
   <main class="content">
     <div class="topbar">
       <div class="profile">
-        <img src="{{ asset('img/Pain.jfif') }}" alt="Foto Profil">
+        <img src="{{ asset('img/icon.jpg') }}" alt="Foto Profil">
         <div class="info">
           <strong>{{ session('auth_name') }}</strong>
           <span>Guru</span>
@@ -53,7 +53,7 @@
     function logoutConfirm(){
       Swal.fire({
         title: "Logout?",
-        text: "Anda akan keluar dari sesi Guru.",
+        text: "Anda akan keluar dari halaman Guru.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Ya, Logout",

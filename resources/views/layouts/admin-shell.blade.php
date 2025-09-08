@@ -73,7 +73,7 @@
         <div class="topbar">
             <div class="profile">
                 
-                 <img src="{{ asset('img/poto.jpg') }}" alt="Foto Profil" class="profile-img">
+                 <img src="{{ asset('img/icon.jpg') }}" alt="Foto Profil" class="profile-img">
 
                 <div class="info">
                     <strong>{{ session('auth_name') }}</strong>
@@ -117,7 +117,7 @@
 
             Swal.fire({
                 title: "Apakah Anda yakin?",
-                text: "Anda akan keluar dari sesi ini!",
+                text: "Anda akan keluar dari halaman Admin!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#d33",

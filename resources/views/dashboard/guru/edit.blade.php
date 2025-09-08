@@ -7,8 +7,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 :root {
-  --accent: #7c3aed;
-  --accent2: #a855f7;
+  --accent: #1e88e5;
+  --accent2: #42a5f5;
   --muted: #7b7193;
   --radius: 8px;
 }
@@ -18,7 +18,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial;
 }
 
 /* Container */
@@ -115,7 +115,7 @@
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  box-shadow:0 6px 16px rgba(30,136,229,.35);
 }
 
 .btn-secondary {
