@@ -21,6 +21,13 @@
                 <i class="fa-solid fa-chart-line"></i> Dashboard
             </a>
 
+            <div class="Permintaan {{ request()->is('admin/guru') ? 'open' : '' }}">
+                <a href="{{ route('admin.permintaan.index') }}" 
+                   class="{{ request()->routeIs('admin.permintaan.index') ? 'active' : '' }}">
+                    <i class="fa-solid fa-envelope"></i> Permintaan
+                </a>
+            </div>
+
             <!-- Menu Barang -->
             <div class="menu-parent {{ request()->is('admin/barang*') ? 'open' : '' }}">
                 <button class="menu-toggle">
@@ -56,6 +63,13 @@
                     </a>
                 </div>
             </div>
+
+            <!-- <div class="Permintaan {{ request()->is('admin/guru') ? 'open' : '' }}">
+                <a href="{{ route('admin.permintaan.index') }}" 
+                   class="{{ request()->routeIs('admin.permintaan.index') ? 'active' : '' }}">
+                    <i class="fa-solid fa-envelope"></i> Permintaan
+                </a>
+            </div> -->
 
             <!-- Logout -->
             <form id="logout-form" action="{{ route('logout') }}" method="POST">

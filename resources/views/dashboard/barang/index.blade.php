@@ -33,6 +33,7 @@ Swal.fire({
 <table class="table-dashboard" id="barangTable">
     <thead>
         <tr>
+            <th>No</th>
             <th>Nama Barang</th>
             <th>Merk</th>
             <th>Tanggal Pembelian</th>
@@ -45,6 +46,7 @@ Swal.fire({
     <tbody>
         @forelse($barang as $b)
         <tr>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $b->nama_barang }}</td>
             <td>{{ $b->merk_barang }}</td>
             <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d-m-Y') }}</td>
@@ -53,24 +55,24 @@ Swal.fire({
             <td>{{ $b->stok }}</td>
             <td style="text-align: center;">
                 @if(session('auth_role') === 'admin')
-                    <a href="{{ route('admin.barang.edit', $b->id_barang) }}" class="action-btn edit" title="Edit">
-                        <i class="fas fa-pencil-alt"></i>
+                    <a href="{{ route('admin.barang.edit', $b->id_barang) }}" class="action-btn edit">
+                        <i class="fas fa-pencil-alt"></i> Edit
                     </a>
 
                     <form action="{{ route('admin.barang.destroy', $b->id_barang) }}" method="POST" style="display:inline;" class="form-delete">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" class="action-btn delete" title="Hapus">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                            @method('DELETE')
+                            <button type="submit" class="action-btn delete">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
                     </form>
-                @elseif(session('auth_role') === 'guru')
-                    <a href="{{ route('guru.permintaan.fromBarang', $b->id_barang) }}" 
-                       class="btn-ajukan">
-                       <i class="fas fa-paper-plane"></i> Ajukan
-                    </a>
-                @endif
-            </td>
+                        @elseif(session('auth_role') === 'guru')
+                            <a href="{{ route('guru.permintaan.fromBarang', $b->id_barang) }}" class="btn-ajukan">
+                                <i class="fas fa-paper-plane"></i> Ajukan
+                            </a>
+    @endif
+</td>
+
         </tr>
         @empty
         <tr>
@@ -176,25 +178,37 @@ document.getElementById('searchInput').addEventListener('keyup', function() {
 }
 
 .action-btn {
-    background: none;
-    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px; /* jarak icon dengan teks */
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 14px;
     cursor: pointer;
-    padding: 6px;
-    font-size: 16px;
+    text-decoration: none;
+    transition: 0.2s;
 }
 
 .action-btn.edit {
-    color: #28a745;
+    background: #28a745;
+    color: white;
 }
 .action-btn.edit:hover {
-    color: #218838;
+    background: #218838;
 }
+
 .action-btn.delete {
-    color: #dc3545;
+    background: #dc3545;
+    color: white;
 }
 .action-btn.delete:hover {
-    color: #b52b37;
+    background: #b52b37;
 }
+
+.action-btn i {
+    font-size: 14px; /* ukuran icon */
+}
+
 
 .btn-ajukan {
     background: #4f46e5;

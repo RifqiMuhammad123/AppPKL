@@ -1,19 +1,17 @@
 :root {
-  --sidebar:#0d47a1;         /* biru tua */
-  --sidebarAccent:#1976d2;   /* biru terang */
-  --contentBg:#f6f8fc;       /* putih kebiruan */
+  --sidebar:#0d47a1;
+  --sidebarAccent:#1976d2;
+  --contentBg:#f6f8fc;
   --card:#ffffff;
-  --accent:#1e88e5;          /* aksen biru */
-  --accent2:#42a5f5;         /* aksen biru muda */
+  --accent:#1e88e5;
+  --accent2:#42a5f5;
   --fg:#1c1330;
   --muted:#7b7193;
   --radius:18px;
   --font:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial;
 }
 
-* {
-  box-sizing:border-box;
-}
+* { box-sizing:border-box; }
 
 body.dash {
   margin:0;
@@ -41,9 +39,8 @@ body.dash {
   gap:10px;
   align-items:center;
 }
-.logo i { color:#bbdefb; } /* icon biru muda */
+.logo i { color:#bbdefb; }
 
-/* Link Sidebar */
 .sidebar a {
   color:#e3f2fd;
   text-decoration:none;
@@ -65,7 +62,6 @@ body.dash {
   box-shadow:0 3px 10px rgba(30,136,229,0.4);
 }
 
-/* Tombol Logout */
 .sidebar .logout {
   width:100%;
   margin-top:auto;
@@ -82,15 +78,13 @@ body.dash {
   transition: background 0.2s ease, transform 0.15s ease;
 }
 .sidebar .logout:hover {
-  background:#e53935; /* merah keluar */
+  background:#e53935;
   color:white;
   transform:translateX(3px);
 }
 
-/* Submenu Styling */
-.menu-parent {
-  width:100%;
-}
+/* Submenu */
+.menu-parent { width:100%; }
 .menu-toggle {
   background:none;
   border:none;
@@ -105,14 +99,9 @@ body.dash {
   transition:background 0.2s ease;
   border-radius:12px;
 }
-.menu-toggle:hover {
-  background:#1565c0;
-}
-.menu-toggle .arrow {
-  transition:transform 0.2s ease;
-}
+.menu-toggle:hover { background:#1565c0; }
+.menu-toggle .arrow { transition:transform 0.2s ease; }
 
-/* Submenu */
 .submenu {
   max-height:0;
   overflow:hidden;
@@ -129,28 +118,16 @@ body.dash {
   border-radius:8px;
   transition:background 0.2s ease, transform 0.15s ease;
 }
-.submenu a:hover {
-  background:#1565c0;
-  transform:translateX(3px);
-}
+.submenu a:hover { background:#1565c0; transform:translateX(3px); }
 .submenu a.active {
   background:linear-gradient(90deg,var(--accent),var(--accent2));
   font-weight:bold;
   color:white;
 }
-.menu-parent.open .submenu {
-  max-height:200px;
-}
-.menu-parent.open .menu-toggle .arrow {
-  transform:rotate(180deg);
-}
+.menu-parent.open .submenu { max-height:200px; }
+.menu-parent.open .menu-toggle .arrow { transform:rotate(180deg); }
 
-
-
-.content {
-  display:flex;
-  flex-direction:column;
-}
+.content { display:flex; flex-direction:column; }
 .topbar {
   background:#fff;
   padding:14px 20px;
@@ -170,14 +147,8 @@ body.dash {
   border-radius:50%;
   object-fit:cover;
 }
-.profile .info {
-  display:flex;
-  flex-direction:column;
-  font-size:14px;
-}
-.main {
-  padding:22px;
-}
+.profile .info { display:flex; flex-direction:column; font-size:14px; }
+.main { padding:22px; }
 
 /* Cards */
 .cards {
@@ -213,19 +184,9 @@ body.dash {
   font-size:22px;
   box-shadow:0 6px 16px rgba(30,136,229,.35);
 }
-.card-meta h4 {
-  margin:0 0 6px;
-}
-.card-meta p {
-  margin:0;
-  color:var(--muted);
-  font-size:13px;
-}
-.card .stat {
-  margin-top:6px;
-  font-weight:800;
-  font-size:28px;
-}
+.card-meta h4 { margin:0 0 6px; }
+.card-meta p { margin:0; color:var(--muted); font-size:13px; }
+.card .stat { margin-top:6px; font-weight:800; font-size:28px; }
 
 /* Panel */
 .panel {
@@ -239,12 +200,7 @@ body.dash {
   border-collapse:separate;
   border-spacing:0 8px;
 }
-.table th {
-  font-size:13px;
-  color:#6b6283;
-  text-align:left;
-  padding:8px;
-}
+.table th { font-size:13px; color:#6b6283; text-align:left; padding:8px; }
 .table td {
   background:#f6faff;
   padding:10px;
@@ -262,13 +218,21 @@ body.dash {
   border-bottom-right-radius:10px;
 }
 
-/* Responsive */
-@media (max-width:1000px){
-  .cards { grid-template-columns:1fr; }
-}
-
+/* Cards clickable */
 .cards .card-clickable {
   text-decoration:none;
   color:inherit;
   transition:transform 0.2s, box-shadow 0.2s;
+}
+
+/* ================= Responsive ================= */
+@media (max-width:1000px){
+  .cards { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:600px){
+  body.dash { grid-template-columns:1fr; } /* sidebar full layar HP */
+  .cards { grid-template-columns:1fr; }
+  .topbar { flex-direction:column; align-items:flex-start; }
+  .profile .info { font-size:12px; }
+  .table { display:block; overflow-x:auto; white-space:nowrap; }
 }

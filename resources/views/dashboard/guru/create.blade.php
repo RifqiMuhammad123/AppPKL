@@ -6,23 +6,67 @@
 @section('content')
 <div class="form-dashboard">
     <h2 style="text-align:center;">Tambah Guru</h2>
-    <form id="form-tambah-guru" action="{{ route('admin.guru.store') }}" method="POST">
+   <form id="form-tambah-guru" action="{{ route('admin.guru.store') }}" method="POST" autocomplete="off">
         @csrf
         <label for="nip">NIP</label>
-        <input type="text" name="nip" id="nip" maxlength="18" required
-       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,18)">
+        <input type="number" name="nip" id="nip" maxlength="18" required autocomplete="off">
 
         <label for="nama_guru">Nama Guru</label>
-        <input type="text" name="nama_guru" id="nama_guru" required>
+        <input type="text" name="nama_guru" id="nama_guru" required autocomplete="off">
 
         <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
+        <input type="password" name="password" id="password" required autocomplete="new-password">
+
 
         <button type="submit" class="btn-submit">Tambah Guru</button>
+        <button type="button" class="btn-back" onclick="konfirmasiKembali()">Kembali</button>
     </form>
 </div>
 
 <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('form-tambah-guru');
+            if (!form.dataset.initialized) {
+        form.querySelectorAll('input').forEach(input => {
+            // Kosongkan hanya input type text/password, jangan yang type hidden
+            if(input.type === 'text' || input.type === 'password') {
+                input.value = '';
+            }
+        });
+        form.dataset.initialized = "true";
+            }
+        });
+
+
+    function konfirmasiKembali() {
+    const form = document.getElementById('form-tambah-guru');
+
+    // Cek apakah ada inputan yang diisi
+    let isDirty = false;
+    Array.from(form.elements).forEach(el => {
+        if (el.tagName === 'INPUT' && el.value.trim() !== '') {
+            isDirty = true;
+        }
+    });
+
+    if (isDirty) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: 'Perubahan yang belum disimpan akan hilang!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, kembali',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                history.back();
+            }
+        });
+    } else {
+        history.back(); // Kalau form kosong langsung kembali
+    }
+}
+
 document.getElementById("form-tambah-guru").addEventListener("submit", function(e){
     e.preventDefault();
     let form = this;

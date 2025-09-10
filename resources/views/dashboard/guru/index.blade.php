@@ -22,16 +22,20 @@ Swal.fire({
     <table class="table-dashboard">
         <thead>
             <tr>
+                <th>No</th>
                 <th>NIP</th>
                 <th>Nama Guru</th>
+                <th>Password</th>
                 <th style="text-align: center;">Aksi</th>
             </tr>
         </thead>
         <tbody>
             @forelse($guru as $g)
             <tr>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $g->nip }}</td>
                 <td>{{ $g->nama_guru }}</td>
+                <td>{{ $g->password_plain }}</td>
                 <td style="text-align: center;">
                     <a href="{{ route('admin.guru.edit', $g->id_guru) }}" class="action-btn edit" title="Edit">
                         <i class="fas fa-pencil-alt"></i>
