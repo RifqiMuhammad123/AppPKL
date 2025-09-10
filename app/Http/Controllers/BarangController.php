@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use TCPDF; // ✅ Tambahan buat TCPDF
 
 class BarangController extends Controller
 {
@@ -13,9 +13,32 @@ class BarangController extends Controller
     {
         $barang = \App\Models\Barang::all(); // ambil semua barang
         $pdf = Pdf::loadView('dashboard.barang.pdf', compact('barang'));
-
-
         return $pdf->download('daftar-barang.pdf');
+    }
+
+    // ✅ Method baru pakai TCPDF (bisa diakses lewat route berbeda)
+    public function downloadPdfTcpdf()
+    {
+        $barang = \App\Models\Barang::all();
+
+        // Inisialisasi TCPDF
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Laravel App');
+        $pdf->SetAuthor('SMK KODING');
+        $pdf->SetTitle('Daftar Barang');
+        $pdf->SetMargins(15, 30, 15);
+        $pdf->SetAutoPageBreak(true, 15);
+        $pdf->AddPage();
+
+        // Render view blade ke HTML
+        $html = view('dashboard.barang.pdf', compact('barang'))->render();
+
+        // Tulis HTML ke PDF
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // Output PDF
+        $pdf->Output('daftar-barang-tcpdf.pdf', 'D');
+        exit;
     }
 
     public function index()
@@ -96,16 +119,11 @@ class BarangController extends Controller
         return redirect()
             ->route('admin.barang.index')
             ->with('success', 'Barang berhasil dihapus!');
+    }
 
-
-        }
-
-        public function guruIndex()
-{
-    $barang = \App\Models\Barang::all();
-    return view('dashboard.guru-barang', compact('barang'));
+    public function guruIndex()
+    {
+        $barang = \App\Models\Barang::all();
+        return view('dashboard.guru-barang', compact('barang'));
+    }
 }
-
-}
-
-

@@ -99,4 +99,6 @@ Route::get('/api/guru/permintaan/status', [PermintaanController::class, 'cekStat
 Route::get('/admin/barang/download-pdf', [BarangController::class, 'downloadPdf'])
      ->name('admin.barang.downloadPdf');
 
-     
+// tcpdf 
+Route::get('/barang/download-tcpdf', [BarangController::class, 'downloadPdfTcpdf'])->name('barang.download.tcpdf');
+

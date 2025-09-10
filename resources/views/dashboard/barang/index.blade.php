@@ -23,9 +23,10 @@ Swal.fire({
 </div>
 
 <!-- 🧾 Tombol Unduh -->
-<a href="{{ route('admin.barang.downloadPdf') }}" class="btn-download" style="margin-bottom: 12px; display: inline-block;">
+<a href="{{ route('barang.download.tcpdf') }}" class="btn-download" style="margin-bottom: 12px; display: inline-block;">
   <i class="fas fa-file-pdf"></i> Unduh Laporan PDF
 </a>
+
 
 
 <div class="table-container">
