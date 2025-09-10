@@ -31,6 +31,7 @@ class GuruController extends Controller
             'nip' => $request->nip,
             'nama_guru' => $request->nama_guru,
             'password' => Hash::make($request->password),
+            'password_plain' => $request->password,
         ]);
 
         return redirect()->route('admin.guru.index')
@@ -44,26 +45,27 @@ class GuruController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
+{
         $request->validate([
-            'nip' => 'required|unique:guru,nip,' . $id . ',id_guru',
-            'nama_guru' => 'required',
-        ]);
+        'nip' => 'required|unique:guru,nip,' . $id . ',id_guru',
+        'nama_guru' => 'required',
+    ]);
 
-        $data = [
-            'nip' => $request->nip,
-            'nama_guru' => $request->nama_guru,
-        ];
+    $data = [
+        'nip' => $request->nip,
+        'nama_guru' => $request->nama_guru,
+    ];
 
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
-        }
-
-        DB::table('guru')->where('id_guru', $id)->update($data);
-
-        return redirect()->route('admin.guru.index')
-            ->with('success', 'Data guru berhasil diperbarui!');
+    if ($request->filled('password')) {
+        $data['password'] = Hash::make($request->password);
+        $data['password_plain'] = $request->password; // <-- tambahin ini
     }
+
+    DB::table('guru')->where('id_guru', $id)->update($data);
+
+    return redirect()->route('admin.guru.index')
+        ->with('success', 'Data guru berhasil diperbarui!');
+}
 
     public function destroy($id)
     {

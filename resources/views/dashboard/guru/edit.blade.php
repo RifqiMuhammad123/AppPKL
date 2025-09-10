@@ -47,24 +47,6 @@
   font-weight: 600;
 }
 
-.form-container {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 18px;
-    max-width: 400px; /* lebih kecil */
-    margin: 0 auto;
-    box-shadow: 0 4px 16px rgba(9, 9, 40, 0.04);
-    border: 1px solid #eee;
-}
-
-.form-container h2 {
-    margin: 0 0 16px;
-    font-size: 18px; /* lebih kecil */
-    font-weight: 700;
-    color: #000000;
-    text-align: center;
-}
-
 .form-group {
     margin-bottom: 14px;
     display: flex;
@@ -72,7 +54,7 @@
 }
 
 .form-group label {
-    font-size: 14px; /* lebih kecil */
+    font-size: 14px;
     color: var(--muted);
     margin-bottom: 4px;
 }
@@ -80,7 +62,7 @@
 .form-group input {
     border: none;
     border-bottom: 2px solid #ddd;
-    padding: 6px 4px; /* lebih kecil */
+    padding: 6px 4px;
     font-size: 13px;
     background: transparent;
     outline: none;
@@ -89,13 +71,6 @@
 
 .form-group input:focus {
     border-color: var(--accent);
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 14px;
 }
 
 /* Tombol */
@@ -131,32 +106,81 @@
   transform: translateY(-2px);
 }
 
-/* Tombol container */
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
-}
+</style>
 
-    </style>
-     
+<form action="{{ route('admin.guru.update', $guru->id_guru) }}" method="POST" id="form-edit-guru">
+    @csrf
+    @method('PUT')
 
-    <form action="{{ route('admin.guru.update', $guru->id_guru) }}" method="POST">
-        @csrf
-        @method('PUT')
+    <div class="form-group">
+        <label for="nip">NIP</label>
+        <input type="text" name="nip" value="{{ old('nip', $guru->nip) }}" class="form-control" required>
+    </div>
 
-        <div class="form-group">
-            <label for="nip">NIP</label>
-            <input type="text" name="nip" value="{{ old('nip', $guru->nip) }}" class="form-control" required>
-        </div>
+    <div class="form-group">
+        <label for="nama_guru">Nama Guru</label>
+        <input type="text" name="nama_guru" value="{{ old('nama_guru', $guru->nama_guru) }}" class="form-control" required>
+    </div>
 
-        <div class="form-group">
-            <label for="nama_guru">Nama Guru</label>
-            <input type="text" name="nama_guru" value="{{ old('nama_guru', $guru->nama_guru) }}" class="form-control" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+    <div class="form-group">
+        <label for="password">Password (biarkan kosong jika tidak ingin mengubah)</label>
+        <input type="password" name="password" class="form-control" autocomplete="new-password">
+    </div>
+    
+    <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('admin.guru.index') }}'">Kembali</button>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('form-edit-guru');
+
+    // Ambil nilai awal
+    const originalData = {
+        nip: form.nip.value,
+        nama_guru: form.nama_guru.value,
+        password: '' // password awal dianggap kosong
+    };
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // cegah submit default
+
+        // Ambil nilai sekarang
+        const currentData = {
+            nip: form.nip.value,
+            nama_guru: form.nama_guru.value,
+            password: form.password.value
+        };
+
+        // Cek apakah ada perubahan
+        const changed = currentData.nip !== originalData.nip ||
+                        currentData.nama_guru !== originalData.nama_guru ||
+                        currentData.password.trim() !== '';
+
+        if (!changed) {
+            // Tidak ada perubahan → langsung kembali
+            window.location.href = '{{ route('admin.guru.index') }}';
+        } else {
+            // Ada perubahan → munculkan konfirmasi
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data guru akan diperbarui!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Update',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // submit form asli tanpa loop
+                    form.removeEventListener('submit', arguments.callee);
+                    form.submit();
+                }
+            });
+        }
+    });
+});
+</script>
 @endsection

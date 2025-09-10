@@ -9,7 +9,8 @@
    <form id="form-tambah-guru" action="{{ route('admin.guru.store') }}" method="POST" autocomplete="off">
         @csrf
         <label for="nip">NIP</label>
-        <input type="number" name="nip" id="nip" maxlength="18" required autocomplete="off">
+        <input type="number" id="nip" name="nip" required autocomplete="off"
+        oninput="if(this.value.length > 18) this.value = this.value.slice(0,18);">
 
         <label for="nama_guru">Nama Guru</label>
         <input type="text" name="nama_guru" id="nama_guru" required autocomplete="off">
@@ -24,6 +25,8 @@
 </div>
 
 <script>
+    
+
     window.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('form-tambah-guru');
             if (!form.dataset.initialized) {
@@ -37,7 +40,7 @@
             }
         });
 
-
+    // alert jika ada perubahan pada form dan user mencoba kembali
     function konfirmasiKembali() {
     const form = document.getElementById('form-tambah-guru');
 

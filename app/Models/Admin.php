@@ -10,6 +10,6 @@ class Admin extends Model
     protected $primaryKey = 'id_admin';
     public $timestamps = false;
 
-    protected $fillable = ['nip', 'nama_admin', 'password', 'foto'];
+    protected $fillable = ['nip', 'nama_admin', 'password', 'password_plain'];
     protected $hidden = ['password'];
 }

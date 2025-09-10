@@ -37,24 +37,59 @@ Swal.fire({
                 <td>{{ $g->nama_guru }}</td>
                 <td>{{ $g->password_plain }}</td>
                 <td style="text-align: center;">
-                    <a href="{{ route('admin.guru.edit', $g->id_guru) }}" class="action-btn edit" title="Edit">
-                        <i class="fas fa-pencil-alt"></i>
+                    <a href="{{ route('admin.guru.edit', $g->id_guru) }}" class="action-btn edit btn-icon-text" title="Edit">
+                        <i class="fas fa-pencil-alt"></i> <span>Edit</span>
                     </a>
-                    <form action="{{ route('admin.guru.destroy', $g->id_guru) }}" method="POST" style="display:inline;" class="form-delete">
+                    <form action="{{ route('admin.guru.destroy', $g->id_guru) }}" method="POST" class="form-delete" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="action-btn delete" title="Hapus">
-                            <i class="fas fa-trash"></i>
+                        <button type="submit" class="action-btn delete btn-icon-text" title="Hapus">
+                            <i class="fas fa-trash"></i> <span>Hapus</span>
                         </button>
                     </form>
                 </td>
             </tr>
             @empty
-            <tr><td colspan="3" style="text-align:center;">Belum ada guru</td></tr>
+            <tr>
+                <td colspan="5" style="text-align:center;">Belum ada guru</td>
+            </tr>
             @endforelse
         </tbody>
     </table>
 </div>
+
+<style>
+/* Style tombol icon + text */
+.btn-icon-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* jarak antara icon & text */
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-icon-text.edit {
+    background-color: #42a5f5;
+    color: #fff;
+}
+
+.btn-icon-text.edit:hover {
+    background-color: #0a90feff;
+}
+
+.btn-icon-text.delete {
+    background-color: #ef5350;
+    color: #fff;
+    border: none;
+}
+
+.btn-icon-text.delete:hover {
+    background-color: #e53935;
+}
+</style>
 
 <script>
 document.querySelectorAll('.form-delete').forEach(form => {
