@@ -65,3 +65,9 @@ body{margin:0;font-family:var(--font);color:var(--fg)}
 }
 .socials{margin-top:16px;display:flex;gap:16px;opacity:.8}
 @media (max-width:900px){.auth-container{grid-template-columns:1fr}}
+
+/* Hilangkan ikon mata di Edge/IE */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}

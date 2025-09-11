@@ -106,3 +106,20 @@ body {
         max-width: 90%;
     }
 }
+
+/* Hilangkan tombol "mata" bawaan Edge/Chrome Chromium */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
+  width: 0;
+  height: 0;
+}
+
+/* Chromium (Edge baru & Chrome) */
+input[type="password"]::-webkit-credentials-auto-fill-button,
+input[type="password"]::-webkit-textfield-decoration-container,
+input[type="password"]::-webkit-textfield-decoration-button {
+  display: none !important;
+  visibility: hidden;
+  -webkit-appearance: none;
+}

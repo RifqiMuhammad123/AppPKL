@@ -4,6 +4,26 @@
   <meta charset="UTF-8">
   <title>Sign In</title>
   @include('auth._head')
+  <style>
+    .password-group {
+      position: relative;
+    }
+
+    .password-group input {
+      width: 100%;
+      padding-right: 35px; /* ruang buat ikon */
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 60%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 16px;
+      color: #444;
+    }
+  </style>
 </head>
 <body class="auth-gradient">
   <div class="auth-container">
@@ -16,7 +36,6 @@
       <h1>Welcome!</h1>
       <img src="{{ asset('img/logo7.png') }}" class="welcome-logo img">
       <p>Masuk untuk mengelola inventaris dan pelayanan.</p>
-
     </div>
 
     <div class="form-side glass">
@@ -43,9 +62,10 @@
           <span class="underline"></span>
         </div>
 
-        <div class="input-group">
+        <div class="input-group password-group">
           <label>Password</label>
-          <input type="password" name="password" placeholder="••••••••">
+          <input type="password" id="password" name="password" placeholder="••••••••">
+          <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
           <span class="underline"></span>
         </div>
 
@@ -53,11 +73,6 @@
           <span>Submit</span>
           <i class="fa-solid fa-arrow-right-to-bracket"></i>
         </button>
-        <!-- <div class="socials">
-          <i class="fa-brands fa-facebook"></i>
-          <i class="fa-brands fa-instagram"></i>
-          <i class="fa-brands fa-pinterest"></i>
-        </div> -->
       </form>
     </div>
   </div>
@@ -73,5 +88,17 @@
     });
   </script>
   @endif
+
+  <script>
+    const toggle = document.getElementById("togglePassword");
+    const input = document.getElementById("password");
+
+    toggle.addEventListener("click", function () {
+      const type = input.type === "password" ? "text" : "password";
+      input.type = type;
+      this.classList.toggle("fa-eye");
+      this.classList.toggle("fa-eye-slash");
+    });
+  </script>
 </body>
 </html>
