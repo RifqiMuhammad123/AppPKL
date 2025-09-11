@@ -33,6 +33,17 @@ body.dash {
   gap:18px;
 }
 
+/* Beri jarak antar menu utama */
+.sidebar a,
+.menu-toggle {
+  margin-bottom: 8px; /* jarak antar tombol menu */
+}
+
+/* Beri jarak antar submenu */
+.submenu a {
+  margin-bottom: 8px; /* lebih rapat dari menu utama */
+}
+
 .logo {
   font-weight:800;
   display:flex;
