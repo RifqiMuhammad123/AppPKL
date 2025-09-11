@@ -90,10 +90,15 @@ body {
 
 /* Button Secondary */
 .btn-secondary {
-    background: #e3f2fd; /* biru muda */
-    color: #1e3c72; /* biru tua */
-    transform: translateY(-2px);
+    background: #e53935; /* biru muda */
+    color: #fff; /* biru tua */
 }
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow:0 6px 16px rgba(229,57,53,.35);
+}
+
 /* Responsive */
 @media (max-width: 500px) {
     .form-container {

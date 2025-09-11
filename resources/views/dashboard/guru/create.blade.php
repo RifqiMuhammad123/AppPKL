@@ -20,7 +20,7 @@
 
 
         <button type="submit" class="btn-submit">Tambah Guru</button>
-        <button type="button" class="btn-back" onclick="konfirmasiKembali()">Kembali</button>
+        <button type="button" class="btn btn-secondary" onclick="konfirmasiKembali()">Kembali</button>
     </form>
 </div>
 

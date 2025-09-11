@@ -2,6 +2,8 @@
 
 @section('title','Ajukan Permintaan')
 
+<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+
 @section('content')
 <div class="form-container">
     <h2>Ajukan Permintaan Barang</h2>
@@ -33,6 +35,8 @@
             <input type="number" name="jumlah" min="1" required>
         </div>
 
+        <div class="form-actions">
+            <a href="{{ route('guru.home') }}" class="btn btn-secondary">Kembali</a>
         <button type="submit" class="btn-submit">Ajukan</button>
     </form>
     </div>

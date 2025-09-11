@@ -94,16 +94,16 @@
 }
 
 .btn-secondary {
-  background: #ddd;
-  color: #333;
+  background: #e53935;
+  color: #fff;
   text-decoration: none;
   display: inline-block;
   text-align: center;
 }
 
 .btn-secondary:hover {
-  background: #ccc;
-  transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow:0 6px 16px rgba(229,57,53,.35);
 }
 
 </style>
