@@ -27,8 +27,8 @@
   <div class="card" onclick="window.location.href='{{ route("guru.permintaan.proses") }}'">
     <div class="card-icon"><i class="fa-solid fa-hourglass-half"></i></div>
     <div class="card-meta">
-      <h4>Diproses</h4>
-      <p>Status permintaanmu</p>
+      <h4>Status Permintaan</h4>
+      <p>Diproses</p>
     </div>
   </div>
 

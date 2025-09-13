@@ -8,6 +8,7 @@
     <table class="barang-table">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Nama Barang</th>
                 <th>Merk</th>
                 <th>Tanggal</th>
@@ -17,8 +18,9 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($barang as $b)
+            @forelse($barang as $index => $b)
             <tr class="clickable-row" data-href="{{ route('guru.permintaan.fromBarang', $b->id_barang) }}">
+                <td>{{ $index + 1 }}</td>
                 <td>{{ $b->nama_barang }}</td>
                 <td>{{ $b->merk_barang }}</td>
                 <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>

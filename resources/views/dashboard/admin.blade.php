@@ -45,6 +45,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Nama</th>
                 <th>Merk</th>
                 <th>Tgl Beli</th>
@@ -54,8 +55,9 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($barangTerbaru as $b)
+            @forelse($barangTerbaru as $index => $b)
                 <tr>
+                    <td>{{ $index + 1 }}</td>
                     <td>{{ $b->nama_barang }}</td>
                     <td>{{ $b->merk_barang }}</td>
                     <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>
