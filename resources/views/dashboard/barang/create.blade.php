@@ -36,7 +36,7 @@
 
         <div class="form-actions">
             <!-- Ganti route('barang.index') -> admin.barang.index -->
-            <a href="{{ route('admin.barang.index') }}" class="btn btn-secondary">Kembali</a>
+            <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('admin.barang.index') }}'">Kembali</button>
             <button type="submit" class="btn btn-primary">Simpan</button>
         </div>
     </form>

@@ -36,7 +36,7 @@
         </div>
 
         <div class="form-actions">
-            <a href="{{ route('guru.home') }}" class="btn btn-secondary">Kembali</a>
+            <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('guru.home') }}'">Kembali</button>
         <button type="submit" class="btn-submit">Ajukan</button>
     </form>
     </div>

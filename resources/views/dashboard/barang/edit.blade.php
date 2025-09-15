@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-actions">
-            <a href="{{ route('admin.barang.index') }}" class="btn btn-secondary">Kembali</a>
+            <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('admin.barang.index') }}'">Kembali</button>
             <button type="submit" class="btn btn-primary">Update</button>
         </div>
     </form>
