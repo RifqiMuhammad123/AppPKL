@@ -138,7 +138,6 @@
           <th>Nama</th>
           <th>Merk</th>
           <th>Tanggal Pembelian</th>
-          <th>Asal Usul</th>
           <th>Harga</th>
           <th>Stok</th>
         </tr>
@@ -150,7 +149,6 @@
           <td class="left">{{ $b->nama_barang }}</td>
           <td class="left">{{ $b->merk_barang }}</td>
           <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d-m-Y') }}</td>
-          <td>{{ $b->asal_usul }}</td>
           <td class="right">Rp{{ number_format($b->harga_barang, 0, ',', '.') }}</td>
           <td>{{ $b->stok }}</td>
         </tr>
