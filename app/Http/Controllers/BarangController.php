@@ -60,7 +60,6 @@ class BarangController extends Controller
             'nama_barang'        => 'required|string|max:255',
             'merk_barang'        => 'required|string|max:255',
             'tanggal_pembelian'  => 'required|date',
-            'asal_usul'          => 'required|string|max:255',
             'harga_barang'       => 'required|numeric|min:0',
             'stok'               => 'required|integer|min:0'
         ]);
@@ -69,7 +68,6 @@ class BarangController extends Controller
             'nama_barang'        => $request->nama_barang,
             'merk_barang'        => $request->merk_barang,
             'tanggal_pembelian'  => $request->tanggal_pembelian,
-            'asal_usul'          => $request->asal_usul,
             'harga_barang'       => $request->harga_barang,
             'stok'               => $request->stok,
         ]);
@@ -94,7 +92,6 @@ class BarangController extends Controller
             'nama_barang'        => 'required|string|max:255',
             'merk_barang'        => 'required|string|max:255',
             'tanggal_pembelian'  => 'required|date',
-            'asal_usul'          => 'required|string|max:255',
             'harga_barang'       => 'required|numeric|min:0',
             'stok'               => 'required|integer|min:0'
         ]);
@@ -103,7 +100,6 @@ class BarangController extends Controller
             'nama_barang'        => $request->nama_barang,
             'merk_barang'        => $request->merk_barang,
             'tanggal_pembelian'  => $request->tanggal_pembelian,
-            'asal_usul'          => $request->asal_usul,
             'harga_barang'       => $request->harga_barang,
             'stok'               => $request->stok,
         ]);

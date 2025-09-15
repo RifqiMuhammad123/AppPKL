@@ -24,10 +24,6 @@
             <input type="date" name="tanggal_pembelian" value="{{ $barang->tanggal_pembelian }}" required>
         </div>
         <div class="form-group">
-            <label>Asal Usul</label>
-            <input type="text" name="asal_usul" value="{{ $barang->asal_usul }}" required>
-        </div>
-        <div class="form-group">
             <label>Harga Barang</label>
             <input type="number" name="harga_barang" value="{{ $barang->harga_barang }}" required>
         </div>
