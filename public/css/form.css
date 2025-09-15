@@ -74,6 +74,7 @@ body {
 .btn-submit,
 .btn-primary,
 .btn-secondary {
+    margin-top: 20px;
     padding: 8px 18px;
     border-radius: 8px;
     font-size: 13px;
