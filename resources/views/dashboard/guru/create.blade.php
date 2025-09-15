@@ -22,7 +22,7 @@
         </div>
 
         <button type="submit" class="btn-submit">Tambah Guru</button>
-        <button type="button" class="btn btn-secondary" onclick="konfirmasiKembali()">Kembali</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('admin.guru.index') }}'">Kembali</button>
     </form>
 </div>
 
