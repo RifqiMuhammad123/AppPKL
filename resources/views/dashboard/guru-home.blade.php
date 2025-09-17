@@ -8,13 +8,14 @@
 <div class="cards">
 
   <!-- Card 1 -->
-  <div class="card" onclick="window.location.href='{{ route("guru.barang.index") }}'">
-    <div class="card-icon"><i class="fa-solid fa-box"></i></div>
-    <div class="card-meta">
-      <h4>All Stok Barang</h4>
-      <p>Lihat semua barang tersedia</p>
+    <div class="card">
+        <div class="card-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="card-meta">
+            <h4>All Stok Barang</h4>
+            <p>Semua barang yang tersedia</p>
+            <div class="stat">{{ number_format($allStok) }}</div>
+        </div>
     </div>
-  </div>
 
   <!-- Card 2 -->
   <div class="card" onclick="window.location.href='{{ route("guru.permintaan.create") }}'">
