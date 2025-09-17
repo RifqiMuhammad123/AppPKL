@@ -19,10 +19,10 @@
       <a href="{{ route('guru.home') }}" class="{{ request()->routeIs('guru.home') ? 'active' : '' }}">
         <i class="fa-solid fa-house"></i> Dashboard
       </a>
-      <a href="{{ route('guru.barang.index') }}" class="{{ request()->routeIs('guru.barang.*') ? 'active' : '' }}">
+      <!-- <a href="{{ route('guru.barang.index') }}" class="{{ request()->routeIs('guru.barang.*') ? 'active' : '' }}">
         <i class="fa-solid fa-boxes-stacked"></i> Daftar Barang
       </a>
-    </nav>
+    </nav> -->
 
     <form id="logoutForm" method="POST" action="{{ route('logout') }}">
       @csrf

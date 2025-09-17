@@ -5,9 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Barang;
 
 class GuruController extends Controller
 {
+    /** 
+     * Halaman Dashboard Guru (tampil card + daftar barang)
+     */
+    public function home()
+    {
+        $barang = Barang::all(); // ambil semua barang
+        return view('dashboard.guru-home', compact('barang'));
+    }
+
+    /**
+     * Halaman daftar guru (CRUD guru)
+     */
     public function index()
     {
         $guru = DB::table('guru')->get();
@@ -45,27 +58,27 @@ class GuruController extends Controller
     }
 
     public function update(Request $request, $id)
-{
+    {
         $request->validate([
-        'nip' => 'required|unique:guru,nip,' . $id . ',id_guru',
-        'nama_guru' => 'required',
-    ]);
+            'nip' => 'required|unique:guru,nip,' . $id . ',id_guru',
+            'nama_guru' => 'required',
+        ]);
 
-    $data = [
-        'nip' => $request->nip,
-        'nama_guru' => $request->nama_guru,
-    ];
+        $data = [
+            'nip' => $request->nip,
+            'nama_guru' => $request->nama_guru,
+        ];
 
-    if ($request->filled('password')) {
-        $data['password'] = Hash::make($request->password);
-        $data['password_plain'] = $request->password; // <-- tambahin ini
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+            $data['password_plain'] = $request->password;
+        }
+
+        DB::table('guru')->where('id_guru', $id)->update($data);
+
+        return redirect()->route('admin.guru.index')
+            ->with('success', 'Data guru berhasil diperbarui!');
     }
-
-    DB::table('guru')->where('id_guru', $id)->update($data);
-
-    return redirect()->route('admin.guru.index')
-        ->with('success', 'Data guru berhasil diperbarui!');
-}
 
     public function destroy($id)
     {

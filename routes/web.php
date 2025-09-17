@@ -89,3 +89,6 @@ Route::get('/api/guru/permintaan/status', [PermintaanController::class, 'cekStat
 
 // 🔹 Download PDF pakai TCPDF
 Route::get('/barang/download-tcpdf', [BarangController::class, 'downloadPdfTcpdf'])->name('barang.download.tcpdf');
+
+// Halaman dashboard guru
+Route::get('/guru/home', [GuruController::class, 'home'])->name('guru.home');

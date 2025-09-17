@@ -1,0 +1,38 @@
+.barang-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.barang-container h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.barang-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.barang-table th, .barang-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.barang-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+}
+
+.barang-table tr:hover {
+    background-color: #eef5ff;
+    cursor: pointer;
+}
