@@ -9,6 +9,7 @@
     <table class="table" id="tabel-permintaan">
         <thead>
             <tr>
+                <th>Foto</th>
                 <th>Nama Barang</th>
                 <th>Merk</th>
                 <th>Tanggal</th>
@@ -19,6 +20,15 @@
         <tbody>
             @foreach($permintaan as $p)
                 <tr>
+                    <td>
+                        @if($p->barang && $p->barang->foto)
+                            <img src="{{ asset('storage/'.$p->barang->foto) }}" 
+                                alt="Foto Barang" 
+                                style="width:50px; height:50px; object-fit:cover; border-radius:6px;">
+                        @else
+                            <span style="color:#888; font-size:13px;">-</span>
+                        @endif
+                    </td>
                     <td>{{ $p->nama_barang }}</td>
                     <td>{{ $p->merk_barang }}</td>
                     <td>{{ $p->tanggal }}</td>
@@ -36,34 +46,8 @@
             @endforeach
         </tbody>
     </table>
-
-   <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('guru.home') }}'">Kembali</button>
 </div>
 @endsection
-
-@section('styles')
-<style>
-.btn-secondary {
-        background: #f44336; /* merah */
-        color: #fff;
-     }
-
-.btn-secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(244,67,54,.35);
-}
-.btn-secondary {
-    margin-top: 20px;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-size: 13px;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.2s ease;
-    text-align: center;
-}
-
- </style>
 
 @section('scripts')
 <script>
@@ -85,6 +69,12 @@ function loadStatus() {
 
                 tbody.innerHTML += `
                     <tr>
+                        <td>
+                            ${p.foto ? `<img src="/storage/${p.foto}" 
+                                alt="Foto Barang" 
+                                style="width:50px; height:50px; object-fit:cover; border-radius:6px;">` 
+                                : '<span style="color:#888; font-size:13px;">-</span>'}
+                        </td>
                         <td>${p.nama_barang}</td>
                         <td>${p.merk_barang}</td>
                         <td>${p.tanggal}</td>

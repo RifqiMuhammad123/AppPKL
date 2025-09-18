@@ -4,13 +4,27 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/form-barang.css') }}">
 
-@section('content')
 <div class="form-container">
     <h2>Edit Barang</h2>
-    <form id="form-edit" action="{{ route('admin.barang.update', $barang->id_barang) }}" method="POST">
+    <form id="form-edit" 
+          action="{{ route('admin.barang.update', $barang->id_barang) }}" 
+          method="POST" 
+          enctype="multipart/form-data"> {{-- ✅ penting untuk upload foto --}}
 
         @csrf
         @method('PUT')
+
+        <div class="form-group">
+            <label>Foto Barang (Opsional)</label><br>
+            @if($barang->foto)
+                <img src="{{ asset('storage/'.$barang->foto) }}" 
+                     alt="Foto lama" 
+                     style="max-width:100px; max-height:100px; object-fit:cover; margin-bottom:8px;">
+            @endif
+            <input type="file" name="foto" accept="image/*">
+            <small class="text-muted">Kosongkan jika tidak ingin mengganti foto.</small>
+        </div>
+
         <div class="form-group">
             <label>Nama Barang</label>
             <input type="text" name="nama_barang" value="{{ $barang->nama_barang }}" required>

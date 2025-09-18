@@ -26,7 +26,7 @@
     </div>
 
     <!-- Card Permintaan (klikable) -->
-    <a href="{{ route('admin.permintaan.index') }}" class="card card-clickable">
+    <!-- <a href="{{ route('admin.permintaan.index') }}" class="card card-clickable">
         <div class="card-icon">
             <i class="fa-solid fa-inbox"></i>
             <span id="notif-badge" class="notif-badge" style="display:none;">0</span>
@@ -36,7 +36,7 @@
             <p>Total permintaan</p>
             <div class="stat" id="notif-count">{{ number_format($permintaan) }}</div>
         </div>
-    </a>
+    </a> -->
 
 </div>
 
@@ -46,6 +46,7 @@
         <thead>
             <tr>
                 <th>No</th>
+                <th>Foto</th>
                 <th>Nama</th>
                 <th>Merk</th>
                 <th>Tgl Beli</th>
@@ -57,6 +58,15 @@
             @forelse($barangTerbaru as $index => $b)
                 <tr>
                     <td>{{ $index + 1 }}</td>
+                    <td style="width:120px; text-align:center;">
+                        @if($b->foto)
+                            <img src="{{ asset('storage/'.$b->foto) }}" 
+                                alt="Foto {{ $b->nama_barang }}" 
+                                style="max-width:100px; max-height:100px; object-fit:cover; border-radius:5px;">
+                        @else
+                            <span>-</span>
+                        @endif
+                    </td>
                     <td>{{ $b->nama_barang }}</td>
                     <td>{{ $b->merk_barang }}</td>
                     <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>

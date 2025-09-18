@@ -61,8 +61,15 @@ class BarangController extends Controller
             'merk_barang'        => 'required|string|max:255',
             'tanggal_pembelian'  => 'required|date',
             'harga_barang'       => 'required|numeric|min:0',
-            'stok'               => 'required|integer|min:0'
+            'stok'               => 'required|integer|min:0',
+            'foto'               => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' // opsional
         ]);
+
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            // simpan ke storage/app/public/barang
+            $fotoPath = $request->file('foto')->store('barang', 'public');
+        }
 
         DB::table('barang')->insert([
             'nama_barang'        => $request->nama_barang,
@@ -70,6 +77,7 @@ class BarangController extends Controller
             'tanggal_pembelian'  => $request->tanggal_pembelian,
             'harga_barang'       => $request->harga_barang,
             'stok'               => $request->stok,
+            'foto'               => $fotoPath,
         ]);
 
         return redirect()
@@ -88,26 +96,43 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nama_barang'        => 'required|string|max:255',
-            'merk_barang'        => 'required|string|max:255',
-            'tanggal_pembelian'  => 'required|date',
-            'harga_barang'       => 'required|numeric|min:0',
-            'stok'               => 'required|integer|min:0'
-        ]);
+    $request->validate([
+        'nama_barang'        => 'required|string|max:255',
+        'merk_barang'        => 'required|string|max:255',
+        'tanggal_pembelian'  => 'required|date',
+        'harga_barang'       => 'required|numeric|min:0',
+        'stok'               => 'required|integer|min:0',
+        'foto'               => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
 
-        DB::table('barang')->where('id_barang', $id)->update([
-            'nama_barang'        => $request->nama_barang,
-            'merk_barang'        => $request->merk_barang,
-            'tanggal_pembelian'  => $request->tanggal_pembelian,
-            'harga_barang'       => $request->harga_barang,
-            'stok'               => $request->stok,
-        ]);
+    // Ambil data lama
+    $barang = DB::table('barang')->where('id_barang', $id)->first();
 
-        return redirect()
-            ->route('admin.barang.index')
-            ->with('success', 'Barang berhasil diperbarui!');
+    $data = [
+        'nama_barang'        => $request->nama_barang,
+        'merk_barang'        => $request->merk_barang,
+        'tanggal_pembelian'  => $request->tanggal_pembelian,
+        'harga_barang'       => $request->harga_barang,
+        'stok'               => $request->stok,
+    ];
+
+    if ($request->hasFile('foto')) {
+        // Hapus foto lama kalau ada
+        if ($barang->foto && \Storage::disk('public')->exists($barang->foto)) {
+            \Storage::disk('public')->delete($barang->foto);
+        }
+
+        // Simpan foto baru
+        $data['foto'] = $request->file('foto')->store('barang', 'public');
     }
+
+    DB::table('barang')->where('id_barang', $id)->update($data);
+
+    return redirect()
+        ->route('admin.barang.index')
+        ->with('success', 'Barang berhasil diperbarui!');
+    }
+
 
     public function destroy($id)
     {

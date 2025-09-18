@@ -7,8 +7,12 @@
 <div class="form-container">
     <h2>Tambah Barang</h2>
     <!-- Ganti route('barang.store') -> admin.barang.store -->
-    <form id="form-tambah" action="{{ route('admin.barang.store') }}" method="POST">
+    <form id="form-tambah" action="{{ route('admin.barang.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <div class="form-group">
+                <label>Foto Barang (Opsional)</label>
+                <input type="file" name="foto" accept="image/*">
+        </div>
         <div class="form-group">
             <label>Nama Barang</label>
             <input type="text" name="nama_barang" required>

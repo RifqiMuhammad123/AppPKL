@@ -27,6 +27,7 @@ class Permintaan extends Model
     // Kolom yang bisa diisi (mass assignment)
     protected $fillable = [
         'id_guru',
+        'id_barang',
         'nama_barang',
         'merk_barang',
         'tanggal',
@@ -39,9 +40,14 @@ class Permintaan extends Model
      * 1 permintaan dimiliki oleh 1 guru
      */
     public function guru()
-{
-    return $this->belongsTo(\App\Models\Guru::class, 'id_guru', 'id_guru');
-}
+    {
+        return $this->belongsTo(\App\Models\Guru::class, 'id_guru', 'id_guru');
+    }
+
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class, 'id_barang', 'id_barang');
+    }
 
 
 }

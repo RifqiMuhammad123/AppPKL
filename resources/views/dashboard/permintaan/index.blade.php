@@ -7,6 +7,10 @@
     <h2>Ajukan Permintaan Barang</h2>
     <form action="{{ route('permintaan.store') }}" method="POST" id="form-permintaan">
         @csrf
+
+        <label for="Foto">Foto (Opsional)</label>
+        <input type="file" name="foto" id="foto" accept="image/*">
+
         <label for="nama_barang">Nama Barang</label>
         <input type="text" name="nama_barang" id="nama_barang" required>
 
@@ -28,6 +32,7 @@
     <table class="table-dashboard">
         <thead>
             <tr>
+                <th>Foto</th>
                 <th>Nama Barang</th>
                 <th>Merk</th>
                 <th>Tanggal</th>
@@ -41,6 +46,15 @@
         <tbody>
             @forelse($permintaan as $p)
                 <tr>
+                    <td>
+                        @if($p->foto)
+                            <img src="{{ asset('storage/'.$p->foto) }}" 
+                                 alt="Foto {{ $p->nama_barang }}" 
+                                 style="max-width:100px; max-height:100px; object-fit:cover; border-radius:5px;">
+                        @else
+                            <span>-</span>
+                        @endif
+                    </td>
                     <td>{{ $p->nama_barang }}</td>
                     <td>{{ $p->merk_barang }}</td>
                     <td>{{ $p->tanggal }}</td>
