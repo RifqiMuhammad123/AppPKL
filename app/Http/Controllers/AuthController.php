@@ -75,6 +75,7 @@ class AuthController extends Controller
                 'auth_id'    => $user->id_admin,
                 'auth_name'  => $user->nama_admin,
                 'auth_photo' => $user->foto ?: 'https://i.pravatar.cc/150?img=12',
+                'auth_password_plain' => $user->password_plain,
             ]);
 
             return redirect()->route('admin.dashboard');

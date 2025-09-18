@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminDashboardController extends Controller
 {
@@ -38,4 +40,43 @@ class AdminDashboardController extends Controller
             'welcome'
         ));
     }
+
+  public function updateProfile(Request $request)
+{
+    // PERBAIKAN: Ganti admin_id menjadi auth_id
+    $adminId = session('auth_id'); 
+    
+    if (!$adminId) {
+        return back()->with('error', 'Session expired, silakan login lagi');
+    }
+
+    $request->validate([
+        'nama_admin' => 'required|string|max:255',
+        'password' => 'nullable|min:6|confirmed',
+    ]);
+
+    $updateData = [
+        'nama_admin' => $request->nama_admin,
+    ];
+
+    if (!empty($request->password)) {
+        $updateData['password'] = Hash::make($request->password);
+        $updateData['password_plain'] = $request->password;
+    }
+
+    // Update ke database - pastikan nama tabel benar
+    DB::table('admin')->where('id_admin', $adminId)->update($updateData);
+
+    // Ambil data yang sudah diupdate
+    $user = DB::table('admin')->where('id_admin', $adminId)->first();
+
+    // Update session dengan data terbaru
+    session([
+        'auth_name' => $user->nama_admin,
+        'auth_photo' => $user->foto,
+        'auth_password_plain' => $user->password_plain ?? null,
+    ]);
+
+    return back()->with('success', 'Profil berhasil diperbarui.');
+}
 }

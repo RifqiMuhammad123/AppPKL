@@ -28,6 +28,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // ================= ADMIN =================
 Route::prefix('admin')->middleware(['admin.auth'])->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    // edit profil
+Route::put('/admin/profile/update', [AdminDashboardController::class, 'updateProfile'])
+    ->name('admin.profile.update')
+    ->middleware('admin.auth'); // atau sesuaikan middleware kamu
+
 
     // Barang (khusus admin)
     Route::prefix('barang')->group(function () {
@@ -92,3 +97,5 @@ Route::get('/barang/download-tcpdf', [BarangController::class, 'downloadPdfTcpdf
 
 // Halaman dashboard guru
 Route::get('/guru/home', [GuruController::class, 'home'])->name('guru.home');
+
+
