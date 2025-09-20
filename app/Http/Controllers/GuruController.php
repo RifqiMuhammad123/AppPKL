@@ -10,12 +10,14 @@ use App\Models\Barang;
 class GuruController extends Controller
 {
     /** 
-     * Halaman Dashboard Guru (tampil card + daftar barang)
+     * Halaman Dashboard Guru (tampil card + daftar barang + total stok)
      */
     public function home()
     {
-        $barang = Barang::all(); // ambil semua barang
-        return view('dashboard.guru-home', compact('barang'));
+        $allStok = Barang::sum('stok'); // total stok
+        $barang  = Barang::all();       // daftar semua barang
+
+        return view('dashboard.guru-home', compact('allStok', 'barang'));
     }
 
     /**
