@@ -7,6 +7,7 @@ use App\Models\Permintaan;
 use App\Models\Guru;
 use App\Models\Barang;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB; 
 
 class PermintaanController extends Controller
 {
@@ -163,4 +164,20 @@ class PermintaanController extends Controller
         return redirect()->route('guru.permintaan.proses')
             ->with('success', 'Permintaan barang berhasil diajukan!');
     }
+
+    public function history()
+{
+    $riwayatPermintaan = DB::table('permintaan as p')
+        ->join('guru as g', 'p.id_guru', '=', 'g.id_guru')
+        ->select(
+            'p.*',
+            'g.nama_guru'
+        )
+        ->where('p.status', '!=', 'pending')
+        ->orderByDesc('p.tanggal')
+        ->get();
+
+       return view('dashboard.permintaan.history', compact('riwayatPermintaan'));
+
+}
 }

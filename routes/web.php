@@ -63,6 +63,9 @@ Route::put('/admin/profile/update', [AdminDashboardController::class, 'updatePro
         Route::post('/{id}/konfirmasi', [PermintaanController::class, 'konfirmasi'])->name('admin.permintaan.konfirmasi');
         Route::post('/{id}/tolak', [PermintaanController::class, 'tolak'])->name('admin.permintaan.tolak');
     });
+
+    // history permintaan (admin)
+    Route::get('/permintaan/history', [PermintaanController::class, 'history'])->name('admin.permintaan.history');
 });
 
 // ================= GURU =================

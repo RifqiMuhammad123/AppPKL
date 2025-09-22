@@ -125,10 +125,20 @@
                 <i class="fa-solid fa-chart-line"></i> Dashboard
             </a>
 
-            <div class="Permintaan {{ request()->is('admin/guru') ? 'open' : '' }}">
-                <a href="{{ route('admin.permintaan.index') }}" class="{{ request()->routeIs('admin.permintaan.index') ? 'active' : '' }}">
-                    <i class="fa-solid fa-envelope"></i> Permintaan
-                </a>
+            <!-- Permintaan dengan submenu -->
+            <div class="menu-parent {{ request()->is('admin/permintaan*') ? 'open' : '' }}">
+                <button class="menu-toggle">
+                    <span><i class="fa-solid fa-envelope"></i> Permintaan</span>
+                    <i class="fa-solid fa-chevron-down arrow"></i>
+                </button>
+                <div class="submenu">
+                    <a href="{{ route('admin.permintaan.index') }}" class="{{ request()->routeIs('admin.permintaan.index') ? 'active' : '' }}">
+                        <i class="fa-solid fa-clock"></i> Status Permintaan
+                    </a>
+                    <a href="{{ route('admin.permintaan.history') }}" class="{{ request()->routeIs('admin.permintaan.history') ? 'active' : '' }}">
+                        <i class="fa-solid fa-history"></i> Riwayat Permintaan
+                    </a>
+                </div>
             </div>
 
             <div class="menu-parent {{ request()->is('admin/barang*') ? 'open' : '' }}">
@@ -309,14 +319,14 @@
             const passwordDisplay = document.getElementById('password-display');
             const icon = this.querySelector('i');
             
-          if (passwordDisplay.textContent === '••••••••') {
-            const plainPassword = '{{ session("auth_password_plain") ?? "Password lama tidak tersedia" }}';
-            passwordDisplay.textContent = plainPassword;
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-          }else {
-            passwordDisplay.textContent = '••••••••';
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
-        }
+            if (passwordDisplay.textContent === '••••••••') {
+                const plainPassword = '{{ session("auth_password_plain") ?? "Password lama tidak tersedia" }}';
+                passwordDisplay.textContent = plainPassword;
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordDisplay.textContent = '••••••••';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
         });
 
         // Modal View Profile functionality
