@@ -32,6 +32,7 @@ Swal.fire({
         <thead>
             <tr>
                 <th>No</th>
+                <th>Foto</th>
                 <th>Nama Barang</th>
                 <th>Merk</th>
                 <th>Tanggal Pembelian</th>
@@ -44,6 +45,15 @@ Swal.fire({
             @forelse($barang as $b)
             <tr>
                 <td>{{ $loop->iteration }}</td>
+                <td style="width:120px; text-align:center;">
+                    @if($b->foto)
+                        <img src="{{ asset('storage/'.$b->foto) }}" 
+                            alt="Foto {{ $b->nama_barang }}" 
+                            style="max-width:100px; max-height:100px; object-fit:cover; border-radius:5px;">
+                    @else
+                        <span>-</span>
+                    @endif
+                </td>
                 <td>{{ $b->nama_barang }}</td>
                 <td>{{ $b->merk_barang }}</td>
                 <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d-m-Y') }}</td>
