@@ -310,7 +310,7 @@
 
                 <div class="form-buttons">
                     <button type="button" class="btn btn-danger" onclick="closeEditProfileModal()">Batal</button>
-                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
@@ -438,6 +438,17 @@
                 m.classList.remove('open');
             });
         });
+
+        // SweetAlert sukses update profil
+        @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session("success") }}',
+            showConfirmButton: false,
+            timer: 2000
+        });
+        @endif
     </script>
     @yield('scripts')
 </body>
