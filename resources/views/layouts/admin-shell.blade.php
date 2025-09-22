@@ -237,7 +237,7 @@
                         <div class="profile-field-label">Password</div>
                         <div class="profile-field-value">
                             <span id="password-display">••••••••</span>
-                            <button type="button" id="toggle-password-view" class="toggle-password" data-target="password-display" style="margin-left: 10px; background: none; border: none; color: #007bff; cursor: pointer;">
+                            <button type="button" id="toggle-password-view" class="toggle-password" data-target="password-display" style="margin-top: 140px; left: 400px; background: none; border: none; color: #007bff; cursor: pointer;">
                                 <i class="fa-solid fa-eye"></i>
                             </button>
                         </div>
