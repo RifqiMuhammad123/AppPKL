@@ -8,6 +8,7 @@ use App\Models\Guru;
 use App\Models\Barang;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB; 
+use TCPDF;
 
 class PermintaanController extends Controller
 {
@@ -180,4 +181,57 @@ class PermintaanController extends Controller
        return view('dashboard.permintaan.history', compact('riwayatPermintaan'));
 
 }
+    
+
+    public function downloadHistoryPdf()
+{
+    // Ambil data riwayat permintaan (status bukan pending)
+    $riwayatPermintaan = DB::table('permintaan as p')
+        ->join('guru as g', 'p.id_guru', '=', 'g.id_guru')
+        ->select(
+            'p.*',
+            'g.nama_guru'
+        )
+        ->where('p.status', '!=', 'pending')
+        ->orderByDesc('p.tanggal')
+        ->get();
+
+    // Inisialisasi TCPDF
+    $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf->SetTitle('Riwayat Permintaan');
+    $pdf->AddPage();
+
+    // Buat HTML untuk PDF
+    $html = '<h2>Riwayat Permintaan</h2>';
+    $html .= '<table border="1" cellpadding="5">
+                <tr>
+                    <th>No</th>
+                    <th>Nama Guru</th>
+                    <th>Nama Barang</th>
+                    <th>Merk</th>
+                    <th>Jumlah</th>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                </tr>';
+
+    foreach ($riwayatPermintaan as $index => $item) {
+        $html .= '<tr>
+                    <td>'.($index+1).'</td>
+                    <td>'.$item->nama_guru.'</td>
+                    <td>'.$item->nama_barang.'</td>
+                    <td>'.$item->merk_barang.'</td>
+                    <td>'.$item->jumlah.'</td>
+                    <td>'.$item->tanggal.'</td>
+                    <td>'.$item->status.'</td>
+                  </tr>';
+    }
+
+    $html .= '</table>';
+
+    $pdf->writeHTML($html, true, false, true, false, '');
+    
+    // Download PDF
+    $pdf->Output('riwayat_permintaan.pdf', 'D');
+}
+
 }

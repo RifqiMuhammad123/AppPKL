@@ -55,7 +55,8 @@
     <table class="table">         
         <thead>             
             <tr>                 
-                <th>No</th>                 
+                <th>No</th>
+                <th>Foto</th>                 
                 <th>Nama</th>                 
                 <th>Merk</th>                 
                 <th>Tgl Beli</th>                 
@@ -66,7 +67,14 @@
         <tbody>             
             @forelse($barangTerbaru as $index => $b)                 
                 <tr>                     
-                    <td>{{ $index + 1 }}</td>                     
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        @if($b->foto)
+                            <img src="{{ asset('storage/' . $b->foto) }}" alt="{{ $b->nama_barang }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                        @else
+                            <span>-</span>
+                        @endif
+                    </td>
                     <td>{{ $b->nama_barang }}</td>                     
                     <td>{{ $b->merk_barang }}</td>                     
                     <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>                                         

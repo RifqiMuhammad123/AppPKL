@@ -112,6 +112,7 @@
             color: #666;
             font-size: 14px;
         }
+
     </style>
 </head>
 <body class="dash">
@@ -170,6 +171,8 @@
                     </a>
                 </div>
             </div>
+
+            <div></div>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf

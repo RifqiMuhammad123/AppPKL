@@ -2,7 +2,18 @@
 
 @section('title', 'Riwayat Permintaan Barang')
 
+<style>
+/* Tombol download PDF */
+.btn-download { display: inline-flex; align-items: center; gap: 6px; background: #dc2626; color: #fff; padding: 8px 14px; border-radius: 6px; font-size: 14px; text-decoration: none; transition: 0.2s; margin-bottom: 12px; }
+.btn-download:hover { background: #b91c1c; }
+</style>
+
 @section('content')
+
+<a href="{{ route('permintaan.history.download') }}" class="btn-download">
+    <i class="fas fa-file-pdf"></i> Unduh Laporan PDF
+</a>
+
 <div class="container">
     <h2>Riwayat Permintaan Barang</h2>
     
@@ -10,6 +21,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Tanggal</th>
                     <th>Nama Guru</th>
                     <th>Nama Barang</th>
@@ -22,6 +34,7 @@
             <tbody>
                 @forelse($riwayatPermintaan as $item)
                 <tr>
+                    <td> {{ $loop->iteration}}</td>
                     <td>{{ date('d/m/Y', strtotime($item->tanggal)) }}</td>
                     <td>{{ $item->nama_guru }}</td>
                     <td>{{ $item->nama_barang }}</td>
@@ -44,3 +57,4 @@
     </div>
 </div>
 @endsection
+

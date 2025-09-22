@@ -45,6 +45,9 @@ Route::put('/admin/profile/update', [AdminDashboardController::class, 'updatePro
 
         // Route untuk Admin download PDF
         Route::get('/download-pdf', [BarangController::class, 'downloadPdf'])->name('admin.barang.downloadPdf');
+        Route::get('/permintaan/history/download', [PermintaanController::class, 'downloadHistoryPdf'])
+     ->name('permintaan.history.download');
+
     });
 
     // Guru (CRUD data guru)
