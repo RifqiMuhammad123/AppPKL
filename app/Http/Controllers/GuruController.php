@@ -89,4 +89,62 @@ class GuruController extends Controller
         return redirect()->route('admin.guru.index')
             ->with('success', 'Data guru berhasil dihapus!');
     }
+   
+    /**
+     * Update Profile Guru (dipanggil dari modal edit profile)
+     * FIXED: Session tidak hilang setelah update + Debug mode
+     */
+   public function updateProfileGuru(Request $request)
+{
+    $guruId = session('auth_id');
+
+    if (!$guruId) {
+        return redirect()->route('login')->with('error', 'Session expired');
+    }
+
+    // Validasi
+    $request->validate([
+        'nama_guru' => 'required|string|max:255',
+        'foto' => 'nullable|image|max:2048',
+        'password' => 'nullable|min:6',
+    ]);
+
+    // Build update data
+    $updateData = ['nama_guru' => $request->nama_guru];
+
+    // Handle foto
+    if ($request->hasFile('foto')) {
+        $oldUser = DB::table('guru')->where('id_guru', $guruId)->first();
+        
+        if ($oldUser && $oldUser->foto && $oldUser->foto !== 'icon.jpg') {
+            @unlink(public_path('img/' . $oldUser->foto));
+        }
+        
+        $foto = $request->file('foto');
+        $namaFoto = time() . '_' . $foto->getClientOriginalName();
+        $foto->move(public_path('img'), $namaFoto);
+        $updateData['foto'] = $namaFoto;
+    }
+
+    // Handle password
+    if ($request->filled('password')) {
+        $updateData['password'] = Hash::make($request->password);
+        $updateData['password_plain'] = $request->password;
+    }
+
+    // UPDATE DATABASE
+    DB::table('guru')->where('id_guru', $guruId)->update($updateData);
+
+    // Get fresh data
+    $user = DB::table('guru')->where('id_guru', $guruId)->first();
+
+    // Update session
+    session(['auth_name' => $user->nama_guru]);
+    session(['auth_photo' => $user->foto ?? 'icon.jpg']);
+    if (isset($updateData['password_plain'])) {
+        session(['auth_password_plain' => $user->password_plain]);
+    }
+
+    return redirect()->route('guru.home')->with('success', 'Profil berhasil diperbarui!');
+}
 }
