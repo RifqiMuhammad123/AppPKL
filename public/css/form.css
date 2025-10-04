@@ -1,19 +1,19 @@
 :root {
-    --accent:#1e88e5;          /* aksen biru */
-    --accent2:#42a5f5;         /* aksen biru muda */
+    --accent: #1e88e5;
+    --accent2: #42a5f5;
     --muted: #7b7193;
     --card: #ffffff;
     --radius: 12px;
     --font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    --contentBg: #f6f8fc;      /* putih kebiruan */
+    --contentBg: #f6f8fc;
 }
 
 /* Base */
 body {
     font-family: var(--font);
-    background:#ffffff;
+    background: #ffffff;
     margin: 0;
-    color:#1c1330;
+    color: #1c1330;
 }
 
 /* ===== Form (Container & Dashboard dipersatukan) ===== */
@@ -25,7 +25,7 @@ body {
     max-width: 420px;
     margin: 30px auto;
     border: 1px solid #eee;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -37,7 +37,7 @@ body {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 12px;
-    color:#1c1330;
+    color: #1c1330;
 }
 
 /* Label & Input */
@@ -66,7 +66,7 @@ body {
 .form-group input:focus,
 .form-dashboard input:focus {
     border-color: var(--accent);
-    background: #e3f2fd; /* highlight biru muda */
+    background: #e3f2fd;
 }
 
 /* ===== Tombol (Submit & Secondary) ===== */
@@ -74,7 +74,7 @@ body {
 .btn-submit,
 .btn-primary,
 .btn-secondary {
-    margin-top: 20px;;
+    margin-top: 20px;
     padding: 8px 18px;
     border-radius: 8px;
     font-size: 13px;
@@ -94,18 +94,18 @@ body {
 .btn-primary:hover,
 .btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow:0 6px 16px rgba(30,136,229,.35);
+    box-shadow: 0 6px 16px rgba(30, 136, 229, 0.35);
 }
 
 /* Secondary */
 .btn-secondary {
-    background: #f44336; /* merah */
+    background: #f44336;
     color: #fff;
 }
 
 .btn-secondary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(244,67,54,.35);
+    box-shadow: 0 6px 16px rgba(244, 67, 54, 0.35);
 }
 
 /* Group tombol */
@@ -132,92 +132,152 @@ body {
 
 /* Edit = Biru */
 .btn-edit {
-    background: #1e88e5;   /* biru */
+    background: #1e88e5;
     color: #fff;
 }
+
 .btn-edit:hover {
-    background: #1565c0;   /* biru tua */
+    background: #1565c0;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(30,136,229,0.35);
+    box-shadow: 0 4px 10px rgba(30, 136, 229, 0.35);
 }
 
 /* Hapus = Merah */
 .btn-delete {
-    background: #e53935;   /* merah */
+    background: #e53935;
     color: #fff;
 }
+
 .btn-delete:hover {
-    background: #c62828;   /* merah tua */
+    background: #c62828;
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(229,57,53,0.35);
+    box-shadow: 0 4px 10px rgba(229, 57, 53, 0.35);
 }
 
-/* ===== Table Dashboard ===== */
+/* ===== Table Dashboard (Modern Style) ===== */
 .table-container {
     margin-top: 18px;
     overflow-x: auto;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
 }
 
 .table-dashboard {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
 }
 
-.table-dashboard th, 
-.table-dashboard td {
-    padding: 10px 12px;
-    border-bottom: 1px solid #eee;
-    font-size: 12px;
+/* Header tabel dengan gradient */
+.table-dashboard thead {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    color: white;
 }
 
 .table-dashboard th {
-    background: #f8f9fa;
+    padding: 14px 12px;
     text-align: left;
     font-weight: 600;
-    color: #444;
-    font-size: 12px;
+    font-size: 14px;
+    border: none;
 }
 
-.table-dashboard tr:hover td {
-    background: #f9f6ff;
+/* Body tabel */
+.table-dashboard tbody tr {
+    border-bottom: 1px solid #f0f0f0;
     transition: background 0.2s ease;
 }
 
-/* ===== Action Button ===== */
+.table-dashboard tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.table-dashboard td {
+    padding: 14px 12px;
+    font-size: 14px;
+    vertical-align: middle;
+    border: none;
+}
+
+/* Text center untuk empty state */
+.text-center {
+    text-align: center;
+    color: var(--muted);
+    padding: 30px !important;
+}
+
+/* ===== Action Button (Icon Style) ===== */
 .action-btn {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     margin: 0 4px;
-    transition: transform 0.15s ease;
+    padding: 5px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
 }
 
 .action-btn:hover {
-    transform: scale(1.15);
+    transform: scale(1.1);
 }
-
 
 .action-btn.edit {
-    color: #28a745;
-}
-.action-btn.edit:hover {
-    color: #1e7e34;
+    color: var(--accent);
 }
 
+.action-btn.edit:hover {
+    background: #e3f2fd;
+    color: var(--accent2);
+}
 
 .action-btn.delete {
-    color: #dc3545;
+    color: #e53935;
 }
+
 .action-btn.delete:hover {
-    color: #b52b37;
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Badge/Status (opsional) */
+.badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge.success {
+    background: #c8f7c5;
+    color: #176d29;
+}
+
+.badge.pending {
+    background: #ffe9a7;
+    color: #8a6d00;
+}
+
+.badge.danger {
+    background: #f7c5c5;
+    color: #7d0f0f;
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+    .table-container {
+        overflow-x: scroll;
+    }
+
+    .table-dashboard th,
+    .table-dashboard td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+}
+
 @media (max-width: 500px) {
     .form-container,
     .form-dashboard {

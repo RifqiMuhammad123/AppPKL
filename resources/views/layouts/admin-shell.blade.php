@@ -8,123 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <style>
-        /* Hapus tombol default show/hide password di Chrome, Edge, IE */
-        input[type="password"]::-ms-reveal,
-        input[type="password"]::-ms-clear {
-            display: none;
-        }
-        input[type="password"]::-webkit-contacts-auto-fill-button,
-        input[type="password"]::-webkit-clear-button,
-        input[type="password"]::-webkit-credentials-auto-fill-button {
-            display: none !important;
-            visibility: hidden;
-        }
-
-        /* Additional styles for profile modal */
-        .profile-info-grid {
-            display: grid;
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .profile-field {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #007bff;
-        }
-
-        .profile-field i {
-            margin-right: 12px;
-            width: 20px;
-            color: #007bff;
-        }
-
-        .profile-field-content {
-            flex: 1;
-        }
-
-        .profile-field-label {
-            font-size: 12px;
-            color: #6c757d;
-            margin-bottom: 4px;
-        }
-
-        .profile-field-value {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .profile-photo-display {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .profile-photo-display img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #007bff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .btn-edit-profile {
-            background: linear-gradient(45deg, #007bff, #0056b3);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 20px auto 0;
-        }
-
-        .btn-edit-profile:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,123,255,0.3);
-        }
-
-        .modal-header {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            margin: 0;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .current-photo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .current-photo img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #ddd;
-        }
-
-        .current-photo p {
-            margin-top: 10px;
-            color: #666;
-            font-size: 14px;
-        }
-    </style>
 </head>
 <body class="dash">
     <!-- Sidebar -->
@@ -172,6 +55,10 @@
                     </a>
                 </div>
             </div>
+
+                    <a href="{{ route('admin.data-admin') }}" class="{{ request()->routeIs('admin.data-admin') ? 'active' : '' }}">
+                        <i class="fa-solid fa-users-gear"></i> Data Admin
+                    </a>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf

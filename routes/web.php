@@ -27,8 +27,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ================= ADMIN =================
 Route::prefix('admin')->middleware(['admin.auth'])->group(function () {
+    // Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    
+
+    // Data Admin
+    Route::get('/data-admin', [AdminDashboardController::class, 'dataAdmin'])->name('admin.data-admin');
+    Route::get('/data-admin/pdf', [AdminDashboardController::class, 'dataAdminPdf'])->name('admin.data-admin.pdf');
+
     // Edit profil admin
     Route::put('/profile/update', [AdminDashboardController::class, 'updateProfile'])->name('admin.profile.update');
 
@@ -40,8 +45,6 @@ Route::prefix('admin')->middleware(['admin.auth'])->group(function () {
         Route::get('/{id}/edit', [BarangController::class, 'edit'])->name('admin.barang.edit');
         Route::put('/{id}', [BarangController::class, 'update'])->name('admin.barang.update');
         Route::delete('/{id}', [BarangController::class, 'destroy'])->name('admin.barang.destroy');
-
-        // Download PDF
         Route::get('/download-pdf', [BarangController::class, 'downloadPdf'])->name('admin.barang.downloadPdf');
     });
 
@@ -60,8 +63,6 @@ Route::prefix('admin')->middleware(['admin.auth'])->group(function () {
         Route::get('/', [PermintaanController::class, 'adminIndex'])->name('admin.permintaan.index');
         Route::post('/{id}/konfirmasi', [PermintaanController::class, 'konfirmasi'])->name('admin.permintaan.konfirmasi');
         Route::post('/{id}/tolak', [PermintaanController::class, 'tolak'])->name('admin.permintaan.tolak');
-        
-        // History permintaan
         Route::get('/history', [PermintaanController::class, 'history'])->name('admin.permintaan.history');
         Route::get('/history/download', [PermintaanController::class, 'downloadHistoryPdf'])->name('permintaan.history.download');
     });
@@ -72,7 +73,7 @@ Route::prefix('guru')->middleware(['guru.auth'])->group(function () {
     // Dashboard guru
     Route::get('/home', [GuruController::class, 'home'])->name('guru.home');
     
-    // 🔥 FIXED: Update profil guru (dipindah ke sini!)
+    // Update profil guru
     Route::put('/profile/update', [GuruController::class, 'updateProfileGuru'])->name('guru.profile.update');
 
     // Guru lihat daftar barang (read-only)
@@ -83,20 +84,12 @@ Route::prefix('guru')->middleware(['guru.auth'])->group(function () {
         Route::get('/create', [PermintaanController::class, 'create'])->name('guru.permintaan.create');
         Route::post('/', [PermintaanController::class, 'store'])->name('guru.permintaan.store');
         Route::get('/proses', [PermintaanController::class, 'proses'])->name('guru.permintaan.proses');
-
-        // Ajukan permintaan dari daftar barang
         Route::get('/from-barang/{id}', [PermintaanController::class, 'fromBarang'])->name('guru.permintaan.fromBarang');
         Route::post('/store-barang/{id}', [PermintaanController::class, 'storeFromBarang'])->name('guru.permintaan.storeFromBarang');
     });
 });
 
 // ================= API & TCPDF =================
-
-// 🔹 API untuk notifikasi realtime (polling AJAX/fetch)
 Route::get('/api/permintaan/notif', [PermintaanController::class, 'cekNotif'])->name('permintaan.notif');
-
-// 🔹 API untuk guru cek status permintaan
 Route::get('/api/guru/permintaan/status', [PermintaanController::class, 'cekStatusGuru'])->name('guru.permintaan.status');
-
-// 🔹 Download PDF pakai TCPDF
 Route::get('/barang/download-tcpdf', [BarangController::class, 'downloadPdfTcpdf'])->name('barang.download.tcpdf');
