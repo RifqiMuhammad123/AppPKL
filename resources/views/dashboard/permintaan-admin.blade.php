@@ -24,7 +24,7 @@
                 <td>{{ $p->guru->nama_guru ?? '-' }}</td>
                 <td>
                     @if($p->barang && $p->barang->foto)
-                        <img src="{{ asset('storage/'.$p->barang->foto) }}" 
+                        <img src="{{ asset('storage/barang/'.$p->barang->foto) }}" 
                             alt="Foto Barang" 
                             style="width:50px; height:50px; object-fit:cover; border-radius:6px;">
                     @else
