@@ -389,7 +389,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 }
 
 /* ========================================
-   MODAL BASE
+   MODAL BASE (Compact Version)
    ======================================== */
 .modal {
   display: none;
@@ -398,28 +398,32 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
 }
 
 .modal-content {
   background: white;
-  width: 90%;
-  max-width: 500px;
-  border-radius: 12px;
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
-  padding: 30px;
+  width: 85%;
+  max-width: 380px; /* dari 500px */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 18px; /* dari 30px */
   position: relative;
   animation: modalFadeIn 0.3s;
+  font-size: 0.9rem;
 }
 
+/* ========================================
+   ANIMATION
+   ======================================== */
 @keyframes modalFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-50px);
+    transform: translateY(-40px);
   }
   to {
     opacity: 1;
@@ -427,11 +431,14 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   }
 }
 
+/* ========================================
+   MODAL HEADER
+   ======================================== */
 .modal-close {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
+  top: 10px;
+  right: 10px;
+  font-size: 18px; /* dari 24px */
   color: #7f8c8d;
   cursor: pointer;
   transition: color 0.3s;
@@ -445,8 +452,8 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 
 .modal-header {
   border-bottom: 1px solid #eee;
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .modal-title {
@@ -454,28 +461,20 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   color: #2c3e50;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 24px;
+  gap: 6px;
+  font-size: 18px; /* dari 24px */
   text-align: center;
-}
-
-.modal h3 {
-  color: #2c3e50;
-  margin-bottom: 20px;
-  text-align: center;
-  font-size: 24px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
 }
 
 /* ========================================
-   MODAL FORM
+   FORM STYLING
    ======================================== */
 .modal form label {
   display: block;
-  margin: 15px 0 5px;
+  margin: 8px 0 4px;
   color: #2c3e50;
   font-weight: 500;
+  font-size: 0.85rem;
 }
 
 .modal form input[type="text"],
@@ -483,10 +482,10 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 .modal form input[type="email"],
 .modal form input[type="file"] {
   width: 100%;
-  padding: 12px 15px;
+  padding: 8px 10px; /* dari 12px 15px */
   border: 1px solid #ddd;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 0.9rem;
   transition: border 0.3s;
 }
 
@@ -496,35 +495,31 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
 }
 
+/* Password Field */
 .modal form input[type="password"] {
-  padding-right: 45px !important;
+  padding-right: 40px !important;
 }
 
-/* Password Toggle Wrapper */
+/* Password Toggle */
 .modal .password-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.modal .password-wrapper input {
-  width: 100%;
-  padding-right: 45px !important;
-}
-
 .modal .toggle-password,
 .modal .toggle-password-confirm {
   position: absolute;
-  right: 15px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #7f8c8d;
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 13px; /* dari 16px */
   z-index: 10;
-  padding: 5px;
+  padding: 4px;
 }
 
 .modal .toggle-password:hover,
@@ -532,19 +527,21 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   color: #3498db;
 }
 
-/* Modal Buttons */
+/* ========================================
+   BUTTONS
+   ======================================== */
 .modal .form-buttons {
   display: flex;
-  gap: 15px;
-  margin-top: 25px;
+  gap: 10px;
+  margin-top: 15px;
   justify-content: flex-end;
 }
 
 .modal .btn {
-  padding: 10px 20px;
+  padding: 7px 14px;
   border: none;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
@@ -569,100 +566,98 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 }
 
 /* ========================================
-   MODAL PROFILE
+   PROFILE SECTION
    ======================================== */
 .profile-photo-display,
 .current-photo {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .profile-photo-display img {
-  width: 120px;
-  height: 120px;
+  width: 85px; /* dari 120px */
+  height: 85px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid #007bff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.modal .current-photo {
-  text-align: center;
-  margin-bottom: 15px;
+  border: 3px solid #007bff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
 .modal .current-photo img,
 .current-photo img {
-  width: 100px;
-  height: 100px;
+  width: 70px; /* dari 100px */
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #f8f9fa;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 2px solid #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .current-photo p {
-  margin-top: 10px;
+  margin-top: 6px;
   color: #666;
-  font-size: 14px;
+  font-size: 12px;
 }
 
-/* Profile Info Grid */
+/* ========================================
+   PROFILE INFO GRID
+   ======================================== */
 .profile-info-grid {
   display: grid;
-  gap: 20px;
-  margin: 20px 0;
+  gap: 10px;
+  margin: 10px 0;
 }
 
 .profile-field {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 10px;
   background: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #007bff;
+  border-radius: 6px;
+  border-left: 3px solid #007bff;
 }
 
 .profile-field i {
-  margin-right: 12px;
-  width: 20px;
+  margin-right: 8px;
+  width: 16px;
   color: #007bff;
-}
-
-.profile-field-content {
-  flex: 1;
+  font-size: 0.85rem;
 }
 
 .profile-field-label {
-  font-size: 12px;
+  font-size: 11px;
   color: #6c757d;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .profile-field-value {
   font-weight: 600;
   color: #333;
+  font-size: 0.85rem;
 }
 
-/* Edit Profile Button */
+/* ========================================
+   EDIT PROFILE BUTTON
+   ======================================== */
 .btn-edit-profile {
   background: linear-gradient(45deg, #007bff, #0056b3);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 25px;
+  padding: 8px 16px;
+  border-radius: 20px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 20px auto 0;
+  gap: 6px;
+  margin: 15px auto 0;
+  font-size: 0.85rem;
 }
 
 .btn-edit-profile:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.3);
 }
 
 /* ========================================
@@ -687,7 +682,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
 
 .modal .file-input-button {
   display: block;
-  padding: 10px 15px;
+  padding: 8px 10px;
   background: #f8f9fa;
   border: 1px dashed #ddd;
   border-radius: 6px;
@@ -695,6 +690,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   color: #7f8c8d;
   cursor: pointer;
   transition: all 0.3s;
+  font-size: 0.85rem;
 }
 
 .modal .file-input-button:hover {
@@ -702,6 +698,7 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   border-color: #3498db;
   color: #3498db;
 }
+
 
 /* ========================================
    RESPONSIVE DESIGN
