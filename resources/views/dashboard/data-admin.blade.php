@@ -127,7 +127,6 @@
 
 .table-data-admin thead {
     background: linear-gradient(90deg, var(--accent), var(--accent2));
-    color: white;
 }
 
 .table-data-admin th {
@@ -135,6 +134,7 @@
     text-align: left;
     font-weight: 600;
     font-size: 14px;
+    color: #ffff;
 }
 
 .table-data-admin tbody tr {
