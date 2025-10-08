@@ -46,6 +46,7 @@ class AuthController extends Controller
                 'nip'       => $r->nip,
                 'nama_guru' => $r->nama,
                 'password'  => Hash::make($r->password),
+                'foto'       => 'https://i.pravatar.cc/150?img=12'
             ]);
         }
 
@@ -93,6 +94,8 @@ class AuthController extends Controller
             'auth_role' => 'guru',
             'auth_id'   => $user->id_guru,
             'auth_name' => $user->nama_guru,
+            'auth_photo' => $user->foto ?: 'https://i.pravatar.cc/150?img=12',
+            'auth_password_plain' => $user->password_plain,
         ]);
 
         return redirect()->route('guru.home');
