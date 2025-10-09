@@ -21,27 +21,63 @@
   box-sizing: border-box;
 }
 
+/* ========================================
+   DASHBOARD LAYOUT FIX (SIDEBAR STICKY)
+   ======================================== */
+
 body.dash {
   margin: 0;
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  min-height: 100vh;
+  display: flex;
   background: var(--contentBg);
   font-family: var(--font);
   color: var(--fg);
+  overflow: hidden; /* hilangin scrollbar utama */
 }
 
-/* ========================================
-   SIDEBAR
-   ======================================== */
+/* Sidebar tetap diam */
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh; /* penuh layar */
   background: linear-gradient(180deg, var(--sidebar), var(--sidebarAccent));
   color: #ffffff;
   padding: 22px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  overflow-y: auto; /* kalau isi sidebar panjang */
 }
+
+/* Area kanan (content guru) bisa scroll sendiri */
+.content {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pastikan topbar tetap ikut di atas */
+.topbar {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+/* Biar tabel atau main content scroll dengan halus */
+.content {
+  scroll-behavior: smooth;
+}
+
 
 .logo {
   font-weight: 800;

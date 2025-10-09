@@ -14,14 +14,40 @@
 * { box-sizing:border-box; }
 
 body.dash {
-  margin:0;
-  display:grid;
-  grid-template-columns:260px 1fr;
-  min-height:100vh;
-  background:var(--contentBg);
-  font-family:var(--font);
-  color:var(--fg);
+  margin: 0;
+  display: flex;
+  background: var(--contentBg);
+  font-family: var(--font);
+  color: var(--fg);
+  overflow: hidden; /* biar scrollbar utama hilang */
 }
+
+/* Sidebar tetap diam */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh; /* tinggi penuh */
+  background: linear-gradient(180deg, var(--sidebar), var(--sidebarAccent));
+  color: #fff;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto; /* kalau sidebar-nya panjang sendiri */
+}
+
+/* Area kanan bisa di-scroll sendiri */
+.content {
+  margin-left: 260px; /* kasih jarak biar ga ketiban sidebar */
+  width: calc(100% - 260px);
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 
 /* Sidebar */
 .sidebar {

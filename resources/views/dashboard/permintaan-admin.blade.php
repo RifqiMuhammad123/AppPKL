@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Nama Guru</th>
-                <th>Foto</th>
                 <th>Nama Barang</th>
                 <th>Merk</th>
                 <th>Tanggal</th>
@@ -22,15 +21,6 @@
             @forelse($permintaan as $p)
             <tr>
                 <td>{{ $p->guru->nama_guru ?? '-' }}</td>
-                <td>
-                    @if($p->barang && $p->barang->foto)
-                        <img src="{{ asset('storage/barang/'.$p->barang->foto) }}" 
-                            alt="Foto Barang" 
-                            style="width:50px; height:50px; object-fit:cover; border-radius:6px;">
-                    @else
-                        <span style="color:#888; font-size:13px;">-</span>
-                    @endif
-                </td>
                 <td>{{ $p->nama_barang }}</td>
                 <td>{{ $p->merk_barang }}</td>
                 <td>{{ \Carbon\Carbon::parse($p->tanggal)->format('d M Y') }}</td>
