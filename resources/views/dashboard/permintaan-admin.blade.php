@@ -131,37 +131,86 @@
 </script>
 
 <style>
+/* ========================================
+   CONTAINER
+   ======================================== */
 .permintaan-container {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 30px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
+/* ========================================
+   TITLE
+   ======================================== */
 .permintaan-container h2 {
-    margin-bottom: 15px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
+  margin-bottom: 18px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #000000ff;
 }
 
+/* ========================================
+   TABLE BASE
+   ======================================== */
 .permintaan-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: separate; /* biar bisa ada border-radius */
+  border-spacing: 0 8px;     /* jarak antar baris */
 }
 
-.permintaan-table th, 
-.permintaan-table td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    text-align: center;
-}
-
+/* ========================================
+   HEADER (TH)
+   ======================================== */
 .permintaan-table th {
-    background: #f8f9fa;
-    font-weight: bold;
+  background: #1565c0;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px;
 }
+
+/* Lengkung di pojok atas */
+.permintaan-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.permintaan-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* ========================================
+   BODY (TD)
+   ======================================== */
+.permintaan-table td {
+  background: #f6faff;
+  padding: 12px;
+  text-align: center;
+  border-top: 1px solid #e3f2fd;
+  border-bottom: 1px solid #e3f2fd;
+  vertical-align: middle;
+}
+
+/* Lengkung di pojok bawah baris terakhir */
+.permintaan-table tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.permintaan-table tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+/* ========================================
+   HOVER EFFECT
+   ======================================== */
+.permintaan-table tr:hover td {
+  background: #e3f2fd;
+  transition: background 0.2s ease;
+}
+
 
 .badge {
     padding: 4px 10px;

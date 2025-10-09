@@ -105,12 +105,77 @@ Swal.fire({
 .search-container input { flex: 1; border: none; outline: none; background: transparent; }
 .search-container:focus-within { border-color: #1e88e5; box-shadow: 0 0 4px rgba(30,136,229,0.4); }
 
-/* Table */
-.table-container { margin-top: 10px; overflow-x: auto; }
-.table-dashboard { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-.table-dashboard th, .table-dashboard td { padding: 12px; border-bottom: 1px solid #ddd; }
-.table-dashboard th { background: #f8f9fa; font-weight: bold; text-align: left; }
-.table-dashboard tr:hover { background-color: #f1f1f1; }
+/* ========================================
+   TABLE CONTAINER
+   ======================================== */
+.table-container {
+  margin-top: 10px;
+  overflow-x: auto; /* biar bisa scroll kalau tabel lebar */
+}
+
+/* ========================================
+   TABLE BASE
+   ======================================== */
+.table-dashboard {
+  width: 100%;
+  border-collapse: separate; /* biar radius bisa aktif */
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================
+   TABLE HEADER
+   ======================================== */
+.table-dashboard th {
+  background: #1565c0;        /* biru solid */
+  color: #ffffff;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* Sudut melengkung di pojok header */
+.table-dashboard th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.table-dashboard th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* ========================================
+   TABLE BODY
+   ======================================== */
+.table-dashboard td {
+  padding: 12px;
+  border-bottom: 1px solid #e3f2fd;
+  background: #f9fbff;
+  font-size: 14px;
+  color: #333;
+  vertical-align: middle;
+}
+
+/* Sudut bawah kalau baris terakhir */
+.table-dashboard tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+.table-dashboard tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+/* ========================================
+   HOVER EFFECT
+   ======================================== */
+.table-dashboard tr:hover td {
+  background-color: #e3f2fd;
+  transition: background 0.2s ease;
+}
+
 
 /* Tombol icon + text */
 .btn-icon-text { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 6px; font-size: 14px; text-decoration: none; cursor: pointer; transition: 0.2s; }
