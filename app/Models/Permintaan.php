@@ -32,6 +32,7 @@ class Permintaan extends Model
         'merk_barang',
         'tanggal',
         'jumlah',
+        'catatan',
         'status',
     ];
 

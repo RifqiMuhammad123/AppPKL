@@ -32,11 +32,12 @@
     <table class="table-dashboard">
         <thead>
             <tr>
-                <th>Foto</th>
+                <!-- <th>Foto</th> -->
                 <th>Nama Barang</th>
                 <th>Merk</th>
                 <th>Tanggal</th>
                 <th>Jumlah</th>
+                <th>Catatan</th>
                 <th>Status</th>
                 @if(session('auth_role') == 'admin')
                     <th>Aksi</th>
@@ -46,7 +47,7 @@
         <tbody>
             @forelse($permintaan as $p)
                 <tr>
-                    <td>
+                    <!-- <td>
                         @if($p->foto)
                             <img src="{{ asset('storage/'.$p->foto) }}" 
                                  alt="Foto {{ $p->nama_barang }}" 
@@ -54,7 +55,7 @@
                         @else
                             <span>-</span>
                         @endif
-                    </td>
+                    </td> -->
                     <td>{{ $p->nama_barang }}</td>
                     <td>{{ $p->merk_barang }}</td>
                     <td>{{ $p->tanggal }}</td>
@@ -65,7 +66,7 @@
                         @elseif($p->status == 'dikonfirmasi')
                             <span style="color:green;">✔️ Dikonfirmasi</span>
                         @else
-                            <span style="color:red;">❌ Ditolak</span>
+                            <span style="color:red">❌ Ditolak</span>
                         @endif
                     </td>
                     @if(session('auth_role') == 'admin')

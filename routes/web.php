@@ -79,6 +79,10 @@ Route::prefix('guru')->middleware(['guru.auth'])->group(function () {
     // Guru lihat daftar barang (read-only)
     Route::get('/barang', [BarangController::class, 'guruIndex'])->name('guru.barang.index');
 
+    // 🔥 API untuk modal barang
+    Route::get('/api/barang/{id}', [BarangController::class, 'show'])->name('guru.api.barang.show');
+    Route::post('/api/permintaan/store-from-modal', [PermintaanController::class, 'storeFromModal'])->name('guru.api.permintaan.store');
+
     // Permintaan dari guru
     Route::prefix('permintaan')->group(function () {
         Route::get('/create', [PermintaanController::class, 'create'])->name('guru.permintaan.create');

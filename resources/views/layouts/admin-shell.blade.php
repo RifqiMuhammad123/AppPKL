@@ -26,6 +26,13 @@
                 </a>
             </div>
 
+            <!-- ✅ TAMBAHKAN INI - Menu History -->
+            <div class="History {{ request()->is('admin/permintaan/history') ? 'open' : '' }}">
+                <a href="{{ route('admin.permintaan.history') }}" class="{{ request()->routeIs('admin.permintaan.history') ? 'active' : '' }}">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Riwayat Permintaan
+                </a>
+            </div>
+
             <div class="menu-parent {{ request()->is('admin/barang*') ? 'open' : '' }}">
                 <button class="menu-toggle">
                     <span><i class="fa-solid fa-box"></i> Barang</span>

@@ -51,6 +51,7 @@ class BarangController extends Controller
 
     public function create()
     {
+        
         return view('dashboard.barang.create');
     }
 
