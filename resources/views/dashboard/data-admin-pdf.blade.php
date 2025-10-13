@@ -177,7 +177,9 @@
 
     <div class="footer">
         <p><strong>Catatan:</strong> Password yang tertera adalah data asli yang tersimpan di sistem (jika tersedia).</p>
-        <p>Jika tampil ***HASHED*** berarti password tersebut sudah terenkripsi dan tidak dapat ditampilkan.</p>
+
+        <p>Jika tampil **HASHED** berarti password tersebut sudah terenkripsi dan tidak dapat ditampilkan.</p>
+         (merubah css bagian card jadi ke atas)
         <p><em>Dicetak otomatis oleh sistem — {{ date('d F Y') }}</em></p>
         <p>&copy; {{ date('Y') }} Sistem Manajemen Admin — All Rights Reserved</p>
     </div>

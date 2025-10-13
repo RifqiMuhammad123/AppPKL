@@ -5,9 +5,34 @@
 <div class="history-container">
     <div class="history-header">
         <h2><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Permintaan Barang</h2>
-        <a href="{{ route('permintaan.history.download') }}" class="btn-download-pdf">
+        <!-- <a href="{{ route('permintaan.history.download') }}" class="btn-download-pdf">
             <i class="fa-solid fa-file-pdf"></i> Download PDF
-        </a>
+        </a> -->
+    </div>
+
+    <!-- Summary Statistics - Dipindah ke atas -->
+    <div class="summary-stats">
+        <div class="stat-card success">
+            <i class="fa-solid fa-check-circle"></i>
+            <div>
+                <h3 id="total-diterima">{{ $riwayatPermintaan->where('status', 'dikonfirmasi')->count() }}</h3>
+                <p>Total Diterima</p>
+            </div>
+        </div>
+        <div class="stat-card danger">
+            <i class="fa-solid fa-times-circle"></i>
+            <div>
+                <h3 id="total-ditolak">{{ $riwayatPermintaan->where('status', 'ditolak')->count() }}</h3>
+                <p>Total Ditolak</p>
+            </div>
+        </div>
+        <div class="stat-card info">
+            <i class="fa-solid fa-list"></i>
+            <div>
+                <h3 id="total-semua">{{ $riwayatPermintaan->count() }}</h3>
+                <p>Total Riwayat</p>
+            </div>
+        </div>
     </div>
 
     <!-- Filter Status -->
@@ -69,31 +94,6 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
-
-    <!-- Summary Statistics -->
-    <div class="summary-stats">
-        <div class="stat-card success">
-            <i class="fa-solid fa-check-circle"></i>
-            <div>
-                <h3 id="total-diterima">{{ $riwayatPermintaan->where('status', 'dikonfirmasi')->count() }}</h3>
-                <p>Total Diterima</p>
-            </div>
-        </div>
-        <div class="stat-card danger">
-            <i class="fa-solid fa-times-circle"></i>
-            <div>
-                <h3 id="total-ditolak">{{ $riwayatPermintaan->where('status', 'ditolak')->count() }}</h3>
-                <p>Total Ditolak</p>
-            </div>
-        </div>
-        <div class="stat-card info">
-            <i class="fa-solid fa-list"></i>
-            <div>
-                <h3 id="total-semua">{{ $riwayatPermintaan->count() }}</h3>
-                <p>Total Riwayat</p>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -213,6 +213,59 @@ window.onclick = function(event) {
     box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
+/* Summary Statistics - Dipindah ke atas sebelum filter */
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    border-radius: 12px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card.success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.stat-card.danger {
+    background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+}
+
+.stat-card.info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-card i {
+    font-size: 40px;
+    opacity: 0.9;
+}
+
+.stat-card h3 {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
 .filter-section {
     margin-bottom: 20px;
     display: flex;
@@ -257,9 +310,9 @@ window.onclick = function(event) {
 }
 
 .history-table th {
-    background: #f8f9fa;
+    background: #0080ffff;
     font-weight: bold;
-    color: #333;
+    color: #ffffffff;
     font-size: 14px;
 }
 
@@ -389,59 +442,6 @@ window.onclick = function(event) {
     line-height: 1.6;
     font-size: 14px;
     word-wrap: break-word;
-}
-
-/* Summary Statistics */
-.summary-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.stat-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
-    border-radius: 12px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-}
-
-.stat-card.success {
-    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-}
-
-.stat-card.danger {
-    background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
-}
-
-.stat-card.info {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-}
-
-.stat-card i {
-    font-size: 40px;
-    opacity: 0.9;
-}
-
-.stat-card h3 {
-    font-size: 32px;
-    font-weight: bold;
-    margin: 0;
-}
-
-.stat-card p {
-    margin: 0;
-    font-size: 14px;
-    opacity: 0.9;
 }
 
 /* Responsive */

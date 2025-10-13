@@ -210,9 +210,9 @@
 }
 
 .permintaan-table th {
-    background: #f8f9fa;
+    background: #0180ffff;
     font-weight: bold;
-    color: #333;
+    color: #ffffffff;
     font-size: 14px;
 }
 
