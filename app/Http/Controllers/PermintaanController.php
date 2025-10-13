@@ -13,33 +13,37 @@ use TCPDF;
 class PermintaanController extends Controller
 {
     /** 🔹 Halaman form ajukan permintaan (Guru) */
-    public function create()
-    {
-        return view('dashboard.guru-permintaan');
-    }
+   public function create()
+{
+    $barang = Barang::all(); // Ambil semua barang
+    return view('dashboard.guru-permintaan', compact('barang'));
+}
 
-    /** 🔹 Simpan permintaan baru (Guru) */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nama_barang' => 'required|string|max:100',
-            'merk_barang' => 'required|string|max:100',
-            'tanggal'     => 'required|date',
-            'jumlah'      => 'required|integer|min:1'
-        ]);
+/** 🔹 Simpan permintaan baru (Guru) */
+public function store(Request $request)
+{
+    $request->validate([
+        'id_barang' => 'required|exists:barang,id_barang',
+        'tanggal'   => 'required|date',
+        'jumlah'    => 'required|integer|min:1'
+    ]);
 
-        Permintaan::create([
-            'id_guru'     => session('auth_id'),
-            'nama_barang' => $request->nama_barang,
-            'merk_barang' => $request->merk_barang,
-            'tanggal'     => $request->tanggal,
-            'jumlah'      => $request->jumlah,
-            'status'      => 'pending'
-        ]);
+    // Ambil data barang berdasarkan id_barang yang dipilih
+    $barang = Barang::findOrFail($request->id_barang);
 
-        return redirect()->route('guru.permintaan.proses')
-            ->with('success', 'Permintaan berhasil diajukan!');
-    }
+    Permintaan::create([
+        'id_guru'     => session('auth_id'),
+        'id_barang'   => $request->id_barang,
+        'nama_barang' => $barang->nama_barang,
+        'merk_barang' => $barang->merk_barang,
+        'tanggal'     => $request->tanggal,
+        'jumlah'      => $request->jumlah,
+        'status'      => 'pending'
+    ]);
+
+    return redirect()->route('guru.permintaan.proses')
+        ->with('success', 'Permintaan berhasil diajukan!');
+}
 
     /** 🔹 Halaman riwayat permintaan Guru */
     public function proses()
@@ -102,12 +106,13 @@ class PermintaanController extends Controller
     }
 
     /** 🔹 Admin tolak permintaan */
-    public function tolak($id)
+    public function tolak(Request $request, $id)
     {
         $permintaan = Permintaan::where('id_permintaan', $id)->firstOrFail();
 
         if ($permintaan->status === 'pending') {
             $permintaan->status = 'ditolak'; // ✅ sesuai enum DB
+            $permintaan->catatan = $request->catatan ?? '_'; // ✅ simpan ke kolom catatan
             $permintaan->save();
         }
 

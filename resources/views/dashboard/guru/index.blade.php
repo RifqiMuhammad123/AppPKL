@@ -26,6 +26,7 @@ Swal.fire({
                 <th>NIP</th>
                 <th>Nama Guru</th>
                 <th>Password</th>
+                <th>Foto</th>
                 <th style="text-align: center;">Aksi</th>
             </tr>
         </thead>
@@ -36,6 +37,15 @@ Swal.fire({
                 <td>{{ $g->nip }}</td>
                 <td>{{ $g->nama_guru }}</td>
                 <td>{{ $g->password_plain }}</td>
+                <td>
+                     @if($g->foto && $g->foto !== 'icon.jpg')
+                        <img src="{{ asset('img/' . $g->foto) }}" alt="Foto Guru" 
+                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                    @else
+                        <img src="{{ asset('img/icon.jpg') }}" alt="Default" 
+                            style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                    @endif
+                </td>
                 <td style="text-align: center;">
                     <a href="{{ route('admin.guru.edit', $g->id_guru) }}" class="action-btn edit btn-icon-text" title="Edit">
                         <i class="fas fa-pencil-alt"></i> <span>Edit</span>
