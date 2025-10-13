@@ -2,157 +2,184 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Data Admin</title>
+    <title>Data Admin Sistem</title>
     <style>
+        /* === RESET === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* === DASAR === */
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Times New Roman", serif;
             font-size: 12px;
-            padding: 20px;
+            color: #000;
+            background: #fff;
+            padding: 40px 50px;
+            line-height: 1.5;
         }
 
+        /* === HEADER === */
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #0d47a1;
-            padding-bottom: 15px;
+            border-bottom: 3px double #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .header h1 {
-            color: #0d47a1;
-            font-size: 24px;
-            margin-bottom: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #000;
+            margin-bottom: 3px;
         }
 
         .header p {
-            color: #666;
-            font-size: 12px;
-        }
-
-        .info-box {
-            background: #f5f5f5;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .info-item {
             font-size: 11px;
+            color: #444;
+            letter-spacing: 0.3px;
         }
 
-        .info-item strong {
-            color: #0d47a1;
+        /* === INFO === */
+        .info-box {
+            font-size: 11.5px;
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            background-color: #fafafa;
         }
 
+        .info-box p {
+            margin: 4px 0;
+        }
+
+        .info-box strong {
+            color: #000;
+        }
+
+        /* === TABEL === */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            font-size: 11.5px;
         }
 
         thead {
-            background: #0d47a1;
-            color: white;
+            background-color: #e6e6e6;
+            border-top: 2px solid #000;
+            border-bottom: 2px solid #000;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 7px 5px;
+            text-align: center;
         }
 
         th {
-            padding: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td.left {
             text-align: left;
-            font-weight: 600;
-            font-size: 11px;
+            padding-left: 10px;
         }
 
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            font-size: 11px;
-        }
-
-        tbody tr:nth-child(even) {
-            background: #f9f9f9;
+        tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
         }
 
         tbody tr:hover {
-            background: #f0f0f0;
+            background-color: #f2f2f2;
         }
 
+        /* === FOOTER === */
         .footer {
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 2px solid #0d47a1;
+            margin-top: 40px;
+            padding-top: 8px;
+            border-top: 2px solid #000;
             text-align: center;
-            font-size: 10px;
-            color: #666;
+            font-size: 10.5px;
+            color: #333;
         }
 
-        .warning-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-size: 11px;
+        .footer p {
+            margin: 4px 0;
         }
 
-        .warning-box strong {
-            color: #856404;
+        /* === CETAK === */
+        @media print {
+            body {
+                padding: 20px;
+                font-size: 11px;
+            }
+            .info-box {
+                page-break-inside: avoid;
+            }
+            .footer {
+                position: fixed;
+                bottom: 20px;
+                left: 0;
+                right: 0;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>DATA ADMIN SISTEM</h1>
+        <h1>LAPORAN DATA ADMIN SISTEM</h1>
         <p>Dokumen Rahasia - Backup Data Administrator</p>
     </div>
 
     <div class="info-box">
-        <div class="info-item">
-            <strong>Total Admin:</strong> {{ $admins->count() }}
-        </div>
-        <div class="info-item">
-            <strong>Tanggal Cetak:</strong> {{ date('d F Y, H:i') }} WIB
-        </div>
-        <div class="info-item">
-            <strong>Dicetak Oleh:</strong> {{ session('auth_name') }}
-        </div>
-    </div>
-
-    <div class="warning-box">
-        <strong>⚠️ PERHATIAN:</strong> Dokumen ini berisi informasi sensitif. Harap simpan dengan aman dan jangan disebarkan kepada pihak yang tidak berkepentingan.
+        <p><strong>Total Admin:</strong> {{ $admins->count() }}</p>
+        <p><strong>Tanggal Cetak:</strong> {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('d F Y, H:i') }} WIB</p>
+        <p><strong>Dicetak Oleh:</strong> {{ session('auth_name') }}</p>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th style="width: 8%;">No</th>
-                <th style="width: 20%;">NIP</th>
-                <th style="width: 37%;">Nama Admin</th>
-                <th style="width: 35%;">Password</th>
+                <th>No</th>
+                <th>NIP</th>
+                <th>Nama Admin</th>
+                <th>Password</th>
             </tr>
         </thead>
         <tbody>
+            @php use Illuminate\Support\Str; @endphp
             @foreach($admins as $index => $admin)
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $admin->nip }}</td>
-                <td>{{ $admin->nama_admin }}</td>
-                <td><strong>{{ $admin->password_biasa ?? 'N/A' }}</strong></td>
-            
+                <td class="left">{{ $admin->nama_admin }}</td>
+                @php
+                    $plain = property_exists($admin, 'password_biasa') ? $admin->password_biasa : null;
+                @endphp
+                <td>
+                    {{ $plain
+                        ? $plain
+                        : (Str::startsWith($admin->password, '$2y$')
+                            ? '*** HASHED ***'
+                            : $admin->password) }}
+                </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
     <div class="footer">
-        <p><strong>Catatan:</strong> Password yang tertera adalah password dalam bentuk plain text untuk keperluan recovery.</p>
-        <p>Dokumen ini dihasilkan secara otomatis oleh sistem.</p>
-        <p>&copy; {{ date('Y') }} Sistem Manajemen Admin - All Rights Reserved</p>
+        <p><strong>Catatan:</strong> Password yang tertera adalah data asli yang tersimpan di sistem (jika tersedia).</p>
+        <p>Jika tampil ***HASHED*** berarti password tersebut sudah terenkripsi dan tidak dapat ditampilkan.</p>
+        <p><em>Dicetak otomatis oleh sistem — {{ date('d F Y') }}</em></p>
+        <p>&copy; {{ date('Y') }} Sistem Manajemen Admin — All Rights Reserved</p>
     </div>
 </body>
 </html>

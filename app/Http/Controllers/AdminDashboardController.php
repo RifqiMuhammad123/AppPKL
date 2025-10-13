@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use TCPDF;
 
@@ -83,7 +82,7 @@ class AdminDashboardController extends Controller
 
         if (!empty($request->password)) {
             $updateData['password'] = Hash::make($request->password);
-            $updateData['password_plain'] = $request->password;
+            $updateData['password_biasa'] = $request->password; // ✅ disimpan sebagai plain text
         }
 
         DB::table('admin')->where('id_admin', $adminId)->update($updateData);
@@ -93,53 +92,54 @@ class AdminDashboardController extends Controller
         session([
             'auth_name' => $user->nama_admin,
             'auth_photo' => $user->foto,
-            'auth_password_plain' => $user->password_plain ?? null,
         ]);
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function dataAdmin()
-{
-    $admins = DB::table('admin')
+    {
+        $admins = DB::table('admin')
+            ->orderBy('nama_admin', 'asc')
+            ->get();
+
+        return view('dashboard.data-admin', compact('admins'));
+    }
+
+    /**
+     * Download PDF Data Admin
+     */
+    public function dataAdminPdf()
+    {
+        // 🔹 Ambil data lengkap termasuk password_biasa
+            $admins = DB::table('admin')
+        ->select('nip', 'nama_admin', 'password', 'password_plain as password_biasa')
         ->orderBy('nama_admin', 'asc')
         ->get();
 
-    return view('dashboard.data-admin', compact('admins'));
-}
 
-/**
- * Download PDF data admin
- */
-public function dataAdminPdf()
-{
-    $admins = DB::table('admin')
-        ->orderBy('nama_admin', 'asc')
-        ->get();
+        // 🔹 Inisialisasi TCPDF
+        $pdf = new TCPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
 
-    // Inisialisasi TCPDF
-    $pdf = new TCPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Laravel');
+        $pdf->SetAuthor('Sistem Admin');
+        $pdf->SetTitle('Data Admin');
+        $pdf->SetMargins(10, 10, 10);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->AddPage();
 
-    $pdf->SetCreator('Laravel');
-    $pdf->SetAuthor('Sistem Admin');
-    $pdf->SetTitle('Data Admin');
-    $pdf->SetMargins(10, 10, 10);
-    $pdf->setPrintHeader(false);
-    $pdf->setPrintFooter(false);
-    $pdf->AddPage();
+        // 🔹 Render view jadi HTML
+        $html = view('dashboard.data-admin-pdf', compact('admins'))->render();
 
-    // Render view sebagai HTML
-    $html = view('dashboard.data-admin-pdf', compact('admins'))->render();
+        // 🔹 Tulis HTML ke PDF
+        $pdf->writeHTML($html, true, false, true, false, '');
 
-    // Tulis HTML ke PDF
-    $pdf->writeHTML($html, true, false, true, false, '');
+        $fileName = 'Data_Admin_' . date('Y-m-d_His') . '.pdf';
 
-    $fileName = 'Data_Admin_' . date('Y-m-d_His') . '.pdf';
-
-    // Output PDF sebagai file unduhan
-    return response($pdf->Output($fileName, 'S'))
-        ->header('Content-Type', 'application/pdf')
-        ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
-}
-
+        // 🔹 Output PDF ke browser untuk diunduh
+        return response($pdf->Output($fileName, 'S'))
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+    }
 }
