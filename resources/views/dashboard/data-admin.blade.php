@@ -115,9 +115,13 @@
     font-size: 14px;
 }
 
+/* Sticky header scroll fix */
 .table-responsive {
     overflow-x: auto;
-    padding: 18px;
+    max-height: 600px; /* Sesuaikan tinggi */
+    overflow-y: auto;
+    padding: 0 18px 18px;
+    position: relative;
 }
 
 .table-data-admin {
@@ -127,6 +131,9 @@
 
 .table-data-admin thead {
     background: linear-gradient(90deg, var(--accent), var(--accent2));
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .table-data-admin th {
@@ -135,6 +142,7 @@
     font-weight: 600;
     font-size: 14px;
     color: #ffff;
+    background: blue;
 }
 
 .table-data-admin tbody tr {

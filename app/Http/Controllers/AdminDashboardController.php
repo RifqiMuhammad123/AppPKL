@@ -9,31 +9,31 @@ use TCPDF;
 
 class AdminDashboardController extends Controller
 {
+    /**
+     * Tampilkan dashboard admin
+     */
     public function index()
     {
         $allStok = DB::table('barang')->sum('stok');
 
-        // Barang baru maksimal 3 hari dari hari ini
         $barangBaru = DB::table('barang')
             ->where('tanggal_pembelian', '>=', now()->subDays(3))
             ->count();
 
         $permintaan = DB::table('permintaan')->count();
 
-        // Barang dengan stok rendah
         $barangStokRendah = DB::table('barang')
             ->whereRaw('stok <= COALESCE(stok_minimum, 10)')
             ->get();
-
-        $adminName = session('auth_name');
-        $adminPhoto = session('auth_photo');
 
         $barangTerbaru = DB::table('barang')
             ->orderByDesc('tanggal_pembelian')
             ->limit(5)
             ->get();
 
-        $welcome = session()->pull('welcome', false);
+        $adminName  = session('auth_name');
+        $adminPhoto = session('auth_photo');
+        $welcome    = session()->pull('welcome', false);
 
         return view('dashboard.admin', compact(
             'allStok',
@@ -47,56 +47,73 @@ class AdminDashboardController extends Controller
         ));
     }
 
+    /**
+     * Update profil admin
+     */
     public function updateProfile(Request $request)
     {
-        $adminId = session('auth_id'); 
-        
+        $adminId = session('auth_id');
+
         if (!$adminId) {
-            return back()->with('error', 'Session expired, silakan login lagi');
+            return back()->with('error', 'Sesi login telah berakhir. Silakan login ulang.');
         }
 
         $request->validate([
             'nama_admin' => 'required|string|max:255',
-            'password' => 'nullable|min:6',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'password'   => 'nullable|min:6',
+            'foto'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // --- Data yang akan diupdate
         $updateData = [
             'nama_admin' => $request->nama_admin,
         ];
 
-        // Handle upload foto
+        // --- Handle upload foto baru
         if ($request->hasFile('foto')) {
             $oldUser = DB::table('admin')->where('id_admin', $adminId)->first();
-            
-            if ($oldUser->foto && $oldUser->foto !== 'icon.jpg' && file_exists(public_path('img/' . $oldUser->foto))) {
+
+            if (
+                $oldUser->foto &&
+                $oldUser->foto !== 'icon.jpg' &&
+                file_exists(public_path('img/' . $oldUser->foto))
+            ) {
                 unlink(public_path('img/' . $oldUser->foto));
             }
-            
+
             $foto = $request->file('foto');
             $namaFoto = time() . '.' . $foto->getClientOriginalExtension();
             $foto->move(public_path('img'), $namaFoto);
-            
+
             $updateData['foto'] = $namaFoto;
         }
 
+        // --- Update password (jika diisi)
         if (!empty($request->password)) {
             $updateData['password'] = Hash::make($request->password);
-            $updateData['password_biasa'] = $request->password; // ✅ disimpan sebagai plain text
+            $updateData['password_plain'] = $request->password; // tambahkan baris ini
         }
 
+
+        // --- Simpan perubahan ke database
         DB::table('admin')->where('id_admin', $adminId)->update($updateData);
 
+        // --- Update session
         $user = DB::table('admin')->where('id_admin', $adminId)->first();
-
+        
         session([
-            'auth_name' => $user->nama_admin,
+            'auth_name'  => $user->nama_admin,
             'auth_photo' => $user->foto,
+            'auth_password_plain' => $user->password_plain, // 🔹 tambahkan ini
         ]);
+
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
 
+    /**
+     * Menampilkan data semua admin
+     */
     public function dataAdmin()
     {
         $admins = DB::table('admin')
@@ -111,16 +128,13 @@ class AdminDashboardController extends Controller
      */
     public function dataAdminPdf()
     {
-        // 🔹 Ambil data lengkap termasuk password_biasa
-            $admins = DB::table('admin')
-        ->select('nip', 'nama_admin', 'password', 'password_plain as password_biasa')
-        ->orderBy('nama_admin', 'asc')
-        ->get();
+        $admins = DB::table('admin')
+            ->select('nip', 'nama_admin', 'password')
+            ->orderBy('nama_admin', 'asc')
+            ->get();
 
-
-        // 🔹 Inisialisasi TCPDF
+        // --- Inisialisasi TCPDF
         $pdf = new TCPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
-
         $pdf->SetCreator('Laravel');
         $pdf->SetAuthor('Sistem Admin');
         $pdf->SetTitle('Data Admin');
@@ -129,15 +143,13 @@ class AdminDashboardController extends Controller
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
-        // 🔹 Render view jadi HTML
+        // --- Render view HTML ke PDF
         $html = view('dashboard.data-admin-pdf', compact('admins'))->render();
-
-        // 🔹 Tulis HTML ke PDF
         $pdf->writeHTML($html, true, false, true, false, '');
 
         $fileName = 'Data_Admin_' . date('Y-m-d_His') . '.pdf';
 
-        // 🔹 Output PDF ke browser untuk diunduh
+        // --- Kirim PDF ke browser
         return response($pdf->Output($fileName, 'S'))
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');

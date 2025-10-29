@@ -22,7 +22,7 @@ body {
     background: var(--card);
     border-radius: var(--radius);
     padding: 18px 22px;
-    max-width: 420px;
+    width: 350px;
     margin: 30px auto;
     border: 1px solid #eee;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);

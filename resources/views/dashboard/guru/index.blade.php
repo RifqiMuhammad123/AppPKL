@@ -1,11 +1,8 @@
 @extends('layouts.admin-shell')
 @section('title','Daftar Guru')
-
 <link rel="stylesheet" href="{{ asset('css/form.css') }}">
-
 @section('content')
 <h2>Daftar Guru</h2>
-
 @if(session('success'))
 <script>
 Swal.fire({
@@ -17,7 +14,6 @@ Swal.fire({
 });
 </script>
 @endif
-
 <div class="table-container">
     <table class="table-dashboard">
         <thead>
@@ -61,46 +57,70 @@ Swal.fire({
             </tr>
             @empty
             <tr>
-                <td colspan="5" style="text-align:center;">Belum ada guru</td>
+                <td colspan="6" style="text-align:center;">Belum ada guru</td>
             </tr>
             @endforelse
         </tbody>
     </table>
 </div>
-
 <style>
+/* Sticky header table */
+.table-container {
+    max-height: 600px; /* Sesuaikan tinggi maksimal */
+    overflow-y: auto;
+    position: relative;
+}
+
+.table-dashboard {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-dashboard thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f5f5f5; /* Sesuaikan dengan warna header table Anda */
+}
+
+.table-dashboard thead th {
+    background-color: #0011ffff; /* Pastikan sama dengan thead */
+    padding: 12px;
+    border-bottom: 2px solid #ddd;
+}
+
+.table-dashboard tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
 /* Style tombol icon + text */
 .btn-icon-text {
     display: inline-flex;
     align-items: center;
-    gap: 6px; /* jarak antara icon & text */
+    gap: 6px;
     padding: 4px 8px;
     border-radius: 6px;
     font-size: 13px;
     text-decoration: none;
     cursor: pointer;
 }
-
 .btn-icon-text.edit {
     background-color: #42a5f5;
     color: #fff;
 }
-
 .btn-icon-text.edit:hover {
     background-color: #0a90feff;
 }
-
 .btn-icon-text.delete {
     background-color: #ef5350;
     color: #fff;
     border: none;
 }
-
 .btn-icon-text.delete:hover {
     background-color: #e53935;
 }
 </style>
-
 <script>
 document.querySelectorAll('.form-delete').forEach(form => {
     form.addEventListener('submit', function(e){

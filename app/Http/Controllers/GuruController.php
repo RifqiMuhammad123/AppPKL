@@ -47,6 +47,7 @@ class GuruController extends Controller
             'nama_guru' => $request->nama_guru,
             'password' => Hash::make($request->password),
             'password_plain' => $request->password,
+            'foto' => 'icon.jpg', // Add default photo
         ]);
 
         return redirect()->route('admin.guru.index')

@@ -19,8 +19,8 @@ body {
     background: var(--card);
     border-radius: var(--radius);
     padding: 18px;
-    max-width: 400px;
-    margin: 40px auto; /* kasih jarak atas */
+    width: 450px;
+    margin: 5px auto; /* kasih jarak atas */
     border: 1px solid #eee;
 }
 
