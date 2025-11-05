@@ -129,7 +129,7 @@ class AdminDashboardController extends Controller
     public function dataAdminPdf()
     {
         $admins = DB::table('admin')
-            ->select('nip', 'nama_admin', 'password')
+            ->select('nip', 'nama_admin', 'password_plain')
             ->orderBy('nama_admin', 'asc')
             ->get();
 

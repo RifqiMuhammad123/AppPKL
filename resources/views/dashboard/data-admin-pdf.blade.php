@@ -160,15 +160,8 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $admin->nip }}</td>
                 <td class="left">{{ $admin->nama_admin }}</td>
-                @php
-                    $plain = property_exists($admin, 'password_biasa') ? $admin->password_biasa : null;
-                @endphp
                 <td>
-                    {{ $plain
-                        ? $plain
-                        : (Str::startsWith($admin->password, '$2y$')
-                            ? '*** HASHED ***'
-                            : $admin->password) }}
+                    {{ $admin->password_plain }}
                 </td>
             </tr>
             @endforeach
@@ -177,9 +170,7 @@
 
     <div class="footer">
         <p><strong>Catatan:</strong> Password yang tertera adalah data asli yang tersimpan di sistem (jika tersedia).</p>
-
         <p>Jika tampil **HASHED** berarti password tersebut sudah terenkripsi dan tidak dapat ditampilkan.</p>
-         (merubah css bagian card jadi ke atas)
         <p><em>Dicetak otomatis oleh sistem — {{ date('d F Y') }}</em></p>
         <p>&copy; {{ date('Y') }} Sistem Manajemen Admin — All Rights Reserved</p>
     </div>

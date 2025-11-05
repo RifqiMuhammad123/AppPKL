@@ -209,6 +209,15 @@
         </div>
     </div>
 
+        <!-- Modal zoom foto -->
+        <div id="modal-foto" class="modal" style="display:none; align-items:center; justify-content:center;">
+        <div style="position:relative; background:rgba(0,0,0,0.85); width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+            <img id="foto-zoom" src="" alt="Foto Zoom" style="max-width:90%; max-height:90%; border-radius:10px; border:4px solid #fff;">
+            <span id="close-foto" style="position:absolute; top:20px; right:30px; color:white; font-size:35px; cursor:pointer;">&times;</span>
+        </div>
+        </div>
+
+
     <script>
         // Toggle password (untuk view profile & edit profile)
         document.querySelectorAll('.toggle-password').forEach(btn => {
@@ -326,6 +335,29 @@
             confirmButtonColor: '#1e88e5'
         });
         @endif
+
+        // === Klik foto di modal profil buka tampilan besar ===
+const fotoProfil = document.querySelector('#modal-view-profile img');
+const modalFoto = document.getElementById('modal-foto');
+const fotoZoom = document.getElementById('foto-zoom');
+const closeFoto = document.getElementById('close-foto');
+
+if (fotoProfil) {
+  fotoProfil.style.cursor = 'pointer';
+  fotoProfil.addEventListener('click', () => {
+    fotoZoom.src = fotoProfil.src;
+    modalFoto.style.display = 'flex';
+  });
+}
+
+closeFoto.addEventListener('click', () => {
+  modalFoto.style.display = 'none';
+});
+
+modalFoto.addEventListener('click', e => {
+  if (e.target === modalFoto) modalFoto.style.display = 'none';
+});
+
     </script>
     @yield('scripts')
 </body>
