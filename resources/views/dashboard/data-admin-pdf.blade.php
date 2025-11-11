@@ -24,37 +24,63 @@
         /* === HEADER === */
         .header {
             text-align: center;
-            border-bottom: 3px double #000;
-            padding-bottom: 10px;
+            position: relative;
+            padding-bottom: 15px;
             margin-bottom: 20px;
         }
 
+        .header-logo-left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .header-logo-right {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .header-center {
+            padding: 0 120px;
+        }
+
         .header h1 {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             text-transform: uppercase;
             color: #000;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
+            margin-top: 30px;
         }
 
         .header p {
-            font-size: 11px;
+            font-size: 12px;
             color: #444;
             letter-spacing: 0.3px;
+            margin-bottom: 15px;
+        }
+
+        .header-line {
+            border-bottom: 3px solid #000;
+            margin-top: 15px;
         }
 
         /* === INFO === */
         .info-box {
             font-size: 11.5px;
+            margin-top: 30px;
             margin-bottom: 20px;
-            padding: 8px 12px;
-            border: 1px solid #000;
-            border-radius: 4px;
-            background-color: #fafafa;
         }
 
         .info-box p {
-            margin: 4px 0;
+            margin: 6px 0;
         }
 
         .info-box strong {
@@ -65,39 +91,38 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            margin-top: 20px;
             font-size: 11.5px;
         }
 
         thead {
-            background-color: #e6e6e6;
+            background-color: #f0f0f0;
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
         }
 
         th, td {
             border: 1px solid #000;
-            padding: 7px 5px;
+            padding: 8px 10px;
             text-align: center;
         }
 
         th {
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            text-transform: capitalize;
         }
 
         td.left {
             text-align: left;
-            padding-left: 10px;
+            padding-left: 15px;
         }
 
         tbody tr:nth-child(odd) {
-            background-color: #f9f9f9;
+            background-color: #fafafa;
         }
 
         tbody tr:hover {
-            background-color: #f2f2f2;
+            background-color: #f5f5f5;
         }
 
         /* === FOOTER === */
@@ -134,8 +159,15 @@
 </head>
 <body>
     <div class="header">
-        <h1>LAPORAN DATA ADMIN SISTEM</h1>
-        <p>Dokumen Rahasia - Backup Data Administrator</p>
+        <img src="{{ Storage::url('logo/logo_sekolah.png') }}" alt="Logo Sekolah" class="header-logo-left">
+        <img src="{{ Storage::url('logo/logo_pt.png') }}" alt="Logo PT" class="header-logo-right">
+        
+        <div class="header-center">
+            <h1>LAPORAN DATA ADMIN SISTEM</h1>
+            <p>Dokumen Rahasia - Backup Data Administrator</p>
+        </div>
+        
+        <div class="header-line"></div>
     </div>
 
     <div class="info-box">
@@ -160,9 +192,7 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $admin->nip }}</td>
                 <td class="left">{{ $admin->nama_admin }}</td>
-                <td>
-                    {{ $admin->password_plain }}
-                </td>
+                <td>{{ $admin->password_plain }}</td>
             </tr>
             @endforeach
         </tbody>

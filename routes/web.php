@@ -65,6 +65,7 @@ Route::prefix('admin')->middleware(['admin.auth'])->group(function () {
         Route::post('/{id}/tolak', [PermintaanController::class, 'tolak'])->name('admin.permintaan.tolak');
         Route::get('/history', [PermintaanController::class, 'history'])->name('admin.permintaan.history');
         Route::get('/history/download', [PermintaanController::class, 'downloadHistoryPdf'])->name('permintaan.history.download');
+        
     });
 });
 

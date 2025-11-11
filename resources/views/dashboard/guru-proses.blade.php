@@ -45,6 +45,9 @@
             @endforeach
         </tbody>
     </table>
+    <div class="form-actions">
+        <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('guru.home') }}'">Kembali</button>
+    </div>
 </div>
 
 <!-- Modal Catatan -->
@@ -99,6 +102,31 @@
 .btn-lihat-catatan:hover {
     background: #c82333;
     transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: #ff0000ff;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #ff0000ff;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s;
 }
 
 /* Modal Catatan */

@@ -177,24 +177,24 @@ select {
 }
 
 .btn-secondary {
-    background: #6c757d;
+    background: #ff0000ff;
     color: #fff;
 }
 
 .btn-secondary:hover {
-    background: #5a6268;
+    background: #ff0000ff;
 }
 
 .btn-submit {
-    background: #4CAF50;
+    background: #27e637ff;
     color: #fff;
     flex: 1;
 }
 
 .btn-submit:hover {
-    background: #45a049;
+    background: #4afc53ff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 8px rgba(63, 250, 69, 1);
 }
 
 #stok-info {
