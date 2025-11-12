@@ -24,63 +24,37 @@
         /* === HEADER === */
         .header {
             text-align: center;
-            position: relative;
-            padding-bottom: 15px;
+            border-bottom: 3px double #000;
+            padding-bottom: 10px;
             margin-bottom: 20px;
         }
 
-        .header-logo-left {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-        }
-
-        .header-logo-right {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-        }
-
-        .header-center {
-            padding: 0 120px;
-        }
-
         .header h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             text-transform: uppercase;
             color: #000;
-            margin-bottom: 5px;
-            margin-top: 30px;
+            margin-bottom: 3px;
         }
 
         .header p {
-            font-size: 12px;
+            font-size: 11px;
             color: #444;
             letter-spacing: 0.3px;
-            margin-bottom: 15px;
-        }
-
-        .header-line {
-            border-bottom: 3px solid #000;
-            margin-top: 15px;
         }
 
         /* === INFO === */
         .info-box {
             font-size: 11.5px;
-            margin-top: 30px;
             margin-bottom: 20px;
+            padding: 8px 12px;
+            border: 1px solid #000;
+            border-radius: 4px;
+            background-color: #fafafa;
         }
 
         .info-box p {
-            margin: 6px 0;
+            margin: 4px 0;
         }
 
         .info-box strong {
@@ -91,38 +65,39 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 10px;
             font-size: 11.5px;
         }
 
         thead {
-            background-color: #f0f0f0;
+            background-color: #e6e6e6;
             border-top: 2px solid #000;
             border-bottom: 2px solid #000;
         }
 
         th, td {
             border: 1px solid #000;
-            padding: 8px 10px;
+            padding: 7px 5px;
             text-align: center;
         }
 
         th {
             font-weight: bold;
-            text-transform: capitalize;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         td.left {
             text-align: left;
-            padding-left: 15px;
+            padding-left: 10px;
         }
 
         tbody tr:nth-child(odd) {
-            background-color: #fafafa;
+            background-color: #f9f9f9;
         }
 
         tbody tr:hover {
-            background-color: #f5f5f5;
+            background-color: #f2f2f2;
         }
 
         /* === FOOTER === */
@@ -159,15 +134,8 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{ Storage::url('logo/logo_sekolah.png') }}" alt="Logo Sekolah" class="header-logo-left">
-        <img src="{{ Storage::url('logo/logo_pt.png') }}" alt="Logo PT" class="header-logo-right">
-        
-        <div class="header-center">
-            <h1>LAPORAN DATA ADMIN SISTEM</h1>
-            <p>Dokumen Rahasia - Backup Data Administrator</p>
-        </div>
-        
-        <div class="header-line"></div>
+        <h1>LAPORAN DATA ADMIN SISTEM</h1>
+        <p>Dokumen Rahasia - Backup Data Administrator</p>
     </div>
 
     <div class="info-box">
@@ -192,7 +160,9 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $admin->nip }}</td>
                 <td class="left">{{ $admin->nama_admin }}</td>
-                <td>{{ $admin->password_plain }}</td>
+                <td>
+                    {{ $admin->password_plain }}
+                </td>
             </tr>
             @endforeach
         </tbody>
@@ -200,7 +170,7 @@
 
     <div class="footer">
         <p><strong>Catatan:</strong> Password yang tertera adalah data asli yang tersimpan di sistem (jika tersedia).</p>
-        <p>Jika tampil **HASHED** berarti password tersebut sudah terenkripsi dan tidak dapat ditampilkan.</p>
+        <p>Jika tampil *HASHED* berarti password tersebut sudah terenkripsi dan tidak dapat ditampilkan.</p>
         <p><em>Dicetak otomatis oleh sistem — {{ date('d F Y') }}</em></p>
         <p>&copy; {{ date('Y') }} Sistem Manajemen Admin — All Rights Reserved</p>
     </div>

@@ -77,7 +77,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
         Swal.fire({
             icon: 'warning',
             title: 'Jumlah Melebihi Stok!',
-            text: `Stok tersedia hanya ${stok} unit`,
+            text: Stok tersedia hanya ${stok} unit,
             confirmButtonColor: '#dc3545'
         });
     }
@@ -177,24 +177,24 @@ select {
 }
 
 .btn-secondary {
-    background: #ff0000ff;
+    background: #6c757d;
     color: #fff;
 }
 
 .btn-secondary:hover {
-    background: #ff0000ff;
+    background: #5a6268;
 }
 
 .btn-submit {
-    background: #27e637ff;
+    background: #4CAF50;
     color: #fff;
     flex: 1;
 }
 
 .btn-submit:hover {
-    background: #4afc53ff;
+    background: #45a049;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(63, 250, 69, 1);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
 }
 
 #stok-info {

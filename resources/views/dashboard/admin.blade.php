@@ -61,9 +61,9 @@
                     <th>No</th>
                     <th>Foto</th>
                     <th>Nama</th>
-                    <th class="hide-mobile">Merk</th>
-                    <th class="hide-mobile">Tgl Beli</th>
-                    <th class="hide-tablet">Harga</th>
+                    <th>Merk</th>
+                    <th>Tgl Beli</th>
+                    <th>Harga</th>
                     <th>Stok</th>
                 </tr>
             </thead>
@@ -73,32 +73,26 @@
                     <td>{{ $index + 1 }}</td>
                     <td>
                         @if($b->foto)
-                        <img src="{{ asset('storage/' . $b->foto) }}" alt="{{ $b->nama_barang }}" class="product-img">
+                        <img src="{{ asset('storage/' . $b->foto) }}" alt="{{ $b->nama_barang }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 2px solid #e3f2fd;">
                         @else
                         <div class="no-image">
                             <i class="fa-solid fa-image"></i>
                         </div>
                         @endif
                     </td>
-                    <td>
-                        <strong>{{ $b->nama_barang }}</strong>
-                        <div class="mobile-info">
-                            <span class="hide-desktop">{{ $b->merk_barang }}</span>
-                            <span class="hide-desktop">{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</span>
-                        </div>
-                    </td>
-                    <td class="hide-mobile">{{ $b->merk_barang }}</td>
-                    <td class="hide-mobile">{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>
-                    <td class="hide-tablet"><strong>Rp {{ number_format($b->harga_barang,0,',','.') }}</strong></td>
+                    <td><strong>{{ $b->nama_barang }}</strong></td>
+                    <td>{{ $b->merk_barang }}</td>
+                    <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>
+                    <td><strong>Rp {{ number_format($b->harga_barang,0,',','.') }}</strong></td>
                     <td>
                         <span class="badge badge-info">{{ $b->stok }}</span>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" class="empty-data">
-                        <i class="fa-solid fa-inbox"></i>
-                        <span>Belum ada data barang terbaru.</span>
+                    <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                        <i class="fa-solid fa-inbox" style="font-size: 48px; margin-bottom: 10px; display: block;"></i>
+                        Belum ada data barang terbaru.
                     </td>
                 </tr>
                 @endforelse
@@ -115,7 +109,7 @@
         <div class="modal-header">
             <h3 class="modal-title">
                 <i class="fa-solid fa-triangle-exclamation"></i>
-                Daftar Barang Stok Rendah (Segera Restock!)
+                Daftar Barang Stok Rendah
             </h3>
         </div>
 
@@ -205,23 +199,9 @@
             closeStokRendahModal();
         }
     }
-
-    // Close modal with ESC key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeStokRendahModal();
-        }
-    });
 </script>  
 
 <style> 
-    /* ========================================
-       BASE STYLES
-       ======================================== */
-    * {
-        box-sizing: border-box;
-    }
-
     /* Notif Badge */
     .notif-badge {     
         position: absolute;     
@@ -234,27 +214,23 @@
         border-radius: 50%;     
         font-weight: bold;
         box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
-        min-width: 20px;
-        text-align: center;
     }
     
     .card-icon {     
         position: relative; 
     }
 
-    /* ========================================
-       CARDS GRID - RESPONSIVE
-       ======================================== */
+    /* Cards Grid - 4 Cards in a Row */
     .cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 16px;
         margin-bottom: 24px;
     }
 
     /* Card Warning Style */
     .card-warning {
-        border-left: 4px solid #ff0000ff;
+        border-left: 4px solid #ffffffff;
         transition: all 0.3s ease;
     }
 
@@ -267,66 +243,15 @@
         background: linear-gradient(135deg, #ff0000ff, #ff5722) !important;
     }
 
-    /* ========================================
-       PANEL - RESPONSIVE HEIGHT
-       ======================================== */
+    /* Single Panel - Full Width */
     .panel {
-        height: auto;
+        height: calc(100vh - 350px);
         min-height: 450px;
-        max-height: calc(100vh - 350px);
-    }
-
-    .panel h4 {
-        margin-bottom: 16px;
     }
 
     .panel h4 i {
         margin-right: 8px;
         color: var(--accent);
-    }
-
-    /* ========================================
-       TABLE - RESPONSIVE
-       ======================================== */
-    .table-scroll {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .table {
-        width: 100%;
-        min-width: 600px;
-    }
-
-    .product-img {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-        border-radius: 8px;
-        border: 2px solid #e3f2fd;
-    }
-
-    /* Mobile Info (hidden on desktop) */
-    .mobile-info {
-        display: none;
-        flex-direction: column;
-        gap: 4px;
-        margin-top: 4px;
-        font-size: 12px;
-        color: #666;
-    }
-
-    /* Empty Data State */
-    .empty-data {
-        text-align: center;
-        padding: 40px;
-        color: #999;
-    }
-
-    .empty-data i {
-        font-size: 48px;
-        margin-bottom: 10px;
-        display: block;
     }
 
     /* Badge Styles */
@@ -336,7 +261,6 @@
         border-radius: 12px;
         font-size: 13px;
         font-weight: 700;
-        white-space: nowrap;
     }
 
     .badge-info {
@@ -358,16 +282,12 @@
         font-size: 20px;
     }
 
-    /* ========================================
-       MODAL - RESPONSIVE
-       ======================================== */
+    /* Modal Stok Rendah */
     .modal-stok-rendah {
         max-width: 600px;
-        width: 90%;
         max-height: 85vh;
         display: flex;
         flex-direction: column;
-        margin: 20px;
     }
 
     .modal-body {
@@ -381,12 +301,12 @@
     }
 
     .modal-body::-webkit-scrollbar-thumb {
-        background: #ff0000ff;
+        background: #ff9800;
         border-radius: 10px;
     }
 
     .modal-body::-webkit-scrollbar-thumb:hover {
-        background: #f50000ff;
+        background: #f57c00;
     }
 
     .stok-rendah-list {
@@ -403,7 +323,7 @@
         padding: 16px;
         background: #fff3e0;
         border: 2px solid #ffe0b2;
-        border-left: 4px solid #ff0000ff;
+        border-left: 4px solid #ff9800;
         border-radius: 12px;
         transition: all 0.3s ease;
     }
@@ -430,7 +350,6 @@
 
     .stok-item-info {
         flex: 1;
-        min-width: 0;
     }
 
     .stok-item-info h5 {
@@ -438,21 +357,18 @@
         font-size: 16px;
         font-weight: 700;
         color: #333;
-        word-wrap: break-word;
     }
 
     .stok-item-info .merk {
         margin: 0 0 8px 0;
         font-size: 13px;
         color: #666;
-        word-wrap: break-word;
     }
 
     .stok-details {
         display: flex;
         gap: 16px;
         font-size: 13px;
-        flex-wrap: wrap;
     }
 
     .stok-details span {
@@ -519,335 +435,53 @@
         justify-content: flex-end;
     }
 
-    /* ========================================
-       RESPONSIVE BREAKPOINTS
-       ======================================== */
-    
-    /* Large Desktop (> 1400px) */
-    @media (min-width: 1400px) {
-        .cards {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    /* Desktop (1200px - 1399px) */
-    @media (min-width: 1200px) and (max-width: 1399px) {
-        .cards {
-            grid-template-columns: repeat(4, 1fr);
-        }
-    }
-
-    /* Tablet Landscape (992px - 1199px) */
-    @media (min-width: 992px) and (max-width: 1199px) {
-        .cards {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    /* Tablet Portrait (768px - 991px) */
-    @media (min-width: 768px) and (max-width: 991px) {
+    /* Responsive */
+    @media (max-width: 1200px) {
         .cards {
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .cards {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
 
         .panel {
+            height: calc(100vh - 320px);
             min-height: 400px;
-            max-height: calc(100vh - 320px);
-        }
-
-        .hide-tablet {
-            display: none !important;
-        }
-
-        .table {
-            min-width: 500px;
-        }
-    }
-
-    /* Mobile Large (576px - 767px) */
-    @media (min-width: 576px) and (max-width: 767px) {
-        .cards {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .card {
-            padding: 16px;
-        }
-
-        .card .stat {
-            font-size: 22px;
-        }
-
-        .card-meta h4 {
-            font-size: 14px;
-        }
-
-        .card-meta p {
-            font-size: 12px;
-        }
-
-        .panel {
-            min-height: 350px;
-            max-height: calc(100vh - 300px);
-        }
-
-        .hide-mobile {
-            display: none !important;
-        }
-
-        .hide-tablet {
-            display: none !important;
-        }
-
-        .mobile-info {
-            display: flex;
-        }
-
-        .hide-desktop {
-            display: block;
-        }
-
-        .table {
-            min-width: 400px;
-        }
-
-        .product-img,
-        .no-image {
-            width: 40px;
-            height: 40px;
-        }
-
-        .stok-rendah-item {
-            padding: 12px;
-            gap: 12px;
-        }
-
-        .stok-item-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-        }
-
-        .modal-stok-rendah {
-            width: 95%;
-        }
-    }
-
-    /* Mobile Small (< 576px) */
-    @media (max-width: 575px) {
-        .cards {
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-
-        .card {
-            padding: 14px;
-        }
-
-        .card .stat {
-            font-size: 20px;
-        }
-
-        .card-meta h4 {
-            font-size: 13px;
-        }
-
-        .card-meta p {
-            font-size: 11px;
-        }
-
-        .card-icon {
-            width: 50px;
-            height: 50px;
-        }
-
-        .card-icon i {
-            font-size: 22px;
-        }
-
-        .panel {
-            min-height: 300px;
-            max-height: calc(100vh - 280px);
-        }
-
-        .panel h4 {
-            font-size: 16px;
-        }
-
-        .hide-mobile {
-            display: none !important;
-        }
-
-        .hide-tablet {
-            display: none !important;
-        }
-
-        .mobile-info {
-            display: flex;
-        }
-
-        .hide-desktop {
-            display: block;
-        }
-
-        .table {
-            min-width: 350px;
-            font-size: 13px;
-        }
-
-        .table th,
-        .table td {
-            padding: 8px 6px;
-        }
-
-        .product-img,
-        .no-image {
-            width: 35px;
-            height: 35px;
-        }
-
-        .badge {
-            font-size: 11px;
-            padding: 3px 8px;
-        }
-
-        /* Modal Adjustments */
-        .modal-stok-rendah {
-            width: 95%;
-            max-width: 100%;
-            margin: 10px;
-        }
-
-        .modal-header h3 {
-            font-size: 16px;
         }
 
         .stok-rendah-item {
             flex-direction: column;
             text-align: center;
-            padding: 12px;
-        }
-
-        .stok-item-icon {
-            width: 45px;
-            height: 45px;
-            font-size: 20px;
-        }
-
-        .stok-item-info h5 {
-            font-size: 14px;
         }
 
         .stok-details {
             justify-content: center;
-            font-size: 12px;
-        }
-
-        .stok-item-badge {
-            margin-top: 8px;
-        }
-
-        .badge-critical {
-            font-size: 10px;
-            padding: 5px 10px;
-        }
-
-        .modal-footer {
-            padding: 12px;
-        }
-
-        .btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        .notif-badge {
-            font-size: 10px;
-            padding: 2px 5px;
-            min-width: 18px;
         }
     }
 
-    /* Extra Small Mobile (< 400px) */
-    @media (max-width: 399px) {
+    @media (max-width: 600px) {
         .cards {
-            gap: 10px;
-        }
-
-        .card {
-            padding: 12px;
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .card .stat {
-            font-size: 18px;
+            font-size: 20px;
         }
 
         .card-meta h4 {
-            font-size: 12px;
+            font-size: 13px;
         }
 
         .card-meta p {
-            font-size: 10px;
-        }
-
-        .table {
-            min-width: 320px;
-            font-size: 12px;
-        }
-
-        .product-img,
-        .no-image {
-            width: 30px;
-            height: 30px;
-        }
-
-        .no-image i {
-            font-size: 14px;
-        }
-    }
-
-    /* ========================================
-       UTILITY CLASSES
-       ======================================== */
-    .hide-desktop {
-        display: none;
-    }
-
-    @media (max-width: 767px) {
-        .hide-mobile {
-            display: none !important;
-        }
-        
-        .hide-desktop {
-            display: block;
-        }
-    }
-
-    @media (max-width: 991px) {
-        .hide-tablet {
-            display: none !important;
-        }
-    }
-
-    /* ========================================
-       PRINT STYLES
-       ======================================== */
-    @media print {
-        .card-clickable,
-        .card-warning,
-        .modal {
-            display: none !important;
+            font-size: 11px;
         }
 
         .panel {
-            height: auto;
-            max-height: none;
-        }
-
-        .table-scroll {
-            overflow: visible;
+            height: calc(100vh - 300px);
         }
     }
 </style> 
