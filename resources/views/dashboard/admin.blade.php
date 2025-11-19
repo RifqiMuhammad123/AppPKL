@@ -37,7 +37,7 @@
         </div>     
     </a>  
 
-    <!-- Card Stok Rendah (Clickable untuk Modal) -->
+    <!-- Card Stok Rendah -->     
     <div class="card card-warning" onclick="openStokRendahModal()" style="cursor: pointer;">         
         <div class="card-icon card-icon-warning">
             <i class="fa-solid fa-triangle-exclamation"></i>
@@ -51,7 +51,7 @@
 </div>  
 
 <!-- Single Table: Barang Terbaru -->
-<div class="panel">
+
     <h4><i class="fa-solid fa-box"></i> Barang Terbaru</h4>
 
     <div class="table-scroll">
@@ -60,7 +60,7 @@
                 <tr>
                     <th>No</th>
                     <th>Foto</th>
-                    <th>Nama</th>
+                    <th>Nama Barang</th>
                     <th>Merk</th>
                     <th>Tgl Beli</th>
                     <th>Harga</th>
@@ -70,10 +70,18 @@
             <tbody>
                 @forelse($barangTerbaru as $index => $b)
                 <tr>
-                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        @if(method_exists($barangTerbaru, 'firstItem'))
+                            {{ $barangTerbaru->firstItem() + $index }}
+                        @else
+                            {{ $index + 1 }}
+                        @endif
+                    </td>
                     <td>
                         @if($b->foto)
-                        <img src="{{ asset('storage/' . $b->foto) }}" alt="{{ $b->nama_barang }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 2px solid #e3f2fd;">
+                        <img src="{{ asset('storage/' . $b->foto) }}" 
+                             alt="{{ $b->nama_barang }}" 
+                             style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 2px solid #e3f2fd;">
                         @else
                         <div class="no-image">
                             <i class="fa-solid fa-image"></i>
@@ -84,9 +92,18 @@
                     <td>{{ $b->merk_barang }}</td>
                     <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>
                     <td><strong>Rp {{ number_format($b->harga_barang,0,',','.') }}</strong></td>
+
+                    <!-- ===== PERBAIKAN STOK MERAH OTOMATIS ===== -->
                     <td>
-                        <span class="badge badge-info">{{ $b->stok }}</span>
+                        @php
+                            $isLow = $b->stok <= ($b->stok_minimum ?? 10);
+                        @endphp
+
+                        <span class="badge {{ $isLow ? 'badge-danger' : 'badge-info' }}">
+                            {{ $b->stok }}
+                        </span>
                     </td>
+                    <!-- ========== END PERBAIKAN ========== -->
                 </tr>
                 @empty
                 <tr>
@@ -98,7 +115,53 @@
                 @endforelse
             </tbody>
         </table>
+
+    <!-- Pagination -->
+    @if(method_exists($barangTerbaru, 'hasPages') && $barangTerbaru->hasPages())
+    <div class="pagination-wrapper">
+        <div class="pagination-info">
+            Menampilkan <strong>{{ $barangTerbaru->firstItem() }}</strong> - <strong>{{ $barangTerbaru->lastItem() }}</strong> 
+            dari <strong>{{ $barangTerbaru->total() }}</strong> data
+        </div>
+        
+        <ul class="pagination">
+            {{-- Previous Page Link --}}
+            @if ($barangTerbaru->onFirstPage())
+                <li class="disabled">
+                    <span><i class="fa-solid fa-chevron-left"></i></span>
+                </li>
+            @else
+                <li class="prev">
+                    <a href="{{ $barangTerbaru->previousPageUrl() }}" rel="prev">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                </li>
+            @endif
+
+            {{-- Pagination Elements --}}
+            @foreach ($barangTerbaru->links()->elements[0] as $page => $url)
+                @if ($page == $barangTerbaru->currentPage())
+                    <li class="active"><span>{{ $page }}</span></li>
+                @else
+                    <li><a href="{{ $url }}">{{ $page }}</a></li>
+                @endif
+            @endforeach
+
+            {{-- Next Page Link --}}
+            @if ($barangTerbaru->hasMorePages())
+                <li class="next">
+                    <a href="{{ $barangTerbaru->nextPageUrl() }}" rel="next">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </li>
+            @else
+                <li class="disabled">
+                    <span><i class="fa-solid fa-chevron-right"></i></span>
+                </li>
+            @endif
+        </ul>
     </div>
+    @endif
 </div>
 
 <!-- Modal Stok Rendah -->
@@ -109,7 +172,7 @@
         <div class="modal-header">
             <h3 class="modal-title">
                 <i class="fa-solid fa-triangle-exclamation"></i>
-                Daftar Barang Stok Rendah
+                Daftar Barang Stok Rendah (Restock Barang Segera!)
             </h3>
         </div>
 
@@ -181,7 +244,6 @@
     loadNotif();     
     setInterval(loadNotif, 3000);
 
-    // Modal Functions
     function openStokRendahModal() {
         document.getElementById('modalStokRendah').style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -192,7 +254,6 @@
         document.body.style.overflow = 'auto';
     }
 
-    // Close modal when clicking outside
     window.onclick = function(event) {
         const modal = document.getElementById('modalStokRendah');
         if (event.target == modal) {
@@ -215,12 +276,12 @@
         font-weight: bold;
         box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
     }
-    
+
     .card-icon {     
         position: relative; 
     }
 
-    /* Cards Grid - 4 Cards in a Row */
+    /* Cards */
     .cards {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -228,9 +289,9 @@
         margin-bottom: 24px;
     }
 
-    /* Card Warning Style */
+    /* Card Warning */
     .card-warning {
-        border-left: 4px solid #ffffffff;
+        border-left: 4px solid #ffffff;
         transition: all 0.3s ease;
     }
 
@@ -243,20 +304,20 @@
         background: linear-gradient(135deg, #ff0000ff, #ff5722) !important;
     }
 
-    /* Single Panel - Full Width */
+    /* Panel */
     .panel {
         height: calc(100vh - 350px);
         min-height: 450px;
     }
 
-    .panel h4 i {
-        margin-right: 8px;
-        color: var(--accent);
+    /* Fix table scroll - pastikan table-scroll bisa scroll */
+    .table-scroll {
+        max-height: calc(100vh - 450px);
+        min-height: 300px;
     }
 
-    /* Badge Styles */
+    /* Badge */
     .badge {
-        display: inline-block;
         padding: 4px 10px;
         border-radius: 12px;
         font-size: 13px;
@@ -266,8 +327,15 @@
     .badge-info {
         background: linear-gradient(135deg, #42a5f5, #1e88e5);
         color: white;
-        box-shadow: 0 2px 8px rgba(30, 136, 229, 0.3);
     }
+
+    /* ===== BADGE MERAH (PERBAIKAN) ===== */
+    .badge-danger {
+        background: linear-gradient(135deg, #f44336, #d32f2f);
+        color: white;
+        box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+    }
+    /* =================================== */
 
     /* No Image Placeholder */
     .no-image {
@@ -285,204 +353,119 @@
     /* Modal Stok Rendah */
     .modal-stok-rendah {
         max-width: 600px;
+        width: 90%;
         max-height: 85vh;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         display: flex;
         flex-direction: column;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #333;
     }
 
     .modal-body {
-        padding: 0;
-        max-height: 500px;
+        padding: 16px 20px;
         overflow-y: auto;
-    }
-
-    .modal-body::-webkit-scrollbar {
-        width: 8px;
-    }
-
-    .modal-body::-webkit-scrollbar-thumb {
-        background: #ff9800;
-        border-radius: 10px;
-    }
-
-    .modal-body::-webkit-scrollbar-thumb:hover {
-        background: #f57c00;
+        flex: 1;
     }
 
     .stok-rendah-list {
         display: flex;
         flex-direction: column;
         gap: 12px;
-        padding: 16px;
     }
 
     .stok-rendah-item {
         display: flex;
         align-items: center;
-        gap: 16px;
-        padding: 16px;
-        background: #fff3e0;
-        border: 2px solid #ffe0b2;
-        border-left: 4px solid #ff9800;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-    }
-
-    .stok-rendah-item:hover {
-        background: #ffe0b2;
-        transform: translateX(4px);
-        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #fff7f7;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        gap: 12px;
     }
 
     .stok-item-icon {
-        width: 50px;
-        height: 50px;
-        background: linear-gradient(135deg, #ff9800, #ff5722);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 24px;
+        font-size: 28px;
+        color: #f44336;
         flex-shrink: 0;
-        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
-    }
-
-    .stok-item-info {
-        flex: 1;
     }
 
     .stok-item-info h5 {
-        margin: 0 0 4px 0;
-        font-size: 16px;
-        font-weight: 700;
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
         color: #333;
     }
 
     .stok-item-info .merk {
-        margin: 0 0 8px 0;
         font-size: 13px;
         color: #666;
+        margin-bottom: 4px;
     }
 
     .stok-details {
         display: flex;
-        gap: 16px;
-        font-size: 13px;
-    }
-
-    .stok-details span {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+        gap: 12px;
+        font-size: 12px;
         color: #555;
+        align-items: center;
     }
 
     .stok-details i {
-        color: #ff9800;
+        margin-right: 4px;
+        color: #f44336;
     }
 
-    .stok-details strong {
-        color: #d84315;
-        font-weight: 700;
-    }
-
-    .stok-item-badge {
-        flex-shrink: 0;
-    }
-
-    .badge-critical {
-        display: inline-block;
-        padding: 6px 12px;
-        background: linear-gradient(135deg, #f44336, #d32f2f);
-        color: white;
-        border-radius: 20px;
+    .stok-item-badge .badge-critical {
+        background: #ff5722;
+        color: #fff;
         font-size: 11px;
         font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        box-shadow: 0 2px 8px rgba(244, 67, 54, 0.4);
+        padding: 4px 8px;
+        border-radius: 8px;
+        white-space: nowrap;
     }
 
-    .empty-state {
-        text-align: center;
-        padding: 60px 20px;
-        color: #4caf50;
-    }
-
-    .empty-state i {
-        font-size: 64px;
-        margin-bottom: 16px;
-        display: block;
-    }
-
-    .empty-state h4 {
-        margin: 0 0 8px 0;
-        font-size: 20px;
-        color: #2e7d32;
-    }
-
-    .empty-state p {
-        margin: 0;
-        color: #66bb6a;
-        font-size: 14px;
-    }
-
+    /* Modal Footer */
     .modal-footer {
-        padding: 16px;
-        border-top: 1px solid #eee;
+        padding: 12px 20px;
+        border-top: 1px solid #e0e0e0;
         display: flex;
         justify-content: flex-end;
     }
 
-    /* Responsive */
-    @media (max-width: 1200px) {
-        .cards {
-            grid-template-columns: repeat(2, 1fr);
-        }
+    .modal-footer .btn {
+        padding: 6px 14px;
+        font-size: 13px;
     }
 
-    @media (max-width: 768px) {
-        .cards {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .panel {
-            height: calc(100vh - 320px);
-            min-height: 400px;
-        }
-
-        .stok-rendah-item {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .stok-details {
-            justify-content: center;
-        }
+    /* Scrollbar Styling */
+    .modal-body::-webkit-scrollbar {
+        width: 6px;
     }
 
-    @media (max-width: 600px) {
-        .cards {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .card .stat {
-            font-size: 20px;
-        }
-
-        .card-meta h4 {
-            font-size: 13px;
-        }
-
-        .card-meta p {
-            font-size: 11px;
-        }
-
-        .panel {
-            height: calc(100vh - 300px);
-        }
+    .modal-body::-webkit-scrollbar-thumb {
+        background: #ff9800;
+        border-radius: 3px;
     }
 </style> 
 @endsection

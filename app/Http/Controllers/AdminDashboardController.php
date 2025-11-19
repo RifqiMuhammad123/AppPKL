@@ -16,6 +16,7 @@ class AdminDashboardController extends Controller
     {
         $allStok = DB::table('barang')->sum('stok');
 
+        // Hitung barang baru (3 hari terakhir)
         $barangBaru = DB::table('barang')
             ->where('tanggal_pembelian', '>=', now()->subDays(3))
             ->count();
@@ -26,9 +27,10 @@ class AdminDashboardController extends Controller
             ->whereRaw('stok <= COALESCE(stok_minimum, 10)')
             ->get();
 
+        // Tampilkan barang terbaru khusus dashboard (≤ 3 hari terakhir)
         $barangTerbaru = DB::table('barang')
+            ->where('tanggal_pembelian', '>=', now()->subDays(3))
             ->orderByDesc('tanggal_pembelian')
-            ->limit(5)
             ->get();
 
         $adminName  = session('auth_name');
@@ -64,12 +66,10 @@ class AdminDashboardController extends Controller
             'foto'       => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // --- Data yang akan diupdate
         $updateData = [
             'nama_admin' => $request->nama_admin,
         ];
 
-        // --- Handle upload foto baru
         if ($request->hasFile('foto')) {
             $oldUser = DB::table('admin')->where('id_admin', $adminId)->first();
 
@@ -88,25 +88,20 @@ class AdminDashboardController extends Controller
             $updateData['foto'] = $namaFoto;
         }
 
-        // --- Update password (jika diisi)
         if (!empty($request->password)) {
             $updateData['password'] = Hash::make($request->password);
-            $updateData['password_plain'] = $request->password; // tambahkan baris ini
+            $updateData['password_plain'] = $request->password;
         }
 
-
-        // --- Simpan perubahan ke database
         DB::table('admin')->where('id_admin', $adminId)->update($updateData);
 
-        // --- Update session
         $user = DB::table('admin')->where('id_admin', $adminId)->first();
         
         session([
             'auth_name'  => $user->nama_admin,
             'auth_photo' => $user->foto,
-            'auth_password_plain' => $user->password_plain, // 🔹 tambahkan ini
+            'auth_password_plain' => $user->password_plain,
         ]);
-
 
         return back()->with('success', 'Profil berhasil diperbarui.');
     }
@@ -133,23 +128,20 @@ class AdminDashboardController extends Controller
             ->orderBy('nama_admin', 'asc')
             ->get();
 
-        // --- Inisialisasi TCPDF
-        $pdf = new TCPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Laravel');
         $pdf->SetAuthor('Sistem Admin');
         $pdf->SetTitle('Data Admin');
-        $pdf->SetMargins(10, 10, 10);
+        $pdf->SetMargins(10, 5, 10);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
-        // --- Render view HTML ke PDF
         $html = view('dashboard.data-admin-pdf', compact('admins'))->render();
         $pdf->writeHTML($html, true, false, true, false, '');
 
         $fileName = 'Data_Admin_' . date('Y-m-d_His') . '.pdf';
 
-        // --- Kirim PDF ke browser
         return response($pdf->Output($fileName, 'S'))
             ->header('Content-Type', 'application/pdf')
             ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');

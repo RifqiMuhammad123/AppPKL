@@ -15,7 +15,7 @@ class PermintaanController extends Controller
     /** 🔹 Halaman form ajukan permintaan (Guru) */
    public function create()
 {
-    $barang = Barang::all(); // Ambil semua barang
+    $barang = Barang::all();
     return view('dashboard.guru-permintaan', compact('barang'));
 }
 
@@ -28,7 +28,6 @@ public function store(Request $request)
         'jumlah'    => 'required|integer|min:1'
     ]);
 
-    // Ambil data barang berdasarkan id_barang yang dipilih
     $barang = Barang::findOrFail($request->id_barang);
 
     Permintaan::create([
@@ -48,8 +47,8 @@ public function store(Request $request)
     /** 🔹 Halaman riwayat permintaan Guru */
     public function proses()
     {
-        // hapus permintaan yang lebih dari 7 hari
-        $batas = now()->subDays(7);
+        // ✅ Hapus permintaan yang lebih dari 3 BULAN
+        $batas = now()->subMonths(3);
         Permintaan::where('created_at', '<', $batas)->delete();
 
         $permintaan = Permintaan::where('id_guru', session('auth_id'))
@@ -62,8 +61,8 @@ public function store(Request $request)
     /** 🔹 Halaman Admin: lihat semua permintaan */
     public function adminIndex()
     {
-        // hapus permintaan lama juga untuk admin
-        $batas = now()->subDays(7);
+        // ✅ Hapus permintaan lama juga untuk admin (3 bulan)
+        $batas = now()->subMonths(3);
         Permintaan::where('created_at', '<', $batas)->delete();
 
         $permintaan = Permintaan::with('guru')
@@ -79,16 +78,13 @@ public function store(Request $request)
         $permintaan = Permintaan::where('id_permintaan', $id)->firstOrFail();
 
         if ($permintaan->status === 'pending') {
-            // Ambil barang sesuai nama + merk
             $barang = Barang::where('nama_barang', $permintaan->nama_barang)
                             ->where('merk_barang', $permintaan->merk_barang)
                             ->first();
 
             if ($barang) {
-                // Kurangi stok sesuai jumlah permintaan
                 $barang->stok -= $permintaan->jumlah;
 
-                // Biar gak minus
                 if ($barang->stok < 0) {
                     $barang->stok = 0;
                 }
@@ -96,7 +92,6 @@ public function store(Request $request)
                 $barang->save();
             }
 
-            // Update status permintaan
             $permintaan->status = 'dikonfirmasi'; 
             $permintaan->save();
         }
@@ -111,8 +106,8 @@ public function store(Request $request)
         $permintaan = Permintaan::where('id_permintaan', $id)->firstOrFail();
 
         if ($permintaan->status === 'pending') {
-            $permintaan->status = 'ditolak'; // ✅ sesuai enum DB
-            $permintaan->catatan = $request->catatan ?? '_'; // ✅ simpan ke kolom catatan
+            $permintaan->status = 'ditolak';
+            $permintaan->catatan = $request->catatan ?? '_';
             $permintaan->save();
         }
 
@@ -130,8 +125,8 @@ public function store(Request $request)
     /** 🔹 API untuk Guru: ambil status permintaan realtime */
     public function cekStatusGuru()
     {
-        // hapus permintaan yang lebih dari 7 hari
-        $batas = now()->subDays(7);
+        // ✅ Hapus permintaan yang lebih dari 3 bulan
+        $batas = now()->subMonths(3);
         Permintaan::where('created_at', '<', $batas)->delete();
 
         $permintaan = Permintaan::where('id_guru', session('auth_id'))
@@ -171,72 +166,113 @@ public function store(Request $request)
             ->with('success', 'Permintaan barang berhasil diajukan!');
     }
 
-    public function history()
-{
-    $riwayatPermintaan = DB::table('permintaan as p')
-        ->join('guru as g', 'p.id_guru', '=', 'g.id_guru')
-        ->select(
-            'p.*',
-            'g.nama_guru'
-        )
-        ->where('p.status', '!=', 'pending')
-        ->orderByDesc('p.tanggal')
-        ->get();
+    /** 🔹 Riwayat dengan Filter Bulan, Tahun, dan Status */
+    public function history(Request $request)
+    {
+        // ✅ Ambil parameter filter
+        $bulan = $request->input('bulan');
+        $tahun = $request->input('tahun');
+        $status = $request->input('status');
 
-       return view('dashboard.permintaan.history', compact('riwayatPermintaan'));
+        $query = DB::table('permintaan as p')
+            ->join('guru as g', 'p.id_guru', '=', 'g.id_guru')
+            ->select(
+                'p.*',
+                'g.nama_guru'
+            )
+            ->where('p.status', '!=', 'pending');
 
-}
-    
+        // ✅ Filter berdasarkan bulan jika ada
+        if ($bulan) {
+            $query->whereMonth('p.tanggal', $bulan);
+        }
 
-    public function downloadHistoryPdf()
-{
-    // Ambil data riwayat permintaan (status bukan pending)
-    $riwayatPermintaan = DB::table('permintaan as p')
-        ->join('guru as g', 'p.id_guru', '=', 'g.id_guru')
-        ->select(
-            'p.*',
-            'g.nama_guru'
-        )
-        ->where('p.status', '!=', 'pending')
-        ->orderByDesc('p.tanggal')
-        ->get();
+        // ✅ Filter berdasarkan tahun jika ada
+        if ($tahun) {
+            $query->whereYear('p.tanggal', $tahun);
+        }
 
-    // Inisialisasi TCPDF
-    $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-    $pdf->SetTitle('Riwayat Permintaan');
-    $pdf->AddPage();
+        // ✅ Filter berdasarkan status jika ada
+        if ($status) {
+            $query->where('p.status', $status);
+        }
 
-    // Buat HTML untuk PDF
-    $html = '<h2>Riwayat Permintaan</h2>';
-    $html .= '<table border="1" cellpadding="5">
-                <tr>
-                    <th>No</th>
-                    <th>Nama Guru</th>
-                    <th>Nama Barang</th>
-                    <th>Merk</th>
-                    <th>Jumlah</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                </tr>';
+        $riwayatPermintaan = $query->orderByDesc('p.tanggal')->get();
 
-    foreach ($riwayatPermintaan as $index => $item) {
-        $html .= '<tr>
-                    <td>'.($index+1).'</td>
-                    <td>'.$item->nama_guru.'</td>
-                    <td>'.$item->nama_barang.'</td>
-                    <td>'.$item->merk_barang.'</td>
-                    <td>'.$item->jumlah.'</td>
-                    <td>'.$item->tanggal.'</td>
-                    <td>'.$item->status.'</td>
-                  </tr>';
+        // ✅ Kirim semua parameter ke view
+        return view('dashboard.permintaan.history', compact('riwayatPermintaan', 'bulan', 'tahun', 'status'));
     }
-
-    $html .= '</table>';
-
-    $pdf->writeHTML($html, true, false, true, false, '');
     
-    // Download PDF
-    $pdf->Output('riwayat_permintaan.pdf', 'D');
-}
 
+    /** 🔹 Download PDF dengan Filter */
+    public function downloadHistoryPdf(Request $request)
+    {
+        // ✅ Ambil parameter filter
+        $bulan = $request->input('bulan');
+        $tahun = $request->input('tahun');
+        $status = $request->input('status');
+
+        $query = DB::table('permintaan as p')
+            ->join('guru as g', 'p.id_guru', '=', 'g.id_guru')
+            ->select(
+                'p.*',
+                'g.nama_guru'
+            )
+            ->where('p.status', '!=', 'pending');
+
+        // ✅ Filter berdasarkan bulan jika ada
+        if ($bulan) {
+            $query->whereMonth('p.tanggal', $bulan);
+        }
+
+        // ✅ Filter berdasarkan tahun jika ada
+        if ($tahun) {
+            $query->whereYear('p.tanggal', $tahun);
+        }
+
+        // ✅ Filter berdasarkan status jika ada
+        if ($status) {
+            $query->where('p.status', $status);
+        }
+
+        $riwayatPermintaan = $query->orderByDesc('p.tanggal')->get();
+
+        // ✅ Debug: cek apakah data ada
+        // dd($riwayatPermintaan); // Uncomment untuk test
+
+        // --- Inisialisasi TCPDF
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false); // ✅ L = Landscape biar lebar
+        $pdf->SetCreator('Laravel');
+        $pdf->SetAuthor('Sistem Permintaan');
+        $pdf->SetTitle('Riwayat Permintaan');
+        $pdf->SetMargins(10, 10, 10);
+        $pdf->SetAutoPageBreak(true, 10);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->AddPage();
+
+        // --- Render view blade ke PDF
+        $html = view('dashboard.permintaan.pdf', compact('riwayatPermintaan', 'bulan', 'tahun', 'status'))->render();
+        
+        // ✅ Debug: cek HTML yang dirender
+        // dd($html); // Uncomment untuk test
+        
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // ✅ Nama file dinamis berdasarkan filter
+        $fileName = 'Riwayat_Permintaan';
+        if ($bulan && $tahun) {
+            $fileName .= '' . \Carbon\Carbon::create()->month($bulan)->translatedFormat('F') . '' . $tahun;
+        } elseif ($tahun) {
+            $fileName .= '_' . $tahun;
+        }
+        if ($status) {
+            $fileName .= '_' . ucfirst($status);
+        }
+        $fileName .= '_' . date('Y-m-d_His') . '.pdf';
+
+        // --- Output PDF (langsung download)
+        $pdf->Output($fileName, 'D');
+        exit;
+    }
 }

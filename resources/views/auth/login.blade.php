@@ -309,7 +309,7 @@
     <div class="left">
       <img src="{{ asset('img/logo7.png') }}" class="logo" alt="logo">
       <h1>APLIKASI BARANG HABIS<br>PAKAI SEKOLAH</h1>
-      <div class="subtitle">SMK MAHARDHIKA BATUAJAJAR</div>
+      <div class="subtitle">SMK MAHARDHIKA BATUJAJAR</div>
       <div class="footer">© 2025 Sistem Inventaris Sekolah</div>
     </div>
 

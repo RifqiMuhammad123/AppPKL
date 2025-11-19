@@ -73,7 +73,8 @@ Swal.fire({
 
 .table-dashboard {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .table-dashboard thead {
@@ -84,9 +85,9 @@ Swal.fire({
 }
 
 .table-dashboard thead th {
-    background-color: #0011ffff; /* Pastikan sama dengan thead */
+    background: #0080ff; 
     padding: 12px;
-    border-bottom: 2px solid #ddd;
+    border-right: 1px solid #d0e3f5;
 }
 
 .table-dashboard tbody td {
