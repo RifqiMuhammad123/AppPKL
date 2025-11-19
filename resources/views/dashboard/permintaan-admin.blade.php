@@ -3,7 +3,12 @@
 
 @section('content')
 <div class="permintaan-container">
+    <div class="header-flex">
+    <button class="btn-back" onclick="window.location='{{ route('admin.dashboard') }}'">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
     <h2>Status Permintaan Barang</h2>
+</div>
 
     <!-- TABLE WRAPPER -->
     <div class="permintaan-table-wrapper">
@@ -169,6 +174,46 @@
 }
 .btn.confirm:hover { transform: translateY(-2px); }
 .btn.reject:hover { transform: translateY(-2px); }
+
+/* BACK BUTTON MODERN */
+.header-flex {
+    display: flex;
+    align-items: center;    /* Biar icon & judul segaris tengah */
+    gap: 14px;              /* Jarak modern */
+    margin-bottom: 25px;    /* Jarak dari content */
+}
+
+/* Judul */
+.header-flex .title-text {
+    font-size: 26px;
+    font-weight: 700;
+    color: #121212;
+    margin: 0;             /* Hilangkan margin default h2 */
+}
+
+/* Tombol Back */
+.btn-back {
+    background: #f44336;
+    color: #fff;
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: 0.25s ease;
+}
+
+.btn-back:hover {
+    background: #c62828;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(229,57,53,0.35);
+}
+
 
 /* === EMPTY STATE === */
 .permintaan-table tbody tr td[colspan] {

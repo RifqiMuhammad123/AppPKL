@@ -453,16 +453,16 @@ document.getElementById('form-edit').addEventListener('submit', function(e) {
 }
 
 .btn-secondary {
-    background: #f5f5f5;
-    color: #666;
+    background: #e53935;
+    color: #fff;
     border: 2px solid #e0e0e0;
 }
 
 .btn-secondary:hover {
-    background: #e8e8e8;
-    color: #333;
+    background: #c62828;
+    color: #fff;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(229, 57, 53, 0.35);
 }
 
 .btn-primary {

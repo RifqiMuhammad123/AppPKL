@@ -39,47 +39,64 @@
 
 <!-- Daftar Barang -->
 <div class="barang-container mt-5">
-    <h2>Daftar Barang</h2>
+    <h2><i class="fa-solid fa-box"></i> Daftar Barang</h2>
 
-    <table class="barang-table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Foto</th>
-                <th>Nama Barang</th>
-                <th>Merk</th>
-                <th>Tanggal</th>
-                <th>Harga</th>
-                <th>Stok</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($barang as $index => $b)
-            <tr class="clickable-row" data-href="{{ route('guru.permintaan.fromBarang', $b->id_barang) }}">
-                <td>{{ $index + 1 }}</td>
-                <td style="width:120px; text-align:center;">
-                    @if($b->foto)
-                        <img src="{{ asset('storage/'.$b->foto) }}" 
-                            alt="Foto {{ $b->nama_barang }}" 
-                            style="max-width:100px; max-height:100px; object-fit:cover; border-radius:5px;">
-                    @else
-                        <span>-</span>
-                    @endif
-                </td>
-                <td>{{ $b->nama_barang }}</td>
-                <td>{{ $b->merk_barang }}</td>
-                <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>
-                <td>Rp {{ number_format($b->harga_barang,0,',','.') }}</td>
-                <td>{{ $b->stok }}</td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="6" class="text-muted text-center">Belum ada barang.</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+    <div class="tabel-wrapper">
+        <table class="barang-table">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Foto</th>
+            <th>Nama Barang</th>
+            <th>Merk</th>
+            <th>Tanggal</th>
+            <th>Harga</th>
+            <th>Stok</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($barang as $index => $b)
+        <tr class="clickable-row"
+            data-href="{{ route('guru.permintaan.fromBarang', $b->id_barang) }}">
+
+            <td>{{ $index + 1 }}</td>
+
+            <td class="foto-kolom">
+                @if($b->foto)
+                    <img src="{{ asset('storage/'.$b->foto) }}" 
+                         alt="Foto {{ $b->nama_barang }}" 
+                         class="foto-barang">
+                @else
+                    <span>-</span>
+                @endif
+            </td>
+
+            <td class="nama-barang">{{ $b->nama_barang }}</td>
+
+            <td>{{ $b->merk_barang }}</td>
+
+            <td>{{ \Carbon\Carbon::parse($b->tanggal_pembelian)->format('d M Y') }}</td>
+
+            <td class="harga-barang">
+                Rp {{ number_format($b->harga_barang,0,',','.') }}
+            </td>
+
+            <td>
+                <span class="badge-stok">{{ $b->stok }}</span>
+            </td>
+
+        </tr>
+        @empty
+        <tr>
+            <td colspan="7" class="text-muted text-center">Belum ada barang.</td>
+        </tr>
+        @endforelse
+    </tbody>
+</table>
+
+    </div>
 </div>
+
 @endsection
 
 @push('styles')

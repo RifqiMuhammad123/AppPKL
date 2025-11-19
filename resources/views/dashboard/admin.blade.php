@@ -150,11 +150,11 @@
             @endif
         </div>
 
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
             <button class="btn btn-primary" onclick="closeStokRendahModal()">
                 <i class="fa-solid fa-check"></i> Kembali
             </button>
-        </div>
+        </div> -->
     </div>
 </div>
 

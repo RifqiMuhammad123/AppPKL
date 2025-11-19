@@ -60,18 +60,7 @@ body.dash {
   flex-direction: column;
 }
 
-/* Pastikan topbar tetap ikut di atas */
-.topbar {
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 10;
-  padding: 14px 20px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-}
+
 
 /* Biar tabel atau main content scroll dengan halus */
 .content {

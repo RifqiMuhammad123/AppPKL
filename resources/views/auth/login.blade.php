@@ -58,8 +58,15 @@
       animation: slideLeft .9s ease forwards .2s;
     }
 
-    @keyframes slideLeft {
-      to { opacity: 1; transform: translateX(0); }
+   @keyframes slideLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-35px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
     }
 
     .left .logo {

@@ -47,61 +47,58 @@
         </div>
 
         <div class="form-actions">
-            <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('guru.home') }}'">Kembali</button>
-            <button type="submit" class="btn-submit">Ajukan</button>
+            <button type="button" class="btn btn-red" onclick="window.location='{{ route('guru.home') }}'">Kembali</button>
+            <button type="submit" class="btn btn-blue">Ajukan</button>
         </div>
     </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-// Tampilkan info stok ketika barang dipilih
 document.getElementById('id_barang').addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    const stok = selectedOption.getAttribute('data-stok');
-    
+    const selected = this.options[this.selectedIndex];
+    const stok = selected.getAttribute('data-stok');
+
     if (stok) {
         document.getElementById('stok-info').style.display = 'block';
         document.getElementById('stok-value').textContent = stok;
     }
 });
 
-// Validasi jumlah tidak melebihi stok
 document.querySelector('form').addEventListener('submit', function(e) {
-    const selectedOption = document.getElementById('id_barang').options[document.getElementById('id_barang').selectedIndex];
-    const stok = parseInt(selectedOption.getAttribute('data-stok'));
+    const option = document.getElementById('id_barang').options[document.getElementById('id_barang').selectedIndex];
+    const stok = parseInt(option.getAttribute('data-stok'));
     const jumlah = parseInt(document.getElementById('jumlah').value);
-    
+
     if (jumlah > stok) {
         e.preventDefault();
         Swal.fire({
             icon: 'warning',
             title: 'Jumlah Melebihi Stok!',
-            text: Stok tersedia hanya ${stok} unit,
+            text: `Stok tersedia hanya ${stok} unit`,
             confirmButtonColor: '#dc3545'
         });
     }
 });
 
-// Notifikasi sukses jika ada
 @if(session('success'))
-    Swal.fire({
-        icon: 'success',
-        title: 'Berhasil!',
-        text: '{{ session("success") }}',
-        timer: 2000,
-        showConfirmButton: false
-    });
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil!',
+    text: '{{ session("success") }}',
+    timer: 2000,
+    showConfirmButton: false
+});
 @endif
 
-// Notifikasi error jika ada
 @if($errors->any())
-    Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        html: '@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach',
-        confirmButtonColor: '#dc3545'
-    });
+Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    html: '@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach',
+    confirmButtonColor: '#dc3545'
+});
 @endif
 </script>
 
@@ -144,20 +141,8 @@ document.querySelector('form').addEventListener('submit', function(e) {
 
 .form-control:focus, select:focus {
     outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-}
-
-select {
-    cursor: pointer;
-    background-color: #fff;
-}
-
-.text-danger {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 5px;
-    display: block;
+    border-color: #0055aa;
+    box-shadow: 0 0 0 3px rgba(0,85,170,0.2);
 }
 
 .form-actions {
@@ -166,6 +151,7 @@ select {
     margin-top: 30px;
 }
 
+/* === WARNA TOMBOL BARU === */
 .btn {
     padding: 10px 20px;
     border: none;
@@ -176,25 +162,27 @@ select {
     transition: all 0.3s;
 }
 
-.btn-secondary {
-    background: #6c757d;
+/* Tombol Merah (Kembali) */
+.btn-red {
+    background: #e53935;
     color: #fff;
 }
-
-.btn-secondary:hover {
-    background: #5a6268;
+.btn-red:hover {
+    background: #c62828;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(229, 57, 53, 0.35);
 }
 
-.btn-submit {
-    background: #4CAF50;
+/* Tombol Biru (Ajukan) */
+.btn-blue {
+    background: #1e88e5;
     color: #fff;
     flex: 1;
 }
-
-.btn-submit:hover {
-    background: #45a049;
+.btn-blue:hover {
+    background: #1565c0;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+    box-shadow: 0 4px 10px rgba(30, 136, 229, 0.35);
 }
 
 #stok-info {
@@ -204,7 +192,8 @@ select {
 
 #stok-value {
     font-weight: bold;
-    color: #4CAF50;
+    color: #0055aa;
 }
 </style>
+
 @endsection

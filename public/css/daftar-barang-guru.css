@@ -1,61 +1,133 @@
+/* ============================
+   CARD DAFTAR BARANG (ukuran fix)
+============================ */
 .barang-container {
     background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 30px;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-top: 20px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    max-height: 650px;
-    overflow-y: auto;
-    position: relative;
+    max-height: 520px;
 }
 
-/* Sembunyikan scrollbar tapi tetap bisa scroll */
-.barang-container::-webkit-scrollbar {
-    display: none;
-}
-
-.barang-container {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-
+/* ============================
+   JUDUL
+============================ */
 .barang-container h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1c1c1c;
     margin-bottom: 15px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
 }
 
+/* ============================
+   WRAPPER TABEL
+============================ */
+.tabel-wrapper {
+    max-height: 380px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Scrollbar */
+.tabel-wrapper::-webkit-scrollbar { width: 8px; }
+.tabel-wrapper::-webkit-scrollbar-track { background: #e3f2fd; }
+.tabel-wrapper::-webkit-scrollbar-thumb {
+    background: #64b5f6;
+    border-radius: 10px;
+}
+
+/* ============================
+   TABEL — BORDER RADIUS FIX
+============================ */
 .barang-table {
     width: 100%;
-    border-collapse: collapse;
-    background: #fff;
-    border-radius: 8px;
+    border-collapse: separate !important; /* WAJIB untuk radius */
+    border-spacing: 0 !important;        /* supaya rapat */
+    font-size: 13px;
     overflow: hidden;
+    border-radius: 12px;                 /* radius full */
+    background: #fff;
 }
 
-.barang-table thead {
+/* HEADER */
+.barang-table thead th {
     position: sticky;
     top: 0;
-    z-index: 10;
-}
-
-.barang-table th {
     background: #1565c0;
     color: #fff;
-    font-weight: bold;
-    padding: 12px;
-    border-bottom: 1px solid #eee;
+    font-weight: 600;
     text-align: center;
+    padding: 10px;
+    font-size: 13px;
+    z-index: 5;
 }
 
-.barang-table td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    text-align: center;
+/* Radius header kiri-kanan */
+.barang-table thead th:first-child {
+    border-top-left-radius: 12px;
+}
+.barang-table thead th:last-child {
+    border-top-right-radius: 12px;
 }
 
-.barang-table tr:hover {
-    background-color: #eef5ff;
-    cursor: pointer;
+/* TD */
+.barang-table tbody td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    color: #333;
+    font-size: 13px;
+    background: #fff;
+}
+
+/* Radius bawah di row terakhir */
+.barang-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+.barang-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
+}
+
+/* FOTO */
+.foto-barang {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* ============================
+   NAMA BARANG BOLD HITAM
+============================ */
+.nama-barang {
+    font-weight: 700;
+    color: #000;
+    font-size: 14px;
+}
+
+/* ============================
+   HARGA BOLD HITAM
+============================ */
+.harga-barang {
+    font-weight: 700;
+    color: #000;
+}
+
+/* ============================
+   BADGE STOK (biru)
+============================ */
+.badge-stok {
+    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    color: #fff;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    box-shadow: 0 2px 8px rgba(30, 136, 229, 0.3);
+}
+
+/* Hover */
+.barang-table tbody tr:hover td {
+    background: #eef5ff;
 }
