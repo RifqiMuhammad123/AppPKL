@@ -134,11 +134,11 @@ class AdminDashboardController extends Controller
             ->get();
 
         // --- Inisialisasi TCPDF
-        $pdf = new TCPDF('L', PDF_UNIT, 'A4', true, 'UTF-8', false);
+        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Laravel');
         $pdf->SetAuthor('Sistem Admin');
         $pdf->SetTitle('Data Admin');
-        $pdf->SetMargins(10, 10, 10);
+        $pdf->SetMargins(10, 5, 10);
         $pdf->setPrintHeader(false);
         $pdf->setPrintFooter(false);
         $pdf->AddPage();

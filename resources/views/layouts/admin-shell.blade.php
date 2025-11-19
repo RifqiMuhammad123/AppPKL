@@ -12,26 +12,24 @@
 <body class="dash">
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="logo">
-            <i class="fa-solid fa-cubes"></i> <span>Admin Page</span>
+        <div class="sidebar-header">
+            <img src="{{ asset('img/Mahardhika.png') }}" class="sidebar-logo" alt="Logo Sekolah">
+            <h3 class="app-title">Aplikasi Barang Habis Pakai di Sekolah</h3>
+            <p class="app-subtitle">SMK Mahardhika Batujajar</p>
         </div>
+
         <nav>
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }} dashboard-link">
                 <i class="fa-solid fa-chart-line"></i> Dashboard
             </a>
 
-            <div class="Permintaan {{ request()->is('admin/guru') ? 'open' : '' }}">
-                <a href="{{ route('admin.permintaan.index') }}" class="{{ request()->routeIs('admin.permintaan.index') ? 'active' : '' }}">
-                    <i class="fa-solid fa-envelope"></i> Permintaan
-                </a>
-            </div>
+            <a href="{{ route('admin.permintaan.index') }}" class="{{ request()->routeIs('admin.permintaan.index') ? 'active' : '' }}">
+                <i class="fa-solid fa-envelope"></i> Permintaan
+            </a>
 
-            <!-- ✅ TAMBAHKAN INI - Menu History -->
-            <div class="History {{ request()->is('admin/permintaan/history') ? 'open' : '' }}">
-                <a href="{{ route('admin.permintaan.history') }}" class="{{ request()->routeIs('admin.permintaan.history') ? 'active' : '' }}">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Riwayat Permintaan
-                </a>
-            </div>
+            <a href="{{ route('admin.permintaan.history') }}" class="{{ request()->routeIs('admin.permintaan.history') ? 'active' : '' }}">
+                <i class="fa-solid fa-clock-rotate-left"></i> Riwayat Permintaan
+            </a>
 
             <div class="menu-parent {{ request()->is('admin/barang*') ? 'open' : '' }}">
                 <button class="menu-toggle">
@@ -63,9 +61,9 @@
                 </div>
             </div>
 
-                    <a href="{{ route('admin.data-admin') }}" class="{{ request()->routeIs('admin.data-admin') ? 'active' : '' }}">
-                        <i class="fa-solid fa-users-gear"></i> Data Admin
-                    </a>
+            <a href="{{ route('admin.data-admin') }}" class="{{ request()->routeIs('admin.data-admin') ? 'active' : '' }}">
+                <i class="fa-solid fa-users-gear"></i> Data Admin
+            </a>
 
             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -79,12 +77,13 @@
     <!-- Content -->
     <div class="content">
         <div class="topbar">
+            <h2 class="page-title">Dashboard Admin</h2>
             <div class="profile">
-                <img src="{{ asset('img/' . (session('auth_photo') ?? 'icon.jpg')) }}" alt="Foto Profil" class="profile-img" id="btn-view-profile">
                 <div class="info">
-                    <strong>{{ session('auth_name') }}</strong>
-                    <span>{{ ucfirst(session('auth_role')) }}</span>
+                    <strong>Hai, {{ session('auth_name') }} !</strong>
+                    <span>Anda login sebagai {{ strtolower(session('auth_role')) }}</span>
                 </div>
+                <img src="{{ asset('img/' . (session('auth_photo') ?? 'icon.jpg')) }}" alt="Foto Profil" class="profile-img" id="btn-view-profile">
             </div>
         </div>
 
@@ -209,14 +208,13 @@
         </div>
     </div>
 
-        <!-- Modal zoom foto -->
-        <div id="modal-foto" class="modal" style="display:none; align-items:center; justify-content:center;">
+    <!-- Modal zoom foto -->
+    <div id="modal-foto" class="modal" style="display:none; align-items:center; justify-content:center;">
         <div style="position:relative; background:rgba(0,0,0,0.85); width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
             <img id="foto-zoom" src="" alt="Foto Zoom" style="max-width:90%; max-height:90%; border-radius:10px; border:4px solid #fff;">
             <span id="close-foto" style="position:absolute; top:20px; right:30px; color:white; font-size:35px; cursor:pointer;">&times;</span>
         </div>
-        </div>
-
+    </div>
 
     <script>
         // Toggle password (untuk view profile & edit profile)
@@ -336,28 +334,27 @@
         });
         @endif
 
-        // === Klik foto di modal profil buka tampilan besar ===
-const fotoProfil = document.querySelector('#modal-view-profile img');
-const modalFoto = document.getElementById('modal-foto');
-const fotoZoom = document.getElementById('foto-zoom');
-const closeFoto = document.getElementById('close-foto');
+        // Klik foto di modal profil buka tampilan besar
+        const fotoProfil = document.querySelector('#modal-view-profile img');
+        const modalFoto = document.getElementById('modal-foto');
+        const fotoZoom = document.getElementById('foto-zoom');
+        const closeFoto = document.getElementById('close-foto');
 
-if (fotoProfil) {
-  fotoProfil.style.cursor = 'pointer';
-  fotoProfil.addEventListener('click', () => {
-    fotoZoom.src = fotoProfil.src;
-    modalFoto.style.display = 'flex';
-  });
-}
+        if (fotoProfil) {
+            fotoProfil.style.cursor = 'pointer';
+            fotoProfil.addEventListener('click', () => {
+                fotoZoom.src = fotoProfil.src;
+                modalFoto.style.display = 'flex';
+            });
+        }
 
-closeFoto.addEventListener('click', () => {
-  modalFoto.style.display = 'none';
-});
+        closeFoto.addEventListener('click', () => {
+            modalFoto.style.display = 'none';
+        });
 
-modalFoto.addEventListener('click', e => {
-  if (e.target === modalFoto) modalFoto.style.display = 'none';
-});
-
+        modalFoto.addEventListener('click', e => {
+            if (e.target === modalFoto) modalFoto.style.display = 'none';
+        });
     </script>
     @yield('scripts')
 </body>

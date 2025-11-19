@@ -201,42 +201,27 @@ public function store(Request $request)
         ->orderByDesc('p.tanggal')
         ->get();
 
-    // Inisialisasi TCPDF
+    // --- Inisialisasi TCPDF
     $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+    $pdf->SetCreator('Laravel');
+    $pdf->SetAuthor('Sistem Permintaan');
     $pdf->SetTitle('Riwayat Permintaan');
+    $pdf->SetMargins(10, 5, 10);
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
     $pdf->AddPage();
 
-    // Buat HTML untuk PDF
-    $html = '<h2>Riwayat Permintaan</h2>';
-    $html .= '<table border="1" cellpadding="5">
-                <tr>
-                    <th>No</th>
-                    <th>Nama Guru</th>
-                    <th>Nama Barang</th>
-                    <th>Merk</th>
-                    <th>Jumlah</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                </tr>';
-
-    foreach ($riwayatPermintaan as $index => $item) {
-        $html .= '<tr>
-                    <td>'.($index+1).'</td>
-                    <td>'.$item->nama_guru.'</td>
-                    <td>'.$item->nama_barang.'</td>
-                    <td>'.$item->merk_barang.'</td>
-                    <td>'.$item->jumlah.'</td>
-                    <td>'.$item->tanggal.'</td>
-                    <td>'.$item->status.'</td>
-                  </tr>';
-    }
-
-    $html .= '</table>';
-
+    // --- Render view blade ke PDF
+    $html = view('dashboard.permintaan.pdf', compact('riwayatPermintaan'))->render();
     $pdf->writeHTML($html, true, false, true, false, '');
-    
-    // Download PDF
-    $pdf->Output('riwayat_permintaan.pdf', 'D');
+
+    $fileName = 'Riwayat_Permintaan_' . date('Y-m-d_His') . '.pdf';
+
+    // --- Kirim PDF ke browser
+    return response($pdf->Output($fileName, 'S'))
+        ->header('Content-Type', 'application/pdf')
+        ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
 }
+
 
 }

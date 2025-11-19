@@ -26,8 +26,10 @@ class BarangController extends Controller
         $pdf->SetCreator('Laravel App');
         $pdf->SetAuthor('SMK KODING');
         $pdf->SetTitle('Daftar Barang');
-        $pdf->SetMargins(15, 30, 15);
+        $pdf->SetMargins(15, 5, 15);
         $pdf->SetAutoPageBreak(true, 15);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
         $pdf->AddPage();
 
         // Render view blade ke HTML

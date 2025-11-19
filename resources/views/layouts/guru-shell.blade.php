@@ -7,15 +7,15 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  
 </head>
 
 <body class="dash">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo">
-      <i class="fa-solid fa-chalkboard-user"></i>
-      <span>Guru Page</span>
+    <div class="sidebar-header">
+      <img src="{{ asset('img/Mahardhika.png') }}" class="sidebar-logo" alt="Logo Sekolah">
+      <h3 class="app-title">Aplikasi Barang Habis Pakai di Sekolah</h3>
+      <p class="app-subtitle">SMK Mahardhika Batujajar</p>
     </div>
     
     <nav>
@@ -35,12 +35,13 @@
   <!-- Content -->
   <main class="content">
     <div class="topbar">
+      <h2 class="page-title">Dashboard Guru</h2>
       <div class="profile">
-        <img src="{{ asset('img/' . (session('auth_photo') ?? 'icon.jpg')) }}" alt="Foto Profil" class="profile-img" id="btn-view-profile">
         <div class="info">
-          <strong>{{ session('auth_name') }}</strong>
-          <span>Guru</span>
+          <strong>Hai, {{ session('auth_name') }} !</strong>
+          <span>Anda login sebagai guru</span>
         </div>
+        <img src="{{ asset('img/' . (session('auth_photo') ?? 'icon.jpg')) }}" alt="Foto Profil" class="profile-img" id="btn-view-profile">
       </div>
     </div>
     
@@ -55,7 +56,10 @@
       <button class="modal-close" onclick="closeViewProfileModal()">&times;</button>
       
       <div class="modal-header">
-        <h3 class="modal-title"><i class="fa-solid fa-user-circle"></i> Profil Guru</h3>
+        <h3 class="modal-title">
+          <i class="fa-solid fa-user-circle"></i>
+          Profil Guru
+        </h3>
       </div>
       
       <div class="profile-photo-display">
@@ -102,7 +106,8 @@
       </div>
       
       <button type="button" class="btn-edit-profile" onclick="openEditProfileModal()">
-        <i class="fa-solid fa-edit"></i> Edit Profil
+        <i class="fa-solid fa-edit"></i>
+        Edit Profil
       </button>
     </div>
   </div>
@@ -113,7 +118,10 @@
       <button class="modal-close" onclick="closeEditProfileModal()">&times;</button>
       
       <div class="modal-header">
-        <h3 class="modal-title"><i class="fa-solid fa-user-edit"></i> Edit Profil</h3>
+        <h3 class="modal-title">
+          <i class="fa-solid fa-user-edit"></i>
+          Edit Profil
+        </h3>
       </div>
       
       <form action="{{ route('guru.profile.update') }}" method="POST" enctype="multipart/form-data">
@@ -140,13 +148,17 @@
         <label>Password (Biarkan kosong jika tidak ingin mengubah)</label>
         <div class="password-wrapper">
           <input type="password" name="password" id="password" placeholder="Masukkan password baru">
-          <button type="button" class="toggle-password"><i class="fa-solid fa-eye"></i></button>
+          <button type="button" class="toggle-password">
+            <i class="fa-solid fa-eye"></i>
+          </button>
         </div>
 
         <label>Konfirmasi Password</label>
         <div class="password-wrapper">
           <input type="password" name="password_confirmation" id="password-confirm" placeholder="Konfirmasi password baru">
-          <button type="button" class="toggle-password-confirm"><i class="fa-solid fa-eye"></i></button>
+          <button type="button" class="toggle-password-confirm">
+            <i class="fa-solid fa-eye"></i>
+          </button>
         </div>
 
         <div class="form-buttons">
@@ -157,15 +169,13 @@
     </div>
   </div>
 
-      <!-- Modal zoom foto -->
-<div id="modal-foto" class="modal" style="display:none; align-items:center; justify-content:center;">
-  <div style="position:relative; background:rgba(0,0,0,0.85); width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-    <img id="foto-zoom" src="" alt="Foto Zoom" style="max-width:90%; max-height:90%; border-radius:10px; border:4px solid #fff;">
-    <span id="close-foto" style="position:absolute; top:20px; right:30px; color:white; font-size:35px; cursor:pointer;">&times;</span>
+  <!-- Modal zoom foto -->
+  <div id="modal-foto" class="modal" style="display:none; align-items:center; justify-content:center;">
+    <div style="position:relative; background:rgba(0,0,0,0.85); width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+      <img id="foto-zoom" src="" alt="Foto Zoom" style="max-width:90%; max-height:90%; border-radius:10px; border:4px solid #fff;">
+      <span id="close-foto" style="position:absolute; top:20px; right:30px; color:white; font-size:35px; cursor:pointer;">&times;</span>
+    </div>
   </div>
-</div>
-
-
 
   <script>
     // Toggle password visibility in View Modal
@@ -183,23 +193,21 @@
       }
     });
 
-    // Buka Modal View Profil
+    // Modal View Profile
     document.getElementById("btn-view-profile").addEventListener("click", function () {
       document.getElementById("modal-view-profile").style.display = "flex";
     });
 
-    // Tutup Modal View
     function closeViewProfileModal() {
       document.getElementById("modal-view-profile").style.display = "none";
     }
 
-    // Buka Modal Edit
     function openEditProfileModal() {
       closeViewProfileModal();
       document.getElementById("modal-edit-profile").style.display = "flex";
     }
 
-    // Tutup Modal Edit
+    // Modal Edit Profile
     function closeEditProfileModal() {
       document.getElementById("modal-edit-profile").style.display = "none";
     }
@@ -229,7 +237,7 @@
       }
     });
 
-    // Preview file & ganti nama file
+    // File input preview
     document.getElementById('foto-input').addEventListener('change', function (e) {
       const fileName = e.target.files[0]?.name || 'Belum ada file dipilih';
       document.getElementById('file-name').textContent = fileName;
@@ -261,7 +269,7 @@
       });
     }
 
-    // Close modal jika klik di luar
+    // Close modal when clicking outside
     window.addEventListener('click', function (event) {
       if (event.target === document.getElementById('modal-view-profile')) {
         closeViewProfileModal();
@@ -271,7 +279,7 @@
       }
     });
 
-    // SweetAlert notifikasi sukses update profil
+    // SweetAlert success alert
     @if(session('success'))
       Swal.fire({
         icon: 'success',
@@ -282,28 +290,27 @@
       });
     @endif
 
-    // === Klik foto di modal profil buka tampilan besar ===
-const fotoProfil = document.querySelector('#modal-view-profile img');
-const modalFoto = document.getElementById('modal-foto');
-const fotoZoom = document.getElementById('foto-zoom');
-const closeFoto = document.getElementById('close-foto');
+    // Klik foto di modal profil buka tampilan besar
+    const fotoProfil = document.querySelector('#modal-view-profile img');
+    const modalFoto = document.getElementById('modal-foto');
+    const fotoZoom = document.getElementById('foto-zoom');
+    const closeFoto = document.getElementById('close-foto');
 
-if (fotoProfil) {
-  fotoProfil.style.cursor = 'pointer';
-  fotoProfil.addEventListener('click', () => {
-    fotoZoom.src = fotoProfil.src;
-    modalFoto.style.display = 'flex';
-  });
-}
+    if (fotoProfil) {
+      fotoProfil.style.cursor = 'pointer';
+      fotoProfil.addEventListener('click', () => {
+        fotoZoom.src = fotoProfil.src;
+        modalFoto.style.display = 'flex';
+      });
+    }
 
-closeFoto.addEventListener('click', () => {
-  modalFoto.style.display = 'none';
-});
+    closeFoto.addEventListener('click', () => {
+      modalFoto.style.display = 'none';
+    });
 
-modalFoto.addEventListener('click', e => {
-  if (e.target === modalFoto) modalFoto.style.display = 'none';
-});
-
+    modalFoto.addEventListener('click', e => {
+      if (e.target === modalFoto) modalFoto.style.display = 'none';
+    });
   </script>
 
   @yield('scripts')

@@ -2,176 +2,183 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Data Admin Sistem</title>
+    <title>Data Admin Sistem - Cetak</title>
     <style>
-        /* === RESET === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* === DASAR === */
         body {
             font-family: "Times New Roman", serif;
-            font-size: 12px;
-            color: #000;
-            background: #fff;
-            padding: 40px 50px;
-            line-height: 1.5;
-        }
-
-        /* === HEADER === */
-        .header {
-            text-align: center;
-            border-bottom: 3px double #000;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .header h1 {
-            font-size: 18px;
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #000;
-            margin-bottom: 3px;
-        }
-
-        .header p {
             font-size: 11px;
-            color: #444;
-            letter-spacing: 0.3px;
         }
 
-        /* === INFO === */
-        .info-box {
-            font-size: 11.5px;
-            margin-bottom: 20px;
-            padding: 8px 12px;
-            border: 1px solid #000;
-            border-radius: 4px;
-            background-color: #fafafa;
+        /* KOP */
+        .kop {
+            text-align: center;
+            margin-bottom: 5px;
         }
 
-        .info-box p {
-            margin: 4px 0;
+        .title {
+            font-size: 15px;
+            font-weight: bold;
         }
 
-        .info-box strong {
-            color: #000;
+        .addr {
+            font-size: 10px;
+            margin: 0;
+            line-height: 8px;
         }
 
-        /* === TABEL === */
+        .kop-line {
+            border-top: 1px solid #000;
+            margin-top: 5px;
+            margin-bottom: 12px;
+        }
+
+        /* JUDUL */
+        .judul {
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        /* INFO */
+        .info {
+            line-height: 16px;
+            font-size: 11px;
+        }
+
+
+        /* ====== TABEL RAPIH ====== */
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 11.5px;
-        }
-
-        thead {
-            background-color: #e6e6e6;
-            border-top: 2px solid #000;
-            border-bottom: 2px solid #000;
-        }
-
-        th, td {
             border: 1px solid #000;
-            padding: 7px 5px;
-            text-align: center;
+            font-size: 11px;
+            border-spacing: 0; /* wajib untuk TCPDF */
         }
 
-        th {
+        table th {
+            border: 1px solid #000;
+            padding: 4px;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+        table td {
+            border: 1px solid #000;
+            padding: 4px;
         }
 
         td.left {
             text-align: left;
-            padding-left: 10px;
         }
 
-        tbody tr:nth-child(odd) {
-            background-color: #f9f9f9;
+        /* FOOTER */
+        .printed-at {
+            text-align: left;
+            margin-top: 10px;
+            font-size: 10px;
         }
 
-        tbody tr:hover {
-            background-color: #f2f2f2;
-        }
-
-        /* === FOOTER === */
         .footer {
-            margin-top: 40px;
-            padding-top: 8px;
-            border-top: 2px solid #000;
-            text-align: center;
-            font-size: 10.5px;
-            color: #333;
+        margin-top: 40px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
         }
 
-        .footer p {
-            margin: 4px 0;
+        .signature {
+        text-align: righ;
+        width: 40%;
         }
 
-        /* === CETAK === */
-        @media print {
-            body {
-                padding: 20px;
-                font-size: 11px;
-            }
-            .info-box {
-                page-break-inside: avoid;
-            }
-            .footer {
-                position: fixed;
-                bottom: 20px;
-                left: 0;
-                right: 0;
-            }
+        .signature .date {
+        margin-bottom: 60px;
         }
+
+        .signature .name {
+        font-weight: bold;
+        text-decoration: underline;
+        }
+
+        .signature .nip {
+        font-size: 11px;
+        }
+        
     </style>
 </head>
+
 <body>
-    <div class="header">
-        <h1>LAPORAN DATA ADMIN SISTEM</h1>
-        <p>Dokumen Rahasia - Backup Data Administrator</p>
+
+<div class="sheet">
+
+    <!-- KOP -->
+    <div class="kop">
+        <div class="title">SMK MAHARDHIKA BATUJAJAR</div>
+        <div class="addr">Jl. Raya Batujajar No.30, Cangkorah Desa Giri Asih, Kec. Batujajar, Kab. Bandung Barat</div>
+        <div class="addr">Telp: (022) 6868495 | Website: http://www.smkmahardhika.sch.id | Email: smk.mahardhika.btjr.@gmail.com</div>
+        <div class="addr">Batujajar - 40561</div>
+        <div class="kop-line"></div>
     </div>
 
-    <div class="info-box">
-        <p><strong>Total Admin:</strong> {{ $admins->count() }}</p>
-        <p><strong>Tanggal Cetak:</strong> {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('d F Y, H:i') }} WIB</p>
-        <p><strong>Dicetak Oleh:</strong> {{ session('auth_name') }}</p>
+    <!-- JUDUL -->
+    <div class="judul">Laporan Data Admin Sistem</div>
+
+    <!-- INFO -->
+    <div class="info">
+        <strong>Total Admin:</strong> {{ $admins->count() }}<br>
+        <strong>Tanggal Cetak:</strong> {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('d F Y, H:i') }} WIB<br>
+        <strong>Dicetak Oleh:</strong> {{ session('auth_name') }}
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>NIP</th>
-                <th>Nama Admin</th>
-                <th>Password</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php use Illuminate\Support\Str; @endphp
-            @foreach($admins as $index => $admin)
-            <tr>
-                <td>{{ $index + 1 }}</td>
-                <td>{{ $admin->nip }}</td>
-                <td class="left">{{ $admin->nama_admin }}</td>
-                <td>
-                    {{ $admin->password_plain }}
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
+    <!-- TABEL -->
+    <br><br>
+    <table border="1" cellpadding="4" cellspacing="0" width="100%" style="margin-top:25px;">
+    <thead>
+        <tr style="font-weight: bold; background-color: #e5e5e5; text-align: center;">
+            <th width="40">No</th>
+            <th width="120">NIP</th>
+            <th width="200">Nama Admin</th>
+            <th width="120">Password</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach($admins as $index => $admin)
+        <tr>
+            <td width="40" align="center">{{ $index + 1 }}</td>
+            <td width="120" align="center">{{ $admin->nip }}</td>
+
+            <td width="200" style="text-align:center;">
+                {{ $admin->nama_admin }}
+            </td>
+
+
+            <td width="120" align="center">{{ $admin->password_plain }}</td>
+        </tr>
+        @endforeach
+    </tbody>
     </table>
 
-    <div class="footer">
-        <p><strong>Catatan:</strong> Password yang tertera adalah data asli yang tersimpan di sistem</p>
-        <p><em>Dicetak otomatis oleh sistem — {{ date('d F Y') }}</em></p>
-        <p>&copy; {{ date('Y') }} Sistem Manajemen Admin — All Rights Reserved</p>
+    <!-- FOOTER -->
+    <br><br>
+    <div class="printed-at">
+        Dicetak otomatis oleh sistem — {{ \Carbon\Carbon::now('Asia/Jakarta')->translatedFormat('d F Y') }}
     </div>
+
+    <div class="footer">
+      <div class="signature">
+        <p class="date">Bandung, {{ \Carbon\Carbon::now()->format('d F Y') }}</p>
+
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+
+        <p class="name">Hj. Nia Herdiani, S.E., M.Pd</p>
+        <p class="nip">NIP. 19750904 200501 2 001</p>
+      </div>
+    </div>
+
+</div>
+
 </body>
 </html>
