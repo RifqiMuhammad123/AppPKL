@@ -20,7 +20,6 @@ body {
 .form-container,
 .form-dashboard {
     background: var(--card);
-    border-radius: var(--radius);
     padding: 18px 22px;
     width: 350px;
     margin: 30px auto;
@@ -155,11 +154,18 @@ body {
 }
 
 /* ===== Table Dashboard (Modern Style) ===== */
+
+.table-dashboard th,
+.table-dashboard td {
+    text-align: center;      /* center horizontal */
+    vertical-align: middle;  /* center vertical */
+}
+
+
 .table-container {
     margin-top: 18px;
     overflow-x: auto;
     background: #fff;
-    border-radius: var(--radius);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
     border: 1px solid #eee;
 }
@@ -178,7 +184,6 @@ body {
 
 .table-dashboard th {
     padding: 14px 12px;
-    text-align: left;
     font-weight: 600;
     font-size: 14px;
     border: none;
@@ -199,6 +204,8 @@ body {
     font-size: 14px;
     vertical-align: middle;
     border: none;
+    border-bottom: 1px solid #d0e3f5;
+    border-right: 1px solid #d0e3f5;
 }
 
 /* Text center untuk empty state */
@@ -245,7 +252,6 @@ body {
 /* Badge/Status (opsional) */
 .badge {
     padding: 4px 10px;
-    border-radius: 12px;
     font-size: 12px;
     font-weight: 600;
 }

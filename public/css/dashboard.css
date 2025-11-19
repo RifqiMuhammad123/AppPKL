@@ -19,6 +19,35 @@
 }
 
 /* ========================================
+   CUSTOM SCROLLBAR GLOBAL
+   ======================================== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent2), var(--accent));
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) #f1f1f1;
+}
+
+/* ========================================
    LAYOUT DASAR
    ======================================== */
 body.dash {
@@ -46,6 +75,26 @@ body.dash {
   flex-direction: column;
   gap: 18px;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Sidebar scrollbar khusus */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* Sidebar Header */
@@ -226,6 +275,7 @@ body.dash {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .topbar {
@@ -280,10 +330,30 @@ body.dash {
 
 .main {
   padding: 22px;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+/* Main scrollbar khusus */
+.main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.main::-webkit-scrollbar-track {
+  background: rgba(30, 136, 229, 0.05);
+  border-radius: 10px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  border-radius: 10px;
+}
+
+.main::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent2), var(--accent));
 }
 
 /* ========================================
@@ -369,7 +439,6 @@ body.dash {
    ======================================== */
 .panel {
   background: #fff;
-  border-radius: var(--radius);
   padding: 18px;
   border: 1px solid #eee;
   display: flex;
@@ -377,6 +446,7 @@ body.dash {
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  max-height: calc(100vh - 320px); /* Batasi tinggi maksimal panel */
 }
 
 .panel h4 {
@@ -393,21 +463,30 @@ body.dash {
 .table-scroll {
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   min-height: 0;
+  max-height: 100%; /* Pastikan bisa scroll penuh */
 }
 
 .table-scroll::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
+}
+
+.table-scroll::-webkit-scrollbar-track {
+  background: #e3f2fd;
 }
 
 .table-scroll::-webkit-scrollbar-thumb {
-  background: #90caf9;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #90caf9, #42a5f5);
 }
 
 .table-scroll::-webkit-scrollbar-thumb:hover {
-  background: #42a5f5;
+  background: linear-gradient(135deg, #42a5f5, #1e88e5);
+}
+
+.table-scroll::-webkit-scrollbar-corner {
+  background: #e3f2fd;
 }
 
 .table-scroll .table thead {
@@ -422,14 +501,6 @@ body.dash {
   font-size: 14px;
   text-align: left;
   padding: 10px;
-}
-
-.table th:first-child {
-  border-top-left-radius: 8px;
-}
-
-.table th:last-child {
-  border-top-right-radius: 8px;
 }
 
 .table td {
@@ -457,13 +528,13 @@ body.dash {
   justify-content: center;
   background: rgba(0, 0, 0, 0.3);
   z-index: 999;
+  overflow-y: auto;
 }
 
 .modal-content {
   background: white;
   width: 80%;
   max-width: 400px;
-  border-radius: 12px;
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
   padding: 18px;
   position: relative;
@@ -471,6 +542,25 @@ body.dash {
   max-height: 90vh;
   overflow-y: auto;
   font-size: 0.9rem;
+  margin: 20px auto;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #90caf9;
+  border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #42a5f5;
 }
 
 @keyframes modalFadeIn {
@@ -845,6 +935,84 @@ input[type="password"]::-webkit-credentials-auto-fill-button {
   display: none !important;
   visibility: hidden;
 }
+
+/* ========================================
+   SMOOTH SCROLLING
+   ======================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+.sidebar,
+.main,
+.table-scroll,
+.modal-content {
+  scroll-behavior: smooth;
+}
+
+/* ========================================
+   TABLE PANEL (FIX SCROLL)
+   ======================================== */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+}
+
+.table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid #d0e3f5;
+}
+
+.table th {
+  background: #0080ff;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  padding: 12px 10px;
+  border-right: 1px solid #d0e3f5;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table th:last-child {
+  border-right: none;
+}
+
+.table td {
+  background: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #d0e3f5;
+  border-right: 1px solid #d0e3f5;
+  vertical-align: middle;
+  font-size: 13px;
+  color: #333;
+}
+
+.table td:last-child {
+  border-right: none;
+}
+
+.table tbody tr:nth-child(even) td {
+  background: #f8fbff;
+}
+
+.table tbody tr:hover td {
+  background: #e8f4ff;
+}
+
+.table th,
+.table td {
+    text-align: center;      /* rata tengah horizontal */
+    vertical-align: middle;  /* rata tengah vertikal */
+}
+
+
 
 /* ========================================
    RESPONSIVE DESIGN

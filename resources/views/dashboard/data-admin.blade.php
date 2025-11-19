@@ -126,7 +126,8 @@
 
 .table-data-admin {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .table-data-admin thead {
@@ -138,11 +139,10 @@
 
 .table-data-admin th {
     padding: 14px;
-    text-align: left;
     font-weight: 600;
     font-size: 14px;
     color: #ffff;
-    background: blue;
+    background: #0080ff;
 }
 
 .table-data-admin tbody tr {
@@ -162,9 +162,11 @@
 
 .password-cell {
     display: flex;
-    align-items: center;
+    align-items: center;  /* vertical */
+    justify-content: center; /* horizontal */
     gap: 10px;
 }
+
 
 .btn-toggle-pass {
     background: none;

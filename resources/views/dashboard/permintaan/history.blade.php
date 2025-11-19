@@ -33,20 +33,58 @@
         </div>
     </div>
 
-    {{-- Filter --}}
-    <div class="filter-section">
-        <div class="filter-left">
-            <label>Filter Status:</label>
-            <select id="filter-status" class="filter-select">
-                <option value="all">Semua Status</option>
-                <option value="dikonfirmasi">Diterima</option>
-                <option value="ditolak">Ditolak</option>
-            </select>
+    {{-- ✅ Filter Form (Bulan, Tahun, Status) --}}
+    <form method="GET" action="{{ route('admin.permintaan.history') }}" id="filter-form">
+        <div class="filter-section">
+            <div class="filter-left">
+                <div class="filter-group">
+                    <label>Bulan:</label>
+                    <select name="bulan" class="filter-select">
+                        <option value="">Semua Bulan</option>
+                        @for ($i = 1; $i <= 12; $i++)
+                            <option value="{{ $i }}" {{ request('bulan') == $i ? 'selected' : '' }}>
+                                {{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Tahun:</label>
+                    <select name="tahun" class="filter-select">
+                        <option value="">Semua Tahun</option>
+                        @for ($y = date('Y'); $y >= date('Y') - 5; $y--)
+                            <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>
+                                {{ $y }}
+                            </option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Status:</label>
+                    <select name="status" class="filter-select">
+                        <option value="">Semua Status</option>
+                        <option value="dikonfirmasi" {{ request('status') == 'dikonfirmasi' ? 'selected' : '' }}>Diterima</option>
+                        <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                </div>
+
+                <div class="filter-buttons">
+                    <button type="submit" class="btn-filter">
+                        <i class="fa-solid fa-filter"></i> Filter
+                    </button>
+                    <a href="{{ route('admin.permintaan.history') }}" class="btn-reset">
+                        <i class="fa-solid fa-rotate-right"></i> Reset
+                    </a>
+                </div>
+            </div>
+
+            <a href="{{ route('permintaan.history.download', ['bulan' => request('bulan'), 'tahun' => request('tahun'), 'status' => request('status')]) }}" class="btn-download">
+                <i class="fas fa-file-pdf"></i> Unduh PDF
+            </a>
         </div>
-        <a href="{{ route('permintaan.history.download') }}" class="btn-download">
-            <i class="fas fa-file-pdf"></i> Unduh PDF
-        </a>
-    </div>
+    </form>
 
     {{-- Table --}}
     <div class="table-container">
@@ -194,25 +232,39 @@
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 }
 
-/* Filter Section */
+/* ✅ Filter Section - Enhanced */
+#filter-form {
+    margin-bottom: 20px;
+}
+
 .filter-section {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: flex-end;
     gap: 16px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .filter-left {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 12px;
+    flex-wrap: wrap;
+    flex: 1;
 }
 
-.filter-left label {
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-group label {
     font-weight: 600;
     color: #555;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .filter-select {
@@ -222,11 +274,57 @@
     font-size: 14px;
     background: white;
     cursor: pointer;
+    min-width: 140px;
+    transition: all 0.3s;
 }
 
 .filter-select:focus {
     outline: none;
     border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-filter,
+.btn-reset {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-filter {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-filter:hover {
+    background: #229954;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+.btn-reset {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-reset:hover {
+    background: #7f8c8d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(149, 165, 166, 0.3);
 }
 
 .btn-download {
@@ -240,17 +338,19 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    transition: background 0.3s;
+    transition: all 0.3s;
+    white-space: nowrap;
 }
 
 .btn-download:hover {
     background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
 }
 
 /* Table Container */
 .table-container {
     border: 1px solid #e0e0e0;
-    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -263,12 +363,13 @@
 /* Table */
 .history-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 14px;
 }
 
 .history-table thead {
-    background: #3498db;
+    background: #0080ff;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -280,12 +381,19 @@
     color: white;
     font-weight: 600;
     white-space: nowrap;
+    border-right: 1px solid #d0e3f5; 
 }
+
+.history-table th:last-child {
+    border-right: none;
+}
+
 
 .history-table td {
     padding: 12px;
     text-align: center;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #d0e3f5;
+    border-right: 1px solid #d0e3f5;
 }
 
 .history-table tbody tr:hover {
@@ -442,7 +550,27 @@
         align-items: stretch;
     }
 
+    .filter-group {
+        width: 100%;
+    }
+
+    .filter-select {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .filter-buttons {
+        width: 100%;
+    }
+
+    .btn-filter,
+    .btn-reset {
+        flex: 1;
+        justify-content: center;
+    }
+
     .btn-download {
+        width: 100%;
         justify-content: center;
     }
 
@@ -455,23 +583,6 @@
 </style>
 
 <script>
-// Filter
-document.getElementById('filter-status').addEventListener('change', function() {
-    const val = this.value;
-    const rows = document.querySelectorAll('#table-body tr[data-status]');
-    let no = 1;
-    
-    rows.forEach(row => {
-        const status = row.dataset.status;
-        if (val === 'all' || val === status) {
-            row.style.display = '';
-            row.cells[0].textContent = no++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-});
-
 // Modal
 function showCatatan(text) {
     document.getElementById('catatan-text').textContent = text;

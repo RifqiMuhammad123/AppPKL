@@ -97,7 +97,6 @@
     max-height: 60vh;       /* scroll muncul di dalam area ini */
     overflow-y: auto;
     border: 1px solid #e5e7eb;
-    border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
@@ -113,13 +112,13 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: #0055cc;
+    background: #0080ff;
     color: #fff;
     text-align: center;
     font-weight: 600;
     padding: 14px 16px;
     font-size: 13px;
-    border-bottom: 2px solid #0055cc;
+    border-right: 1px solid #d0e3f5;
 }
 
 /* === BODY === */
@@ -129,6 +128,9 @@
     font-size: 14px;
     text-align: center;
     color: #374151;
+    border-bottom: 1px solid #d0e3f5;
+    border-right: 1px solid #d0e3f5;
+    
 }
 .permintaan-table tbody tr:hover {
     background-color: #f0f7ff;

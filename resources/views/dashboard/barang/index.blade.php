@@ -221,7 +221,6 @@ h2 {
    ======================================== */
 .table-container {
   background: #ffffff;
-  border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   border: 1px solid #e5e7eb;
   overflow: auto;
@@ -233,29 +232,28 @@ h2 {
    ======================================== */
 .table-dashboard {
   width: 100%;
-  border-collapse: collapse;
-  background: #ffffff;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 /* ========================================
    TABLE HEADER
    ======================================== */
 .table-dashboard thead {
-  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  background: #0080ff;
   position: sticky;
   top: 0;
   z-index: 10;
 }
 
 .table-dashboard th {
-  color: #ffffff;
+  border-right: 1px solid #d0e3f5;
+  color: white;
   font-weight: 600;
   text-align: left;
   padding: 14px 16px;
   font-size: 13px;
   letter-spacing: 0.3px;
-  text-transform: uppercase;
-  border-bottom: 2px solid #1555b0;
 }
 
 /* ========================================
@@ -267,6 +265,8 @@ h2 {
   font-size: 14px;
   color: #374151;
   vertical-align: middle;
+  border-bottom: 1px solid #d0e3f5;
+  border-right: 1px solid #d0e3f5;
 }
 
 .table-dashboard tbody tr {
@@ -278,14 +278,12 @@ h2 {
 }
 
 /* ========================================
-   TABLE CELLS STYLING
+   TABEL: HEADER DAN BODY CENTER
    ======================================== */
-.table-dashboard td:nth-child(2) {
-  text-align: center;
-}
-
-.table-dashboard td:nth-child(8) {
-  text-align: center;
+.table-dashboard th,
+.table-dashboard td {
+    text-align: center;      /* rata tengah horizontal */
+    vertical-align: middle;  /* rata tengah vertikal */
 }
 
 /* Foto styling */
@@ -293,7 +291,6 @@ h2 {
   max-width: 80px;
   max-height: 80px;
   object-fit: cover;
-  border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }
