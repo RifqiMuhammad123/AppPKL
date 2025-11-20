@@ -26,7 +26,7 @@
 .tabel-wrapper {
     max-height: 380px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 /* Scrollbar */
@@ -38,7 +38,7 @@
 }
 
 /* ============================
-   TABEL — BORDER RADIUS FIX
+   TABEL STYLE SEPERTI FOTO
 ============================ */
 .barang-table {
     width: 100%;
@@ -50,57 +50,57 @@
 
 /* HEADER */
 .barang-table thead th {
+    background: #0089ff; /* biru sesuai foto */
+    color: #fff;
+    font-weight: 600;
+    text-align: center;
+    padding: 12px 10px; 
+    font-size: 14px;
+    border-right: 1px solid #e6e6e6;
     position: sticky;
     top: 0;
     z-index: 10;
 }
 
-.barang-table th {
-    background: #1565c0;
-    color: #fff;
-    font-weight: 600;
-    text-align: center;
-    padding: 10px;
-    font-size: 13px;
-    z-index: 5;
-}
-
-/* Radius header kiri-kanan */
-.barang-table thead th:first-child {
-    border-top-left-radius: 12px;
-}
 .barang-table thead th:last-child {
-    border-top-right-radius: 12px;
+    border-right: none;
 }
 
-/* TD */
-.barang-table tbody td {
-    padding: 10px 8px;
-    border-bottom: 1px solid #eee;
-    text-align: center;
-    color: #333;
-    font-size: 13px;
+/* ROW */
+.barang-table tbody tr {
+    border-bottom: 1px solid #e6e6e6;
     background: #fff;
 }
 
-/* Radius bawah di row terakhir */
-.barang-table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 12px;
-}
-.barang-table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 12px;
+/* CELL */
+.barang-table tbody td {
+    padding: 14px 10px; /* sama seperti foto: tinggi */
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    border-right: 1px solid #e6e6e6;
 }
 
-/* FOTO */
+.barang-table tbody td:last-child {
+    border-right: none;
+}
+
+/* Hover seperti foto */
+.barang-table tbody tr:hover td {
+    background: #f3f8ff;
+}
+
+/* FOTO BARANG */
 .foto-barang {
-    width: 55px;
-    height: 55px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
     border-radius: 6px;
+    border: 1px solid #e0e0e0; /* seperti di foto */
 }
 
 /* ============================
-   NAMA BARANG BOLD HITAM
+   NAMA BARANG BOLD
 ============================ */
 .nama-barang {
     font-weight: 700;
@@ -109,7 +109,7 @@
 }
 
 /* ============================
-   HARGA BOLD HITAM
+   HARGA BOLD
 ============================ */
 .harga-barang {
     font-weight: 700;
@@ -117,19 +117,14 @@
 }
 
 /* ============================
-   BADGE STOK (biru)
+   BADGE STOK
 ============================ */
 .badge-stok {
-    background: linear-gradient(135deg, #42a5f5, #1e88e5);
+    background: #2196f3;
     color: #fff;
     font-weight: 700;
-    padding: 5px 14px;
+    padding: 6px 15px;
     border-radius: 50px;
     font-size: 13px;
     box-shadow: 0 2px 8px rgba(30, 136, 229, 0.3);
-}
-
-/* Hover */
-.barang-table tbody tr:hover td {
-    background: #eef5ff;
 }

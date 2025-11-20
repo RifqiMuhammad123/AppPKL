@@ -13,11 +13,11 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <img src="{{ asset('img/Mahardhika.png') }}" class="sidebar-logo" alt="Logo Sekolah">
-      <h3 class="app-title">Aplikasi Barang Habis Pakai di Sekolah</h3>
-      <p class="app-subtitle">SMK Mahardhika Batujajar</p>
-    </div>
-    
+     <img src="{{ asset('img/Mahardhika.png') }}" class="sidebar-logo" alt="Logo Sekolah">
+    <h3 class="app-title">Aplikasi Barang Habis Pakai di Sekolah</h3>
+    <p class="app-subtitle">SMK Mahardhika Batujajar</p>
+    <div class="sidebar-title-divider"></div>
+
     <nav>
       <a href="{{ route('guru.home') }}" class="{{ request()->routeIs('guru.home') ? 'active' : '' }}">
         <i class="fa-solid fa-house"></i> Dashboard

@@ -144,6 +144,7 @@
 /*      🔥 CLOSE-TO-UI: TABEL DENGAN BORDER RADIUS       */
 /* ===================================================== */
 
+/* ===================================================== */
 /* WRAPPER */
 .panel {
     background:none !important;
@@ -152,57 +153,60 @@
     box-shadow:none !important;
 }
 
-/* TABEL */
+/* ===================================================== */
+/* TABEL PERMINTAAN – SAMA SEPERTI TABEL BARANG */
 .table {
-    width:100%;
-    border-collapse:separate !important; /* wajib biar bisa radius */
-    border-spacing:0 !important;         /* nolkan celah */
-    overflow:hidden;
-    border-radius:12px;                  /* radius full */
-    background:white;
-    box-shadow:0 1px 4px rgba(0,0,0,0.08);
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-/* HEADER */
+/* HEADER – warna biru seperti foto */
 .table thead th {
-    background:#0055cc !important;
-    color:#fff !important;
-    font-weight:600;
-    padding:12px 10px;
-    border-bottom:2px solid #004bb3;
-    text-align:center;
-    font-size:13px;
+    background: #0089ff !important;
+    color: #fff !important;
+    font-weight: 600;
+    text-align: center;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-right: 1px solid #e6e6e6;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-/* Radius pojok header */
-.table thead th:first-child {
-    border-top-left-radius:12px;
-}
+/* hilangkan border di kolom terakhir */
 .table thead th:last-child {
-    border-top-right-radius:12px;
+    border-right: none;
 }
 
-/* BODY */
+/* ROW */
+.table tbody tr {
+    border-bottom: 1px solid #e6e6e6;
+    background: #fff !important;
+}
+
+/* CELL */
 .table tbody td {
-    background:white !important;
-    padding:12px 10px;
-    border-bottom:1px solid #eee;
-    font-size:13px;
-    text-align:center;
+    padding: 14px 10px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    border-right: 1px solid #e6e6e6;
 }
 
-/* Radius pojok baris terakhir */
-.table tbody tr:last-child td:first-child {
-    border-bottom-left-radius:12px;
-}
-.table tbody tr:last-child td:last-child {
-    border-bottom-right-radius:12px;
+/* hilangkan border-right kolom terakhir */
+.table tbody td:last-child {
+    border-right: none;
 }
 
-/* Hover */
+/* Hover seperti foto */
 .table tbody tr:hover td {
-    background:#eef5ff !important;
+    background: #f3f8ff !important;
 }
+
 
 
 </style>
