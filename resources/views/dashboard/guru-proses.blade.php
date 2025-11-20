@@ -27,7 +27,6 @@
             </thead>
             <tbody>
 
-                {{-- LOAD AWAL (SERVER SIDE) --}}
                 @forelse($permintaan as $index => $p)
                     <tr>
                         <td>{{ $index + 1 }}</td>
@@ -68,18 +67,27 @@
     </div>
 </div>
 
-{{-- MODAL CATATAN --}}
-<div id="modal-catatan" class="modal-catatan">
-    <div class="modal-content">
+
+{{-- ========================== MODAL ========================== --}}
+<div id="modal-catatan" class="modal-overlay">
+    <div class="modal-box">
+
         <div class="modal-header">
             <h3><i class="fa-solid fa-comment-dots"></i> Catatan Penolakan</h3>
             <button class="btn-close" onclick="closeCatatan()">&times;</button>
         </div>
+
         <div class="modal-body">
             <p id="catatan-text"></p>
         </div>
+
+        <div class="modal-footer">
+            <button class="btn-close-footer" onclick="closeCatatan()">Tutup</button>
+        </div>
+
     </div>
 </div>
+
 
 
 {{-- ========================== CSS ========================== --}}
@@ -110,7 +118,6 @@
 }
 .btn-back:hover { background:#c62828; transform:translateY(-2px); }
 
-/* HEADER FLEX */
 .header-flex { display:flex; align-items:center; margin-bottom:18px; }
 
 /* EMPTY STATE */
@@ -118,20 +125,7 @@
 .empty-state i { font-size:46px; opacity:.45; }
 .empty-state p { margin-top:8px; color:#666; }
 
-/* MODAL */
-.modal-catatan {
-    display:none; position:fixed; inset:0;
-    background:rgba(0,0,0,0.5); justify-content:center; align-items:center;
-}
-.modal-content { background:white; width:90%; max-width:450px; border-radius:12px; }
-.modal-header { padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; }
-.modal-body { padding:20px; }
-.btn-close { font-size:26px; background:none; border:none; cursor:pointer; }
-
-/* ===================================================== */
-/*      🔥 FIX UTAMA — Background container kembali       */
-/* ===================================================== */
-
+/* BACKGROUND WRAPPER */
 .permintaan-container {
     background: #fff;
     padding: 22px 28px;
@@ -140,12 +134,7 @@
     margin-top: 18px;
 }
 
-/* ===================================================== */
-/*      🔥 CLOSE-TO-UI: TABEL DENGAN BORDER RADIUS       */
-/* ===================================================== */
-
-/* ===================================================== */
-/* WRAPPER */
+/* PANEL */
 .panel {
     background:none !important;
     padding:0 !important;
@@ -153,8 +142,7 @@
     box-shadow:none !important;
 }
 
-/* ===================================================== */
-/* TABEL PERMINTAAN – SAMA SEPERTI TABEL BARANG */
+/* TABLE */
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -163,7 +151,6 @@
     overflow: hidden;
 }
 
-/* HEADER – warna biru seperti foto */
 .table thead th {
     background: #0089ff !important;
     color: #fff !important;
@@ -176,19 +163,15 @@
     top: 0;
     z-index: 10;
 }
-
-/* hilangkan border di kolom terakhir */
 .table thead th:last-child {
     border-right: none;
 }
 
-/* ROW */
 .table tbody tr {
     border-bottom: 1px solid #e6e6e6;
     background: #fff !important;
 }
 
-/* CELL */
 .table tbody td {
     padding: 14px 10px;
     text-align: center;
@@ -196,22 +179,95 @@
     color: #333;
     border-right: 1px solid #e6e6e6;
 }
-
-/* hilangkan border-right kolom terakhir */
 .table tbody td:last-child {
     border-right: none;
 }
 
-/* Hover seperti foto */
 .table tbody tr:hover td {
     background: #f3f8ff !important;
 }
 
 
+/* ================== MODAL FIXED & WORKING ================== */
 
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-box {
+    background: #fff;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0px 6px 25px rgba(0,0,0,0.15);
+}
+
+/* Header */
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-close {
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    transition: 0.25s;
+}
+.btn-close:hover {
+    color: #e74c3c;
+}
+
+/* Body */
+.modal-body {
+    padding: 20px 24px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #444;
+}
+
+/* Footer */
+.modal-footer {
+    padding: 14px 20px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.btn-close-footer {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.25s;
+}
+.btn-close-footer:hover {
+    background: #c0392b;
+}
 </style>
-
-
 
 @endsection
 
@@ -221,14 +277,18 @@
 @section('scripts')
 <script>
 
-// === MODAL CATATAN ===
+// === SHOW MODAL ===
 function showCatatan(catatan){
     document.getElementById('catatan-text').textContent = catatan;
     document.getElementById('modal-catatan').style.display = 'flex';
 }
+
+// === CLOSE MODAL ===
 function closeCatatan(){
     document.getElementById('modal-catatan').style.display = 'none';
 }
+
+// Tutup modal jika klik area luar
 window.onclick = function(e){
     if(e.target == document.getElementById('modal-catatan')) closeCatatan();
 }
@@ -243,7 +303,6 @@ function loadStatus() {
             let tbody = document.querySelector("#tabel-permintaan tbody");
             tbody.innerHTML = "";
 
-            // *** EMPTY STATE ***
             if (data.length === 0) {
                 tbody.innerHTML = `
                     <tr>
@@ -256,7 +315,6 @@ function loadStatus() {
                 return;
             }
 
-            // *** RENDER DATA ***
             data.forEach((p, index) => {
 
                 let statusBadge =
@@ -294,7 +352,6 @@ function loadStatus() {
         });
 }
 
-// load awal + auto refresh
 loadStatus();
 setInterval(loadStatus, 3000);
 

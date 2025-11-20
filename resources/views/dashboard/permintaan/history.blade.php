@@ -142,7 +142,6 @@
     </div>
 </div>
 
-{{-- Modal --}}
 <div id="modal-catatan" class="modal-overlay">
     <div class="modal-box">
         <div class="modal-head">
@@ -152,8 +151,14 @@
         <div class="modal-content">
             <p id="catatan-text"></p>
         </div>
+
+        <!-- Tambahan tombol Close -->
+        <div class="modal-footer">
+            <button class="btn-close-footer" onclick="closeCatatan()">Tutup</button>
+        </div>
     </div>
 </div>
+
 
 <style>
 /* Reset & Base */
@@ -513,6 +518,29 @@
     color: #555;
     line-height: 1.6;
 }
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.btn-close-footer {
+    background: #e74c3c;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-close-footer:hover {
+    background: #c0392b;
+}
+
 
 /* Scrollbar */
 .table-wrapper::-webkit-scrollbar {
